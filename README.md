@@ -1,9 +1,7 @@
-# Digitale Edition der Korrespondenz Leopold I.
+# Digitale Edition der Korrespondenz Leopold I
 
-
-* data is fetched from https://github.com/loepold-briefe/leopold-briefe-data
+* data is fetched from <https://github.com/loepold-briefe/leopold-briefe-data>
 * build with [DSE-Static-Cookiecutter](https://github.com/acdh-oeaw/dse-static-cookiecutter)
-
 
 ## initial (one time) setup
 
@@ -12,7 +10,7 @@
 
 > [!NOTE]
 > The `build.xml` triggered by the `ant` command presumes the following folder-file structure in the data repo:
-> 
+>
 > ```
 > data/
 > ├── editions/
@@ -27,13 +25,14 @@
 > └── meta/
 >     └── about.xml
 > ```
-> 
+>
 > Otherwise, modify the relevant lines of the `build.xml`.
 
 ## set up GitHub repo
-* create a public, new, and empty (without README, .gitignore, license) GitHub repo https://github.com/loepold-briefe/leopold-briefe-static 
+
+* create a public, new, and empty (without README, .gitignore, license) GitHub repo <https://github.com/loepold-briefe/leopold-briefe-static>
 * run `git init` in the root folder of your application leopold-briefe-static
-* execute the commands described under `…or push an existing repository from the command line` in your new created GitHub repo https://github.com/loepold-briefe/leopold-briefe-static
+* execute the commands described under `…or push an existing repository from the command line` in your new created GitHub repo <https://github.com/loepold-briefe/leopold-briefe-static>
 
 ## start dev server
 
@@ -43,12 +42,12 @@
 
 ## publish as GitHub Page
 
-* go to https://https://github.com/loepold-briefe/leopold-briefe-static/actions/workflows/build.yml
+* go to <https://https://github.com/loepold-briefe/leopold-briefe-static/actions/workflows/build.yml>
 * click the `Run workflow` button
 
 ## Python scripting
-The project uses [uv](https://docs.astral.sh/uv/), as Python package and project manager.
 
+The project uses [uv](https://docs.astral.sh/uv/), as Python package and project manager.
 
 ## dockerize your application
 
@@ -60,8 +59,9 @@ The project uses [uv](https://docs.astral.sh/uv/), as Python package and project
 This project is released under the [MIT License](LICENSE)
 
 ### third-party JavaScript libraries
+
 The code for all third-party JavaScript libraries used is included in the `html/vendor` folder, their respective licenses can be found either in a `LICENSE.txt` file or directly in the header of the `.js` file
 
 ### SAXON-HE
-The projects also includes Saxon-HE, which is licensed separately under the Mozilla Public License, Version 2.0 (MPL 2.0). See the dedicated [LICENSE.txt](saxon/notices/LICENSE.txt)
 
+The projects also includes Saxon-HE, which is licensed separately under the Mozilla Public License, Version 2.0 (MPL 2.0). See the dedicated [LICENSE.txt](saxon/notices/LICENSE.txt)
