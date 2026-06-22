@@ -23,6 +23,9 @@
     <xsl:variable name="teiSource">
         <xsl:value-of select="data(tei:TEI/@xml:id)"/>
     </xsl:variable>
+    <xsl:variable name="docId">
+        <xsl:value-of select="replace($teiSource, '.xml', '')"/>
+    </xsl:variable>
     <xsl:variable name="link">
         <xsl:value-of select="replace($teiSource, '.xml', '.html')"/>
     </xsl:variable>
@@ -104,29 +107,19 @@
                                 </xsl:if>
                             </div>
                         </div>
-                        <xsl:apply-templates select=".//tei:body"></xsl:apply-templates>
-                        <p style="text-align:center;">
-                            <xsl:for-each select=".//tei:note[not(./tei:p)]">
-                                <div class="footnotes">
-                                    <xsl:element name="a">
-                                        <xsl:attribute name="name">
-                                            <xsl:text>fn</xsl:text>
-                                            <xsl:number level="any" format="1" count="tei:note"/>
-                                        </xsl:attribute>
-                                        <a>
-                                            <xsl:attribute name="href">
-                                                <xsl:text>#fna_</xsl:text>
-                                                <xsl:number level="any" format="1" count="tei:note"/>
-                                            </xsl:attribute>
-                                            <span style="font-size:7pt;vertical-align:super; margin-right: 0.4em">
-                                                <xsl:number level="any" format="1" count="tei:note"/>
-                                            </span>
-                                        </a>
-                                    </xsl:element>
-                                    <xsl:apply-templates/>
-                                </div>
-                            </xsl:for-each>
-                        </p>
+                        
+                        <div class="row">
+                            <div class="col-md-7">
+                                <h2 class="visually-hidden">Faksimile</h2>
+                                <div id="osdViewer"/>
+                            </div>
+                            <div class="col-md-5">
+                                <h2 class="visually-hidden">Text</h2>
+                                <xsl:apply-templates select=".//tei:body"></xsl:apply-templates>
+                            </div>                            
+                        </div>
+                        
+                        
 
                         <div class="text-center p-4">
                             <xsl:call-template name="blockquote">
@@ -140,9 +133,17 @@
                             <xsl:apply-templates/>
                         </div>
                     </xsl:for-each>
+                    <div id="facsContainer">
+                        <xsl:for-each select="//tei:pb">
+                            <xsl:variable name="curFacs" select="format-number(position(), '00')"/>
+                            <div class="facsId" data-facs-name="{$docId||'-'||$curFacs}"/>
+                        </xsl:for-each>
+                    </div>
+                    
                 </main>
                 <xsl:call-template name="html_footer"/>
                 <script src="vendor/openseadragon-bin-4.1.1/openseadragon.min.js"/>
+                <script src="js/facs.js"/>
             </body>
         </html>
     </xsl:template>
