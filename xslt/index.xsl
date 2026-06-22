@@ -33,14 +33,15 @@
                         <div class="row flex-lg-row align-items-center g-5 py-5">
                             <div class="col-lg-6">
                                 <h1 class="lh-base">
-                                    <span class="display-6">Loepold I.</span>
-                                    <br/>
-                                    <span class="display-4">Korrespondenz</span>
+                                    <span class="display-6">Eigenhändige</span>
                                     <br />
-                                    <span class="display-6">1640–1705</span>
+                                    <span class="display-5">Korrespondenz Kaiser Leopolds I. </span>
+                                    <br />
+                                    <span class="display-6">Digitale Edition</span>
                                 </h1>
                                 <p>Herausgegeben von Petr Maťa <br/>Wien 2026–</p>
-                                <p class="lead">Die digitale Edition der Korrespondenz Leopold I.
+                                <p class="lead">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc aliquam enim id nunc semper, imperdiet placerat mauris venenatis. Duis scelerisque, ante feugiat volutpat gravida, nunc lorem facilisis sem, nec varius elit ligula ut nisi. Aenean facilisis quis neque id vulputate.
                                 </p>
                                 <div class="d-grid gap-2 d-md-flex justify-content-md-start">
                                     <!-- <a href="search.html" type="button" class="btn btn-primary btn-lg px-4 me-md-2">Volltextsuche</a> -->
