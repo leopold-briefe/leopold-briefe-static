@@ -3,7 +3,7 @@
     xmlns:tei="http://www.tei-c.org/ns/1.0"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
     <xsl:param name="directory_name">leopold-briefe-static</xsl:param>
-    <xsl:param name="project_title">Digitale Edition der Korrespondenz Leopold I.</xsl:param>
+    <xsl:param name="project_title">Eigenhändige Korrespondenz Kaiser Leopolds I. Digitale Edition</xsl:param>
     <xsl:param name="redmine_id">28144</xsl:param>
     <xsl:param name="project_short_title">leopold-briefe</xsl:param>
     <xsl:param name="default_lang">de</xsl:param>
