@@ -51,30 +51,29 @@
                         <table id="myTable">
                             <thead>
                                 <tr>
-                                    <th scope="col" tabulator-headerFilter="input" tabulator-formatter="html" tabulator-download="false" tabulator-minWidth="350">Sender</th>
-                                    <th scope="col" tabulator-headerFilter="input" tabulator-visible="false" tabulator-download="true">sender_</th>
-                                    <th scope="col" tabulator-headerFilter="input" tabulator-formatter="html">Empfänger</th>
-                                    <th scope="col" tabulator-headerFilter="input" tabulator-maxWidth="130">Datum</th>
-                                    <th scope="col" tabulator-headerFilter="input" tabulator-formatter="html">Archiv</th>
-                                    <th scope="col" tabulator-headerFilter="input" tabulator-formatter="html">Metadaten</th>
-                                    <th scope="col" tabulator-headerFilter="input" tabulator-formatter="html">Transkription</th>
+                                    <th scope="col" tabulator-headerFilter="input" tabulator-formatter="html" tabulator-download="false" tabulator-minWidth="350">Emfpänger</th>
+                                    <th scope="col" tabulator-headerFilter="input" tabulator-visible="false" tabulator-download="true">receiver_</th>
+                                    
+                                    <th scope="col" tabulator-headerFilter="input" tabulator-formatter="html" tabulator-maxWidth="130">Datum</th>
+                                    <th scope="col" tabulator-headerFilter="input" tabulator-maxWidth="130">Sprache</th>
+                                    
+                                    
+                                    
                                     <th scope="col" tabulator-headerFilter="input" tabulator-maxWidth="100">ID</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <xsl:for-each
                                     select="collection('../data/editions?select=*.xml')//tei:TEI">
+                                    <xsl:sort select="@xml:id"></xsl:sort>
                                     <xsl:variable name="docId">
                                         <xsl:value-of select="replace(@xml:id, '.xml', '')"/>
                                     </xsl:variable>
                                     <tr>
                                         <td>
                                             <a href="{$docId || '.html'}">
-                                                <xsl:value-of select="string-join(.//tei:correspAction[@type='sent']/tei:persName/text(), ', ')"/>
+                                                <xsl:value-of select="string-join(.//tei:correspAction[@type='received']/tei:persName/text(), ', ')"/>
                                             </a>
-                                        </td>
-                                        <td>
-                                            <xsl:value-of select="string-join(.//tei:correspAction[@type='sent']/tei:persName/text(), ', ')"/>
                                         </td>
                                         <td>
                                             <xsl:value-of select="string-join(.//tei:correspAction[@type='received']/tei:persName/text(), ', ')"/>
@@ -83,13 +82,7 @@
                                             <xsl:value-of select=".//tei:history/tei:origin/tei:origDate/@when-iso"/>
                                         </td>
                                         <td>
-                                            <xsl:value-of select="concat(.//tei:msIdentifier/tei:repository/text(), ', ',.//tei:msIdentifier/tei:collection/text()) "/>
-                                        </td>
-                                        <td>
-                                            <xsl:value-of select=".//tei:change[@xml:id='metadaten-status']/text()"/>
-                                        </td>
-                                        <td>
-                                            <xsl:value-of select=".//tei:change[@xml:id='transkription-status']/text()"/>
+                                            <xsl:value-of select=".//tei:language/@ident"/>
                                         </td>
                                         <td>
                                             <xsl:value-of select="$docId"/>
