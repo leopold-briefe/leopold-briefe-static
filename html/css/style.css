@@ -352,3 +352,7 @@ footer a {
   border: solid 1px lightgray;
   border-radius: 5px;
 }
+
+#osdViewer {
+  height: 800px;
+}
