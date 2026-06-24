@@ -64,7 +64,7 @@
                             <tbody>
                                 <xsl:for-each
                                     select="collection('../data/editions?select=*.xml')//tei:TEI">
-                                    <xsl:sort select="@xml:id"></xsl:sort>
+                                    <xsl:sort select="//tei:history/tei:origin/tei:origDate/@when-iso"></xsl:sort>
                                     <xsl:variable name="docId">
                                         <xsl:value-of select="replace(@xml:id, '.xml', '')"/>
                                     </xsl:variable>
