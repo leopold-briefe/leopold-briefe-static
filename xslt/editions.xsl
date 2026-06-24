@@ -138,6 +138,7 @@
                 <xsl:call-template name="html_footer"/>
                 <script src="vendor/openseadragon-bin-4.1.1/openseadragon.min.js"/>
                 <script src="js/facs.js"/>
+                <script src="js/tooltip.js"/>
             </body>
         </html>
     </xsl:template>
