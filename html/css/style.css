@@ -360,3 +360,7 @@ footer a {
 .abbreviationExpanded {
   text-decoration: dotted underline;
 }
+
+.unclear {
+  text-decoration: dotted underline;
+}

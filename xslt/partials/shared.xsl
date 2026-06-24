@@ -24,6 +24,13 @@
             <xsl:value-of select="./tei:abbr/text()"/>
         </span>
     </xsl:template>
+    
+    <xsl:template match="tei:unclear">
+        <span class="unclear" data-bs-toggle="tooltip">
+            <xsl:attribute name="data-bs-title">unsichere Lesart</xsl:attribute>
+            <xsl:apply-templates/>
+        </span>
+    </xsl:template>
 
 
     <xsl:template match="tei:div">
@@ -36,11 +43,6 @@
         <span class="pb" source="{@facs}">
             <xsl:value-of select="./@n"/>
         </span>
-    </xsl:template>
-    <xsl:template match="tei:unclear">
-        <abbr title="unclear">
-            <xsl:apply-templates/>
-        </abbr>
     </xsl:template>
     <xsl:template match="tei:del">
         <del>
