@@ -7,6 +7,10 @@
     version="2.0">
     
     <xsl:import href="entities.xsl"/>
+    
+<xsl:template match="tei:w[@type='start']">
+    <xsl:apply-templates/><xsl:text>-</xsl:text>
+</xsl:template>
 
     <xsl:template match="tei:div">
         <div><xsl:apply-templates/></div>
