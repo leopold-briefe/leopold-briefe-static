@@ -6,12 +6,13 @@
     <xsl:template name="blockquote">
         <xsl:param name="pageId" select="''"></xsl:param>
         <xsl:param name="customUrl" select="$base_url"></xsl:param>
+        <xsl:param name="docTitle" select="''"></xsl:param>
         <xsl:variable name="fullUrl" select="concat($customUrl, $pageId)"/>
         <div>
-            <h2 class="fs-4">How to cite</h2>
+            <h2 class="fs-4">Zitiervorschlag</h2>
             <blockquote class="blockquote">
                 <p>
-                    <xsl:value-of select="$project_title"/>, herausgegeben Petr Maťa, Wien 2026- (<a href="{$fullUrl}"><xsl:value-of select="$fullUrl"/></a>)
+                    <xsl:value-of select="$docTitle"/><xsl:value-of select="$project_title"/>. Hrsg. v. Petr Maťa, technische Umsetzung durch Peter Andorfer, Wien 2026. URL: <a href="{$fullUrl}"><xsl:value-of select="$fullUrl"/></a>
                 </p>
             </blockquote>
         </div>

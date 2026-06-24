@@ -57,6 +57,9 @@
                             </div>
                             
                         </div>
+                        <div class="text-center p-4">
+                            <xsl:call-template name="blockquote"/>
+                        </div>
                     </div>
                 </main>
                 <xsl:call-template name="html_footer"/>
