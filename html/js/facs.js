@@ -13,6 +13,10 @@ var tileSources = Array.from(
 
 var viewer = OpenSeadragon({
     id: "osdViewer",
+    showRotationControl: true,
+    gestureSettingsTouch: {
+        pinchRotate: true
+    },
     sequenceMode: true,
     showReferenceStrip: true,
     tileSources: tileSources,
