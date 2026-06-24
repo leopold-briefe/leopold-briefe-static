@@ -53,7 +53,8 @@
                                 <tr>
                                     <th scope="col" tabulator-headerFilter="input" tabulator-formatter="html" tabulator-download="false" tabulator-minWidth="350">Emfpänger</th>
                                     <th scope="col" tabulator-headerFilter="input" tabulator-visible="false" tabulator-download="true">receiver_</th>
-                                    <th scope="col" tabulator-headerFilter="input" tabulator-formatter="html" tabulator-maxWidth="130">Datum</th>
+                                    <th scope="col" tabulator-headerFilter="input" tabulator-formatter="html" tabulator-download="false" tabulator-minWidth="130">Datum</th>
+                                    <th scope="col" tabulator-headerFilter="input" tabulator-visible="false" tabulator-download="true">date_</th>
                                     <th scope="col" tabulator-headerFilter="input" >Ort</th>
                                     <th scope="col" tabulator-headerFilter="input" >Art</th>
                                     <th scope="col" tabulator-headerFilter="input" >Sprache</th>
@@ -77,7 +78,12 @@
                                             <xsl:value-of select="string-join(.//tei:correspAction[@type='received']/tei:persName/text(), ', ')"/>
                                         </td>
                                         <td>
-                                            <xsl:value-of select=".//tei:history/tei:origin/tei:origDate/@when-iso"/>
+                                            <span data-isodate="{//tei:history/tei:origin/tei:origDate/@when-iso}">
+                                                <xsl:value-of select=".//tei:correspAction[1]/tei:date/text()"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <xsl:value-of select="//tei:history/tei:origin/tei:origDate/@when-iso"/>
                                         </td>
                                         <td>
                                             <xsl:value-of select=".//tei:correspAction[@type='received']//tei:placeName[1]/text()"/>
