@@ -356,3 +356,7 @@ footer a {
 #osdViewer {
   height: 800px;
 }
+
+.abbreviationExpanded {
+  text-decoration: dotted underline;
+}

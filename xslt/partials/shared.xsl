@@ -1,38 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:tei="http://www.tei-c.org/ns/1.0"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    exclude-result-prefixes="xs"
-    version="2.0">
-    
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    exclude-result-prefixes="xs" version="2.0">
+
     <xsl:import href="entities.xsl"/>
+
+    <xsl:template match="tei:w[@type = 'start']">
+        <xsl:apply-templates/>
+        <xsl:text>-</xsl:text>
+    </xsl:template>
     
-<xsl:template match="tei:w[@type='start']">
-    <xsl:apply-templates/><xsl:text>-</xsl:text>
-</xsl:template>
+    <xsl:template match="tei:choice[./tei:abbr and ./tei:expan/text()]">
+        <span class="abbreviationExpanded" data-bs-toggle="tooltip">
+            <xsl:attribute name="data-bs-title">orig.: <xsl:value-of select="./tei:abbr"/></xsl:attribute>
+            <xsl:value-of select="./tei:expan/text()"/>
+        </span>
+    </xsl:template>
+    
+    
+    <xsl:template match="tei:choice[./tei:abbr and not(./tei:expan/text())]">
+        <span class="abbreviationExpanded" data-bs-toggle="tooltip">
+            <xsl:attribute name="data-bs-title">Abkürzung aufgelöst</xsl:attribute>
+            <xsl:value-of select="./tei:abbr/text()"/>
+        </span>
+    </xsl:template>
+
 
     <xsl:template match="tei:div">
-        <div><xsl:apply-templates/></div>
+        <div>
+            <xsl:apply-templates/>
+        </div>
     </xsl:template>
     <xsl:template match="tei:pb">
-        <span class="anchor-pb"></span>
-        <span class="pb" source="{@facs}"><xsl:value-of select="./@n"/></span>
+        <span class="anchor-pb"/>
+        <span class="pb" source="{@facs}">
+            <xsl:value-of select="./@n"/>
+        </span>
     </xsl:template>
     <xsl:template match="tei:unclear">
-        <abbr title="unclear"><xsl:apply-templates/></abbr>
+        <abbr title="unclear">
+            <xsl:apply-templates/>
+        </abbr>
     </xsl:template>
     <xsl:template match="tei:del">
-        <del><xsl:apply-templates/></del>
+        <del>
+            <xsl:apply-templates/>
+        </del>
     </xsl:template>
     <xsl:template match="tei:cit">
-        <cite><xsl:apply-templates/></cite>
+        <cite>
+            <xsl:apply-templates/>
+        </cite>
     </xsl:template>
     <xsl:template match="tei:quote">
         <xsl:apply-templates/>
     </xsl:template>
     <xsl:template match="tei:date">
-        <span class="date"><xsl:apply-templates/></span>
+        <span class="date">
+            <xsl:apply-templates/>
+        </span>
     </xsl:template>
     <xsl:template match="tei:lb">
         <br/>
@@ -57,7 +83,7 @@
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="tei:list[@type='unordered']">
+    <xsl:template match="tei:list[@type = 'unordered']">
         <xsl:choose>
             <xsl:when test="ancestor::tei:body">
                 <ul>
@@ -68,8 +94,10 @@
     </xsl:template>
     <xsl:template match="tei:item">
         <xsl:choose>
-            <xsl:when test="parent::tei:list[@type='unordered']|ancestor::tei:body">
-                <li><xsl:apply-templates/></li>
+            <xsl:when test="parent::tei:list[@type = 'unordered'] | ancestor::tei:body">
+                <li>
+                    <xsl:apply-templates/>
+                </li>
             </xsl:when>
         </xsl:choose>
     </xsl:template>
@@ -103,18 +131,25 @@
     </xsl:template>
 
     <xsl:template match="tei:ref">
-        <a class="ref {@type}" href="{@target}"><xsl:apply-templates/></a>
+        <a class="ref {@type}" href="{@target}">
+            <xsl:apply-templates/>
+        </a>
     </xsl:template>
     <xsl:template match="tei:lg">
-        <p><xsl:apply-templates/></p>
+        <p>
+            <xsl:apply-templates/>
+        </p>
     </xsl:template>
     <xsl:template match="tei:l">
-        <xsl:apply-templates/><br/>
+        <xsl:apply-templates/>
+        <br/>
     </xsl:template>
     <xsl:template match="tei:p">
-       <p><xsl:apply-templates/></p>
+        <p>
+            <xsl:apply-templates/>
+        </p>
     </xsl:template>
-    
+
     <xsl:template match="tei:table">
         <xsl:element name="table">
             <xsl:attribute name="class">
@@ -139,7 +174,7 @@
         <xsl:choose>
             <xsl:when test="count(tokenize(@ref, ' ')) > 1">
                 <xsl:choose>
-                    <xsl:when test="@type='person'">
+                    <xsl:when test="@type = 'person'">
                         <span class="persons">
                             <xsl:apply-templates/>
                             <xsl:for-each select="tokenize(@ref, ' ')">
@@ -152,7 +187,7 @@
                             </xsl:for-each>
                         </span>
                     </xsl:when>
-                    <xsl:when test="@type='place'">
+                    <xsl:when test="@type = 'place'">
                         <span class="places">
                             <xsl:apply-templates/>
                             <xsl:for-each select="tokenize(@ref, ' ')">
@@ -165,7 +200,7 @@
                             </xsl:for-each>
                         </span>
                     </xsl:when>
-                    <xsl:when test="@type='bibl'">
+                    <xsl:when test="@type = 'bibl'">
                         <span class="works">
                             <xsl:apply-templates/>
                             <xsl:for-each select="tokenize(@ref, ' ')">
@@ -178,7 +213,7 @@
                             </xsl:for-each>
                         </span>
                     </xsl:when>
-                    <xsl:when test="@type='org'">
+                    <xsl:when test="@type = 'org'">
                         <span class="orgs" id="{@xml:id}">
                             <xsl:apply-templates/>
                             <xsl:for-each select="tokenize(@ref, ' ')">
@@ -195,27 +230,27 @@
             </xsl:when>
             <xsl:otherwise>
                 <xsl:choose>
-                    <xsl:when test="@type='person'">
+                    <xsl:when test="@type = 'person'">
                         <span class="persons entity" data-bs-toggle="modal" data-bs-target="{@ref}">
                             <xsl:apply-templates/>
                         </span>
                     </xsl:when>
-                    <xsl:when test="@type='place'">
+                    <xsl:when test="@type = 'place'">
                         <span class="places entity" data-bs-toggle="modal" data-bs-target="{@ref}">
                             <xsl:apply-templates/>
                         </span>
                     </xsl:when>
-                    <xsl:when test="@type='bibl'">
+                    <xsl:when test="@type = 'bibl'">
                         <span class="works entity" data-bs-toggle="modal" data-bs-target="{@ref}">
                             <xsl:apply-templates/>
                         </span>
                     </xsl:when>
-                    <xsl:when test="@type='org'">
+                    <xsl:when test="@type = 'org'">
                         <span class="orgs entity" data-bs-toggle="modal" data-bs-target="{@ref}">
                             <xsl:apply-templates/>
                         </span>
                     </xsl:when>
-                    <xsl:when test="@type='institution'">
+                    <xsl:when test="@type = 'institution'">
                         <span class="orgs entity" data-bs-toggle="modal" data-bs-target="{@ref}">
                             <xsl:apply-templates/>
                         </span>
@@ -236,18 +271,24 @@
         <xsl:variable name="selfLink">
             <xsl:value-of select="concat(data(@xml:id), '.html')"/>
         </xsl:variable>
-        <xsl:variable name="name" select="normalize-space(string-join(./tei:persName[1]//text()))"></xsl:variable>
-        <div class="modal fade" id="{@xml:id}" data-bs-keyboard="false" tabindex="-1" aria-label="{$name}" aria-hidden="true">
+        <xsl:variable name="name" select="normalize-space(string-join(./tei:persName[1]//text()))"/>
+        <div class="modal fade" id="{@xml:id}" data-bs-keyboard="false" tabindex="-1"
+            aria-label="{$name}" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5"><a href="{$selfLink}"><xsl:value-of select="$name"/></a></h1>
+                        <h1 class="modal-title fs-5">
+                            <a href="{$selfLink}">
+                                <xsl:value-of select="$name"/>
+                            </a>
+                        </h1>
                     </div>
                     <div class="modal-body">
                         <xsl:call-template name="person_detail"/>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            >Schließen</button>
                     </div>
                 </div>
             </div>
@@ -262,24 +303,30 @@
         <xsl:variable name="selfLink">
             <xsl:value-of select="concat(data(@xml:id), '.html')"/>
         </xsl:variable>
-        <xsl:variable name="name" select="normalize-space(string-join(./tei:placeName[1]//text()))"></xsl:variable>
-        <div class="modal fade" id="{@xml:id}" data-bs-keyboard="false" tabindex="-1" aria-label="{$name}" aria-hidden="true">
+        <xsl:variable name="name" select="normalize-space(string-join(./tei:placeName[1]//text()))"/>
+        <div class="modal fade" id="{@xml:id}" data-bs-keyboard="false" tabindex="-1"
+            aria-label="{$name}" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5"><a href="{$selfLink}"><xsl:value-of select="$name"/></a></h1>
+                        <h1 class="modal-title fs-5">
+                            <a href="{$selfLink}">
+                                <xsl:value-of select="$name"/>
+                            </a>
+                        </h1>
                     </div>
                     <div class="modal-body">
                         <xsl:call-template name="place_detail"/>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            >Schließen</button>
                     </div>
                 </div>
             </div>
         </div>
     </xsl:template>
-    
+
     <xsl:template match="tei:listOrg">
         <xsl:apply-templates/>
     </xsl:template>
@@ -288,48 +335,60 @@
         <xsl:variable name="selfLink">
             <xsl:value-of select="concat(data(@xml:id), '.html')"/>
         </xsl:variable>
-        <xsl:variable name="name" select="normalize-space(string-join(./tei:orgName[1]//text()))"></xsl:variable>
-        <div class="modal fade" id="{@xml:id}" data-bs-keyboard="false" tabindex="-1" aria-label="{$name}" aria-hidden="true">
+        <xsl:variable name="name" select="normalize-space(string-join(./tei:orgName[1]//text()))"/>
+        <div class="modal fade" id="{@xml:id}" data-bs-keyboard="false" tabindex="-1"
+            aria-label="{$name}" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5"><a href="{$selfLink}"><xsl:value-of select="$name"/></a></h1>
+                        <h1 class="modal-title fs-5">
+                            <a href="{$selfLink}">
+                                <xsl:value-of select="$name"/>
+                            </a>
+                        </h1>
                     </div>
                     <div class="modal-body">
                         <xsl:call-template name="org_detail"/>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            >Schließen</button>
                     </div>
                 </div>
             </div>
         </div>
     </xsl:template>
 
-    
+
     <xsl:template match="tei:listBibl">
         <xsl:apply-templates/>
     </xsl:template>
-    
+
     <xsl:template match="tei:bibl">
         <xsl:variable name="selfLink">
             <xsl:value-of select="concat(data(@xml:id), '.html')"/>
         </xsl:variable>
-        <xsl:variable name="name" select="normalize-space(string-join(./tei:title[1]//text()))"></xsl:variable>
-        <div class="modal fade" id="{@xml:id}" data-bs-keyboard="false" tabindex="-1" aria-label="{$name}" aria-hidden="true">
+        <xsl:variable name="name" select="normalize-space(string-join(./tei:title[1]//text()))"/>
+        <div class="modal fade" id="{@xml:id}" data-bs-keyboard="false" tabindex="-1"
+            aria-label="{$name}" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5"><a href="{$selfLink}"><xsl:value-of select="$name"/></a></h1>
+                        <h1 class="modal-title fs-5">
+                            <a href="{$selfLink}">
+                                <xsl:value-of select="$name"/>
+                            </a>
+                        </h1>
                     </div>
                     <div class="modal-body">
                         <xsl:call-template name="bibl_detail"/>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            >Schließen</button>
                     </div>
                 </div>
             </div>
         </div>
-    </xsl:template>    
+    </xsl:template>
 </xsl:stylesheet>
