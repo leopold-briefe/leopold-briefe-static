@@ -44,9 +44,7 @@
                     <xsl:with-param name="pageId" select="$link"></xsl:with-param>
                     <xsl:with-param name="zoteroTitle" select="$doc_title"></xsl:with-param>
                 </xsl:call-template>
-                <!-- Provide the names of the authors/editors of the current unit, ideally fetched from the data via xslt or hard coded as below -->
-                <meta name="citation_author" content="Foo, Bar"/>
-                <meta name="citation_author" content="Bar, Foo"/> 
+                <meta name="citation_author" content="Maťa, Petr"/>
             </head>
             <body class="d-flex flex-column h-100">
                 <xsl:call-template name="nav_bar"/>
@@ -60,7 +58,7 @@
                             </li>
                             <li class="breadcrumb-item">
                                 <a href="toc.html">
-                                    <xsl:value-of select="'Inhaltsverzeichnis'"/>
+                                    <xsl:value-of select="'Alle Dokumente'"/>
                                 </a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
@@ -118,15 +116,12 @@
                                 <xsl:apply-templates select=".//tei:body"></xsl:apply-templates>
                             </div>                            
                         </div>
-                        
-                        
-
                         <div class="text-center p-4">
                             <xsl:call-template name="blockquote">
                                 <xsl:with-param name="pageId" select="$link"/>
+                                <xsl:with-param name="docTitle"><xsl:value-of select="$doc_title"/>, in: </xsl:with-param>
                             </xsl:call-template>
                         </div>
-
                     </div>
                     <xsl:for-each select="//tei:back">
                         <div class="tei-back">
@@ -139,7 +134,6 @@
                             <div class="facsId" data-facs-name="{$docId||'-'||$curFacs}"/>
                         </xsl:for-each>
                     </div>
-                    
                 </main>
                 <xsl:call-template name="html_footer"/>
                 <script src="vendor/openseadragon-bin-4.1.1/openseadragon.min.js"/>
