@@ -17,7 +17,7 @@
 
 
     <xsl:template match="/">
-        <xsl:variable name="doc_title" select="'Originalbriefe'"/>
+        <xsl:variable name="doc_title" select="'Alle Briefe'"/>
         <xsl:variable name="link" select="'toc.html'"/>
         <html class="h-100" lang="{$default_lang}">
             <head>
@@ -47,7 +47,7 @@
                     </nav>
                     <div class="container">
                         <h1 class="display-5 text-center"><xsl:value-of select="$doc_title"/></h1>
-                        <div class="text-center p-1"><span id="counter1"></span> von <span id="counter2"></span> Originalbriefe</div>
+                        <div class="text-center p-1"><span id="counter1"></span> von <span id="counter2"></span> Briefe</div>
                         <table id="myTable">
                             <thead>
                                 <tr>
@@ -56,14 +56,14 @@
                                     <th scope="col" tabulator-headerFilter="input" tabulator-formatter="html" tabulator-download="false" tabulator-minWidth="130">Datum</th>
                                     <th scope="col" tabulator-headerFilter="input" tabulator-visible="false" tabulator-download="true">date_</th>
                                     <th scope="col" tabulator-headerFilter="input" >Ort</th>
-                                    <th scope="col" tabulator-headerFilter="input" tabulator-formatter="html">Abschrift, Kopie, Konzept</th>
+                                    <th scope="col" tabulator-headerFilter="input" >Kopie, Konzept</th>
                                     <th scope="col" tabulator-headerFilter="input" tabulator-maxWidth="110">Sprache</th>
                                     <th scope="col" tabulator-headerFilter="input" tabulator-maxWidth="100">ID</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <xsl:for-each
-                                    select="collection('../data/editions?select=*.xml')//tei:TEI[.//tei:origin/tei:term/text() eq 'Original']">
+                                    select="collection('../data/editions?select=*.xml')//tei:TEI">
                                     <xsl:sort select="//tei:history/tei:origin/tei:origDate/@when-iso"></xsl:sort>
                                     <xsl:variable name="docId">
                                         <xsl:value-of select="replace(@xml:id, '.xml', '')"/>
@@ -89,13 +89,7 @@
                                             <xsl:value-of select=".//tei:correspAction[@type='received']//tei:placeName[1]/text()"/>
                                         </td>
                                         <td>
-                                            <ul>
-                                                <xsl:for-each select=".//tei:sourceDesc/tei:listRelation/tei:relation">
-                                                    <li>
-                                                        <a href="{replace(./@active, '.xml', '.html')}"><xsl:value-of select="./@n"/></a>
-                                                    </li>
-                                                </xsl:for-each>
-                                            </ul>
+                                            <xsl:value-of select=".//tei:history/tei:origin/tei:term/text()"/>
                                         </td>
                                         <td>
                                             <xsl:value-of select=".//tei:language/@ident"/>
