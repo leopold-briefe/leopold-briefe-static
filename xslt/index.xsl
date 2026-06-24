@@ -41,7 +41,7 @@
                                 </h1>
                                 <p>Herausgegeben von Petr Maťa <br/>Wien 2026–</p>
                                 <p class="lead">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc aliquam enim id nunc semper, imperdiet placerat mauris venenatis. Duis scelerisque, ante feugiat volutpat gravida, nunc lorem facilisis sem, nec varius elit ligula ut nisi. Aenean facilisis quis neque id vulputate.
+                                    Eigenhändige Schreiben Kaiser Leopolds I. (1640‒1705) sind für ihre Unlesbarkeit berüchtigt. Auch deswegen bleibt dieses umfangsmäßig, thematisch sowie bezüglich der Briefpartner im monarchischen Vergleich einzigartige Korpus bislang meist unerschlossen. Diese Plattform führt den viersprachigen, europaweit verstreuten Quellenbestand digital zusammen, um dessen schrittweise Katalogisierung und KI-gestützte Transkription zu ermöglichen.
                                 </p>
                                 <div class="d-grid gap-2 d-md-flex justify-content-md-start">
                                     <!-- <a href="search.html" type="button" class="btn btn-primary btn-lg px-4 me-md-2">Volltextsuche</a> -->
