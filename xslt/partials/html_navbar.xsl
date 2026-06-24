@@ -27,8 +27,16 @@
                                 </ul>
                             </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link" href="toc.html">Editionseinheiten</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Editionseinheiten</a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" href="toc.html">Originalbriefe</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="all-docs.html">Alle Briefe (Konzepte, Abschriften)</a>
+                                    </li>
+                                </ul>
                             </li>
 
                             <li class="nav-item dropdown disabled">
