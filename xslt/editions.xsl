@@ -107,11 +107,11 @@
                         </div>
                         
                         <div class="row">
-                            <div class="col-md-7">
+                            <div class="col-md-6">
                                 <h2 class="visually-hidden">Faksimile</h2>
                                 <div id="osdViewer"/>
                             </div>
-                            <div class="col-md-5">
+                            <div class="col-md-6">
                                 <h2 class="visually-hidden">Text</h2>
                                 <xsl:apply-templates select=".//tei:body"></xsl:apply-templates>
                             </div>                            
