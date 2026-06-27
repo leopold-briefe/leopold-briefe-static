@@ -48,6 +48,11 @@ except ObjectNotFound:
 current_schema = {
     "name": COLLECTION_NAME,
     "enable_nested_fields": True,
+    "metadata": {
+        "owners": ["Peter Andorfer"],
+        "description": "https://github.com/leopold-briefe/leopold-briefe-static",
+        "service_ids": [28144],
+    },
     "fields": [
         {"name": "id", "type": "string"},
         {"name": "rec_id", "type": "string", "sort": True},
@@ -111,7 +116,6 @@ for x in tqdm(files, total=len(files)):
         record["bibl_entities"].append(item)
 
     records.append(record)
-    print(record)
 
 
 make_index = client.collections[COLLECTION_NAME].documents.import_(records)

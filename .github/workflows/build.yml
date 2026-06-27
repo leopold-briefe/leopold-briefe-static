@@ -41,11 +41,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: set up uv (Python)
-        uses: astral-sh/setup-uv@v8.1.0 
+        uses: astral-sh/setup-uv@v8.2.0 
       - name: Fetch the data
         run: ./shellscripts/fetch_data.sh
       - name: Process data
         run : shellscripts/process_data.sh
+      - name: build ft-search index
+        run: uv run pyscripts/make_ts_index.py
       - name: Build the app
         run: ant
       - name: Setup Pages

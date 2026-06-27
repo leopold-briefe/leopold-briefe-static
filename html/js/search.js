@@ -1,13 +1,13 @@
 const indexName = "leopold-briefe-static";
 
-const apiKey = "0drlT8CHD6T9z8QxQjYXvSWT2dZ75nPv"; /* change this */
+const apiKey = "Yv5nDbGWEFF6rRWxThS9vxTxxVTVguIi";
 
 const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
   server: {
     apiKey: apiKey,
     nodes: [
       {
-        host: "typesense.acdh-dev.oeaw.ac.at",
+        host: "typesense.acdh.oeaw.ac.at",
         port: "443",
         protocol: "https",
       },
@@ -80,13 +80,6 @@ search.addWidgets([
               >`
           )}
           <br />
-          ${hit.bibl_entities.map(
-            (item) =>
-              html`<a href="${item.id}.html" class="pe-2 custom-link"
-                ><i class="bi bi-book pe-1"></i>${item.label}</a
-              >`
-          )}
-          <br />
         </div>`;
       },
     },
@@ -154,24 +147,6 @@ search.addWidgets([
     showMoreLimit: 50,
     limit: 10,
     searchablePlaceholder: "Suche nach Orten",
-    cssClasses: DEFAULT_CSS_CLASSES,
-  }),
-
-  instantsearch.widgets.panel({
-    collapsed: ({ state }) => {
-      return state.query.length === 0;
-    },
-    templates: {
-      header: "Literatur",
-    },
-  })(instantsearch.widgets.refinementList)({
-    container: "#rf-works",
-    attribute: "bibl_entities.label",
-    searchable: true,
-    showMore: true,
-    showMoreLimit: 50,
-    limit: 10,
-    searchablePlaceholder: "Suche nach Literatur",
     cssClasses: DEFAULT_CSS_CLASSES,
   }),
 
