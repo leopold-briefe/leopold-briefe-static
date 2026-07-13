@@ -38,6 +38,18 @@
                                     </li>
                                 </ul>
                             </li>
+                            
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Briefkalender</a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item disabled" href="toc.html">Kalendarische Darstellung</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="listevent.html">Tabellarische Darstellung</a>
+                                    </li>
+                                </ul>
+                            </li>
 
                             <li class="nav-item dropdown disabled">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Register</a>
