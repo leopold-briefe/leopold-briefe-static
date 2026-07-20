@@ -24,6 +24,9 @@
         </span>
     </xsl:template>
     
+    <xsl:template match="tei:add">
+        <span class="added">[<xsl:value-of select="."/>]</span>
+    </xsl:template>
     
     
     
