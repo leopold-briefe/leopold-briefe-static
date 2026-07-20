@@ -10,28 +10,45 @@
         <xsl:text>-</xsl:text>
     </xsl:template>
     
+    <!--  start https://github.com/leopold-briefe/leopold-briefe-static/issues/29  -->
     <xsl:template match="tei:choice[./tei:abbr and ./tei:expan/text()]">
-        <span class="abbreviationExpanded" data-bs-toggle="tooltip">
+        <span class="tei-abbreviationExpanded" data-bs-toggle="tooltip">
             <xsl:attribute name="data-bs-title">„Abgekürzt“ [<xsl:value-of select="./tei:abbr"/>]</xsl:attribute>
             <xsl:value-of select="./tei:expan/text()"/>
         </span>
     </xsl:template>
     
     <xsl:template match="tei:abbr">
-        <span class="abbreviationExpanded" data-bs-toggle="tooltip">
+        <span class="tei-abbreviationExpanded" data-bs-toggle="tooltip">
             <xsl:attribute name="data-bs-title">„Abgekürzt“</xsl:attribute>
             <xsl:value-of select="."/>
         </span>
     </xsl:template>
     
     <xsl:template match="tei:add">
-        <span class="added">[<xsl:value-of select="."/>]</span>
+        <span class="tei-added">[<xsl:value-of select="."/>]</span>
     </xsl:template>
     
     <xsl:template match="tei:del[@rend='blackening']">
         <xsl:text>&lt;</xsl:text><xsl:value-of select="."/><xsl:text>&gt;</xsl:text>
     </xsl:template>
     
+    <xsl:template match="tei:seg[@type='cypher']">
+        <span class="tei-cypher" data-bs-toggle="tooltip">
+            <xsl:attribute name="data-bs-title">„Cypher“ [<xsl:value-of select="./text()"/>]</xsl:attribute>
+            <xsl:value-of select="./@n"/>
+        </span>
+    </xsl:template>
+    
+    <xsl:template match="tei:seg[@type='code']">
+        <span class="tei-code" data-bs-toggle="tooltip">
+            <xsl:attribute name="data-bs-title">„Code“ [<xsl:value-of select="./text()"/>]</xsl:attribute>
+            <xsl:value-of select="./@n"/>
+        </span>
+    </xsl:template>
+    
+    
+    <!--  end https://github.com/leopold-briefe/leopold-briefe-static/issues/29  -->
     
     
     <xsl:template match="tei:unclear">
