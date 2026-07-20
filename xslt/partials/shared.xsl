@@ -56,6 +56,12 @@
         </sup>
     </xsl:template>
     
+    <xsl:template match="tei:corr">
+        <span class="tei-corr" data-bs-toggle="tooltip">
+            <xsl:attribute name="data-bs-title">„Selbstkorrektur”</xsl:attribute>
+            <xsl:value-of select="."/>
+        </span>
+    </xsl:template>
     
     <!--  end https://github.com/leopold-briefe/leopold-briefe-static/issues/29  -->
     
