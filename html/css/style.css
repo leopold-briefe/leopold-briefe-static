@@ -357,10 +357,20 @@ footer a {
   height: 800px;
 }
 
-.abbreviationExpanded {
+.tei-abbreviationExpanded {
   text-decoration: dotted underline;
 }
 
-.unclear {
+.tei-unclear {
   text-decoration: dotted underline;
+}
+
+.tei-cypher {
+  text-decoration: dotted underline;
+  font-style: italic;
+}
+
+.tei-code {
+  text-decoration: dotted underline;
+  font-style: italic;
 }
