@@ -69,6 +69,11 @@
             <xsl:value-of select="@n"/>
         </span>
     </xsl:template>
+    
+    <xsl:template match="tei:sic[@rend='sic']">
+        <xsl:value-of select="."/><span class="tei-sic-error">[!]</span>
+    </xsl:template>
+    
     <xsl:template match="tei:gap">[&#8230;]</xsl:template>
     
     <!--  end https://github.com/leopold-briefe/leopold-briefe-static/issues/29  -->
