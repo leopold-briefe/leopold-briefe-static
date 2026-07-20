@@ -63,6 +63,13 @@
         </span>
     </xsl:template>
     
+    <xsl:template match="tei:sic[@rend='error']">
+        <span class="tei-sic-error" data-bs-toggle="tooltip">
+            <xsl:attribute name="data-bs-title">„Schreibfehler“ [<xsl:value-of select="./text()"/>]</xsl:attribute>
+            <xsl:value-of select="@n"/>
+        </span>
+    </xsl:template>
+    
     <!--  end https://github.com/leopold-briefe/leopold-briefe-static/issues/29  -->
     
     
