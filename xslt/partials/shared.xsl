@@ -47,6 +47,15 @@
         </span>
     </xsl:template>
     
+    <xsl:template match="tei:note[./text()]">
+        <sup>
+            <span class="tei-note" data-bs-toggle="tooltip">
+                <xsl:attribute name="data-bs-title"><xsl:value-of select="."/></xsl:attribute>
+                <i class="bi bi-info-circle" visually-hidden="true"></i>
+            </span>
+        </sup>
+    </xsl:template>
+    
     
     <!--  end https://github.com/leopold-briefe/leopold-briefe-static/issues/29  -->
     
@@ -88,24 +97,7 @@
         <br/>
     </xsl:template>
 
-    <xsl:template match="tei:note">
-        <xsl:element name="a">
-            <xsl:attribute name="name">
-                <xsl:text>fna_</xsl:text>
-                <xsl:number level="any" format="1" count="tei:note"/>
-            </xsl:attribute>
-            <xsl:attribute name="href">
-                <xsl:text>#fn</xsl:text>
-                <xsl:number level="any" format="1" count="tei:note"/>
-            </xsl:attribute>
-            <xsl:attribute name="title">
-                <xsl:value-of select="normalize-space(.)"/>
-            </xsl:attribute>
-            <sup>
-                <xsl:number level="any" format="1" count="tei:note"/>
-            </sup>
-        </xsl:element>
-    </xsl:template>
+    
 
     <xsl:template match="tei:list[@type = 'unordered']">
         <xsl:choose>
