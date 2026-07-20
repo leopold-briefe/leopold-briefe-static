@@ -4,33 +4,101 @@
     exclude-result-prefixes="xs" version="2.0">
 
     <xsl:import href="entities.xsl"/>
-
+ 
+    <!--  start https://github.com/leopold-briefe/leopold-briefe-static/issues/29  -->
+    
     <xsl:template match="tei:w[@type = 'start']">
         <xsl:apply-templates/>
         <xsl:text>-</xsl:text>
     </xsl:template>
     
     <xsl:template match="tei:choice[./tei:abbr and ./tei:expan/text()]">
-        <span class="abbreviationExpanded" data-bs-toggle="tooltip">
-            <xsl:attribute name="data-bs-title">orig.: <xsl:value-of select="./tei:abbr"/></xsl:attribute>
+        <span class="tei-abbreviationExpanded" data-bs-toggle="tooltip">
+            <xsl:attribute name="data-bs-title">„Abgekürzt“ [<xsl:value-of select="./tei:abbr"/>]</xsl:attribute>
             <xsl:value-of select="./tei:expan/text()"/>
         </span>
     </xsl:template>
     
-    
-    <xsl:template match="tei:choice[./tei:abbr and not(./tei:expan/text())]">
-        <span class="abbreviationExpanded" data-bs-toggle="tooltip">
-            <xsl:attribute name="data-bs-title">Abkürzung aufgelöst</xsl:attribute>
-            <xsl:value-of select="./tei:abbr/text()"/>
+    <xsl:template match="tei:abbr">
+        <span class="tei-abbreviationExpanded" data-bs-toggle="tooltip">
+            <xsl:attribute name="data-bs-title">„Abgekürzt“</xsl:attribute>
+            <xsl:value-of select="."/>
         </span>
     </xsl:template>
     
+    <xsl:template match="tei:add">
+        <span class="tei-added">[<xsl:value-of select="."/>]</span>
+    </xsl:template>
+    
+    <xsl:template match="tei:del[@rend='blackening']">
+        <span class="tei-del-blackening"><xsl:text>&lt;</xsl:text><xsl:value-of select="."/><xsl:text>&gt;</xsl:text></span>
+    </xsl:template>
+    
+    <xsl:template match="tei:del[@rend='strikethrough']">
+        <span class="tei-del-strikethrough"><xsl:value-of select="."/></span>
+    </xsl:template>
+    
+    <xsl:template match="tei:hi[@rend='superscript']">
+        <span class="tei-del-superscript"><xsl:value-of select="."/></span>
+    </xsl:template>
+    
+    <xsl:template match="tei:seg[@type='cypher']">
+        <span class="tei-cypher" data-bs-toggle="tooltip">
+            <xsl:attribute name="data-bs-title">„Cypher“ [<xsl:value-of select="./text()"/>]</xsl:attribute>
+            <xsl:value-of select="./@n"/>
+        </span>
+    </xsl:template>
+    
+    <xsl:template match="tei:seg[@type='code']">
+        <span class="tei-code" data-bs-toggle="tooltip">
+            <xsl:attribute name="data-bs-title">„Code“ [<xsl:value-of select="./text()"/>]</xsl:attribute>
+            <xsl:value-of select="./@n"/>
+        </span>
+    </xsl:template>
+    
+    <xsl:template match="tei:note[./text()]">
+        <sup>
+            <span class="tei-note" data-bs-toggle="tooltip">
+                <xsl:attribute name="data-bs-title"><xsl:value-of select="."/></xsl:attribute>
+                <i class="bi bi-info-circle" visually-hidden="true"></i>
+            </span>
+        </sup>
+    </xsl:template>
+    
+    <xsl:template match="tei:corr">
+        <span class="tei-corr" data-bs-toggle="tooltip">
+            <xsl:attribute name="data-bs-title">„Selbstkorrektur”</xsl:attribute>
+            <xsl:value-of select="."/>
+        </span>
+    </xsl:template>
+    
+    <xsl:template match="tei:sic[@rend='error']">
+        <span class="tei-sic-error" data-bs-toggle="tooltip">
+            <xsl:attribute name="data-bs-title">„Schreibfehler“ [<xsl:value-of select="./text()"/>]</xsl:attribute>
+            <xsl:value-of select="@n"/>
+        </span>
+    </xsl:template>
+    
+    <xsl:template match="tei:sic[@rend='sic']">
+        <xsl:value-of select="."/><span class="tei-sic-sic">[!]</span>
+    </xsl:template>
+    
+    <xsl:template match="tei:gap">[&#8230;]</xsl:template>
+    
     <xsl:template match="tei:unclear">
-        <span class="unclear" data-bs-toggle="tooltip">
-            <xsl:attribute name="data-bs-title">unsichere Lesart</xsl:attribute>
+        <span class="tei-unclear" data-bs-toggle="tooltip">
+            <xsl:attribute name="data-bs-title">
+                „Unsichere Lesung“
+                <xsl:if test="./@n">[<xsl:value-of select="@n"/>]</xsl:if>
+            </xsl:attribute>
             <xsl:apply-templates/>
         </span>
     </xsl:template>
+    
+    <!--  end https://github.com/leopold-briefe/leopold-briefe-static/issues/29  -->
+    
+    
+    
 
 
     <xsl:template match="tei:div">
@@ -44,11 +112,7 @@
             <xsl:value-of select="./@n"/>
         </span>
     </xsl:template>
-    <xsl:template match="tei:del">
-        <del>
-            <xsl:apply-templates/>
-        </del>
-    </xsl:template>
+    
     <xsl:template match="tei:cit">
         <cite>
             <xsl:apply-templates/>
@@ -66,24 +130,7 @@
         <br/>
     </xsl:template>
 
-    <xsl:template match="tei:note">
-        <xsl:element name="a">
-            <xsl:attribute name="name">
-                <xsl:text>fna_</xsl:text>
-                <xsl:number level="any" format="1" count="tei:note"/>
-            </xsl:attribute>
-            <xsl:attribute name="href">
-                <xsl:text>#fn</xsl:text>
-                <xsl:number level="any" format="1" count="tei:note"/>
-            </xsl:attribute>
-            <xsl:attribute name="title">
-                <xsl:value-of select="normalize-space(.)"/>
-            </xsl:attribute>
-            <sup>
-                <xsl:number level="any" format="1" count="tei:note"/>
-            </sup>
-        </xsl:element>
-    </xsl:template>
+    
 
     <xsl:template match="tei:list[@type = 'unordered']">
         <xsl:choose>
