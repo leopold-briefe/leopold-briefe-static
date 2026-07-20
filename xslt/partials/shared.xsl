@@ -12,18 +12,20 @@
     
     <xsl:template match="tei:choice[./tei:abbr and ./tei:expan/text()]">
         <span class="abbreviationExpanded" data-bs-toggle="tooltip">
-            <xsl:attribute name="data-bs-title">orig.: <xsl:value-of select="./tei:abbr"/></xsl:attribute>
+            <xsl:attribute name="data-bs-title">„Abgekürzt“ [<xsl:value-of select="./tei:abbr"/>]</xsl:attribute>
             <xsl:value-of select="./tei:expan/text()"/>
         </span>
     </xsl:template>
     
-    
-    <xsl:template match="tei:choice[./tei:abbr and not(./tei:expan/text())]">
+    <xsl:template match="tei:abbr">
         <span class="abbreviationExpanded" data-bs-toggle="tooltip">
-            <xsl:attribute name="data-bs-title">Abkürzung aufgelöst</xsl:attribute>
-            <xsl:value-of select="./tei:abbr/text()"/>
+            <xsl:attribute name="data-bs-title">„Abgekürzt“</xsl:attribute>
+            <xsl:value-of select="."/>
         </span>
     </xsl:template>
+    
+    
+    
     
     <xsl:template match="tei:unclear">
         <span class="unclear" data-bs-toggle="tooltip">
