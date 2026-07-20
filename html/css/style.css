@@ -379,6 +379,7 @@ footer a {
 
 .tei-unclear {
   text-decoration: dotted underline;
+  color: red;
 }
 
 .tei-cypher {

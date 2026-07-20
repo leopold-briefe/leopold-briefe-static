@@ -4,13 +4,14 @@
     exclude-result-prefixes="xs" version="2.0">
 
     <xsl:import href="entities.xsl"/>
-
+ 
+    <!--  start https://github.com/leopold-briefe/leopold-briefe-static/issues/29  -->
+    
     <xsl:template match="tei:w[@type = 'start']">
         <xsl:apply-templates/>
         <xsl:text>-</xsl:text>
     </xsl:template>
     
-    <!--  start https://github.com/leopold-briefe/leopold-briefe-static/issues/29  -->
     <xsl:template match="tei:choice[./tei:abbr and ./tei:expan/text()]">
         <span class="tei-abbreviationExpanded" data-bs-toggle="tooltip">
             <xsl:attribute name="data-bs-title">„Abgekürzt“ [<xsl:value-of select="./tei:abbr"/>]</xsl:attribute>
@@ -76,15 +77,20 @@
     
     <xsl:template match="tei:gap">[&#8230;]</xsl:template>
     
-    <!--  end https://github.com/leopold-briefe/leopold-briefe-static/issues/29  -->
-    
-    
     <xsl:template match="tei:unclear">
-        <span class="unclear" data-bs-toggle="tooltip">
-            <xsl:attribute name="data-bs-title">unsichere Lesart</xsl:attribute>
+        <span class="tei-unclear" data-bs-toggle="tooltip">
+            <xsl:attribute name="data-bs-title">
+                „Unsichere Lesung“
+                <xsl:if test="./@n">[<xsl:value-of select="@n"/>]</xsl:if>
+            </xsl:attribute>
             <xsl:apply-templates/>
         </span>
     </xsl:template>
+    
+    <!--  end https://github.com/leopold-briefe/leopold-briefe-static/issues/29  -->
+    
+    
+    
 
 
     <xsl:template match="tei:div">
