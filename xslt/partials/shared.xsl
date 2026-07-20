@@ -28,6 +28,10 @@
         <span class="added">[<xsl:value-of select="."/>]</span>
     </xsl:template>
     
+    <xsl:template match="tei:del[@rend='blackening']">
+        <xsl:text>&lt;</xsl:text><xsl:value-of select="."/><xsl:text>&gt;</xsl:text>
+    </xsl:template>
+    
     
     
     <xsl:template match="tei:unclear">
@@ -49,11 +53,7 @@
             <xsl:value-of select="./@n"/>
         </span>
     </xsl:template>
-    <xsl:template match="tei:del">
-        <del>
-            <xsl:apply-templates/>
-        </del>
-    </xsl:template>
+    
     <xsl:template match="tei:cit">
         <cite>
             <xsl:apply-templates/>
