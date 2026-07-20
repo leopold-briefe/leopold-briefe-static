@@ -400,3 +400,7 @@ footer a {
   color: blue;
   text-decoration: dotted underline;
 }
+
+.tei-del-strikethrough {
+  text-decoration: line-through;
+}

@@ -31,7 +31,11 @@
     </xsl:template>
     
     <xsl:template match="tei:del[@rend='blackening']">
-        <xsl:text>&lt;</xsl:text><xsl:value-of select="."/><xsl:text>&gt;</xsl:text>
+        <span class="tei-del-blackening"><xsl:text>&lt;</xsl:text><xsl:value-of select="."/><xsl:text>&gt;</xsl:text></span>
+    </xsl:template>
+    
+    <xsl:template match="tei:del[@rend='strikethrough']">
+        <span class="tei-del-strikethrough"><xsl:value-of select="."/></span>
     </xsl:template>
     
     <xsl:template match="tei:seg[@type='cypher']">
