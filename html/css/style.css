@@ -404,3 +404,7 @@ footer a {
 .tei-del-strikethrough {
   text-decoration: line-through;
 }
+
+.tei-del-superscript {
+  vertical-align: super;
+}

@@ -38,6 +38,10 @@
         <span class="tei-del-strikethrough"><xsl:value-of select="."/></span>
     </xsl:template>
     
+    <xsl:template match="tei:hi[@rend='superscript']">
+        <span class="tei-del-superscript"><xsl:value-of select="."/></span>
+    </xsl:template>
+    
     <xsl:template match="tei:seg[@type='cypher']">
         <span class="tei-cypher" data-bs-toggle="tooltip">
             <xsl:attribute name="data-bs-title">„Cypher“ [<xsl:value-of select="./text()"/>]</xsl:attribute>
@@ -76,7 +80,7 @@
     </xsl:template>
     
     <xsl:template match="tei:sic[@rend='sic']">
-        <xsl:value-of select="."/><span class="tei-sic-error">[!]</span>
+        <xsl:value-of select="."/><span class="tei-sic-sic">[!]</span>
     </xsl:template>
     
     <xsl:template match="tei:gap">[&#8230;]</xsl:template>
