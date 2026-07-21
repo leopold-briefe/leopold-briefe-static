@@ -17,8 +17,11 @@
 
 
     <xsl:template match="/">
-        <xsl:variable name="doc_title" select="'Originalbriefe'"/>
+        <xsl:variable name="doc_title" select="'Briefverzeichnis'"/>
         <xsl:variable name="link" select="'toc.html'"/>
+        <xsl:variable name="boolean-filter">
+            <xsl:text>{"values":{"":"All","True":"Yes","False":"No"}}</xsl:text>
+        </xsl:variable>
         <html class="h-100" lang="{$default_lang}">
             <head>
                 <xsl:call-template name="html_head">
@@ -45,7 +48,7 @@
                             </li>
                         </ol>
                     </nav>
-                    <div class="container">
+                    <div class="container-fluid">
                         <h1 class="display-5 text-center"><xsl:value-of select="$doc_title"/></h1>
                         <div class="text-center p-1"><span id="counter1"></span> von <span id="counter2"></span> Originalbriefe</div>
                         <table id="myTable">
@@ -53,52 +56,126 @@
                                 <tr>
                                     <th scope="col" tabulator-headerFilter="input" tabulator-formatter="html" tabulator-download="false" tabulator-minWidth="350">Emfpänger</th>
                                     <th scope="col" tabulator-headerFilter="input" tabulator-visible="false" tabulator-download="true">receiver_</th>
-                                    <th scope="col" tabulator-headerFilter="input" tabulator-formatter="html" tabulator-download="false">Datum</th>
+                                    <th scope="col" tabulator-headerFilter="input" tabulator-formatter="html" tabulator-download="false" tabulator-maxWidth="170">gesendet</th>
+                                    <th scope="col" tabulator-headerFilter="input" tabulator-maxWidth="150">empfangen</th>
                                     <th scope="col" tabulator-headerFilter="input" tabulator-visible="false" tabulator-download="true">date_</th>
-                                    <th scope="col" tabulator-headerFilter="input" >Ort</th>
-                                    <th scope="col" tabulator-headerFilter="input" tabulator-formatter="html">Abschrift, Kopie, Konzept</th>
+                                    <th scope="col" tabulator-headerFilter="list" tabulator-maxWidth="170">
+                                        <xsl:attribute name="tabulator-headerFilterParams">
+                                            <xsl:text>{"values":{"":"Alle"</xsl:text>
+                                            <xsl:for-each select="sort(distinct-values(.//tei:correspAction[@type='sent']/tei:placeName[@key]/text()))">
+                                                <xsl:text>,</xsl:text>
+                                                <xsl:value-of select="concat('&quot;', ., '&quot;:&quot;', ., '&quot;')"/>
+                                            </xsl:for-each>
+                                            <xsl:text>}}</xsl:text>
+                                        </xsl:attribute>
+                                        Ort (von)
+                                    </th>
+                                    <th scope="col" tabulator-headerFilter="list" tabulator-maxWidth="170">
+                                        <xsl:attribute name="tabulator-headerFilterParams">
+                                            <xsl:text>{"values":{"":"Alle"</xsl:text>
+                                            <xsl:for-each select="sort(distinct-values(.//tei:correspAction[@type='received']/tei:placeName[@key]/text()))">
+                                                <xsl:text>,</xsl:text>
+                                                <xsl:value-of select="concat('&quot;', ., '&quot;:&quot;', ., '&quot;')"/>
+                                            </xsl:for-each>
+                                            <xsl:text>}}</xsl:text>
+                                        </xsl:attribute>
+                                        Ort (nach)
+                                    </th>
+                                    <th scope="col" tabulator-headerFilter="list" tabulator-maxWidth="170">
+                                        <xsl:attribute name="tabulator-headerFilterParams">
+                                            <xsl:text>{"values":{"":"Alle"</xsl:text>
+                                            <xsl:for-each select="distinct-values(.//tei:noteGrp[@type='metadata']/tei:note[@type='kind']/text())">
+                                                <xsl:text>,</xsl:text>
+                                                <xsl:value-of select="concat('&quot;', ., '&quot;:&quot;', ., '&quot;')"/>
+                                            </xsl:for-each>
+                                            <xsl:text>}}</xsl:text>
+                                        </xsl:attribute>
+                                        Art
+                                    </th>
                                     <th scope="col" tabulator-headerFilter="input" tabulator-maxWidth="110">Sprache</th>
+                                    <th scope="col" tabulator-headerFilter="list" >
+                                        <xsl:attribute name="tabulator-headerFilterParams" >
+                                            <xsl:text>{"values":{"":"Alle"</xsl:text>
+                                            <xsl:for-each select="distinct-values(.//tei:noteGrp[@type='metadata']/tei:note[@type='archiv']/text())">
+                                                <xsl:text>,</xsl:text>
+                                                <xsl:value-of select="concat('&quot;', ., '&quot;:&quot;', ., '&quot;')"/>
+                                            </xsl:for-each>
+                                            <xsl:text>}}</xsl:text>
+                                        </xsl:attribute>
+                                        Archiv
+                                    </th>
+                                    <th scope="col" tabulator-headerFilter="input" >Signatur</th>
+                                    <th scope="col" tabulator-formatter="tickCross" tabulator-headerFilter="tickCross" tabulator-maxWidth="90">Text</th>
+                                    <th scope="col" tabulator-headerFilter="tickCross" tabulator-formatter="tickCross" tabulator-maxWidth="80">Bild</th>
                                     <th scope="col" tabulator-headerFilter="input" tabulator-maxWidth="100">ID</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <xsl:for-each
-                                    select="collection('../data/editions?select=*.xml')//tei:TEI[.//tei:origin/tei:term/text() eq 'Original']">
-                                    <xsl:sort select="//tei:history/tei:origin/tei:origDate/@when-iso"></xsl:sort>
+                                    select=".//tei:correspDesc[@xml:id]">
+                                    <xsl:sort select=".//tei:note[@type='not_before']/text()"></xsl:sort>
                                     <xsl:variable name="docId">
-                                        <xsl:value-of select="replace(@xml:id, '.xml', '')"/>
+                                        <xsl:value-of select="@xml:id"/>
                                     </xsl:variable>
+                                    <xsl:variable name="sortDate" select=".//tei:note[@type='not_before']/text()"/>
+                                    <xsl:variable name="sent" as="node()">
+                                        <xsl:value-of select="./tei:correspAction[@type='sent']/tei:date"/>
+                                    </xsl:variable>
+                                    <xsl:variable name="received" as="node()">
+                                        <xsl:value-of select="./tei:correspAction[@type='received']/tei:date"/>
+                                    </xsl:variable>
+                                    <xsl:variable name="linkToDoc" select="./tei:noteGrp[@type='metadata']/tei:note[@type='file_exists']/text() = '1' or ./tei:noteGrp[@type='metadata']/tei:note[@type='images_on_share']/text() = '1'"/>
                                     <tr>
                                         <td>
-                                            <a href="{$docId || '.html'}">
-                                                <xsl:value-of select="string-join(.//tei:correspAction[@type='received']/tei:persName/text(), ', ')"/>
-                                            </a>
+                                            <xsl:choose>
+                                                <xsl:when test="$linkToDoc">
+                                                    <a href="{$docId || '.html'}">
+                                                        <xsl:value-of select="string-join(.//tei:correspAction[@type='received']/tei:persName/text(), ', ')"/>
+                                                    </a>
+                                                </xsl:when>
+                                                <xsl:otherwise>
+                                                    <xsl:value-of select="string-join(.//tei:correspAction[@type='received']/tei:persName/text(), ', ')"/>
+                                                </xsl:otherwise>
+                                            </xsl:choose>
                                         </td>
                                         <td>
                                             <xsl:value-of select="string-join(.//tei:correspAction[@type='received']/tei:persName/text(), ', ')"/>
                                         </td>
                                         <td>
-                                            <span data-isodate="{//tei:history/tei:origin/tei:origDate/@when-iso}">
-                                                <xsl:value-of select=".//tei:correspAction[1]/tei:date/text()"/>
+                                            <span data-sortkey="{$sortDate}">
+                                                <xsl:value-of select="./tei:correspAction[@type='sent']/tei:date"/>
                                             </span>
                                         </td>
                                         <td>
-                                            <xsl:value-of select="//tei:history/tei:origin/tei:origDate/@when-iso"/>
+                                            <xsl:value-of select="$received"/>
                                         </td>
                                         <td>
-                                            <xsl:value-of select=".//tei:correspAction[@type='received']//tei:placeName[1]/text()"/>
+                                            <xsl:value-of select="$sortDate"/>
+                                        </td>
+                                        
+                                        <td>
+                                            <xsl:value-of select="./tei:correspAction[@type='sent']//tei:placeName[1]/text()"/>
                                         </td>
                                         <td>
-                                            <ul>
-                                                <xsl:for-each select=".//tei:sourceDesc/tei:listRelation/tei:relation">
-                                                    <li>
-                                                        <a href="{replace(./@active, '.xml', '.html')}"><xsl:value-of select="./@n"/></a>
-                                                    </li>
-                                                </xsl:for-each>
-                                            </ul>
+                                            <xsl:value-of select="./tei:correspAction[@type='received']//tei:placeName[1]/text()"/>
                                         </td>
                                         <td>
-                                            <xsl:value-of select=".//tei:language/@ident"/>
+                                            <xsl:value-of select="./tei:noteGrp[@type='metadata']/tei:note[@type='kind']/text()"/>
+                                        </td>
+                                        <td>
+                                            <xsl:value-of select="./tei:noteGrp[@type='metadata']/tei:note[@type='main_language']/text()"/>
+                                        </td>
+                                        <td>
+                                            <xsl:value-of select="./tei:noteGrp[@type='metadata']/tei:note[@type='archiv']/text()"/>
+                                        </td>
+                                        <td>
+                                            <xsl:value-of select="./tei:noteGrp[@type='metadata']/tei:note[@type='collection']/text()"/>, <xsl:value-of select="./tei:noteGrp[@type='metadata']/tei:note[@type='signatur']/text()"/>
+                                        </td>
+                                        <td>                                           
+                                            <xsl:value-of select="./tei:noteGrp[@type='metadata']/tei:note[@type='file_exists']/text()"/>
+                                        </td>
+                                        <td>                                           
+                                            <xsl:value-of select="./tei:noteGrp[@type='metadata']/tei:note[@type='images_on_share']/text()"/>
                                         </td>
                                         <td>
                                             <xsl:value-of select="$docId"/>
@@ -116,7 +193,9 @@
                     </div>
                 </main>
                 <xsl:call-template name="html_footer"/>
-                <xsl:call-template name="tabulator_js"/>
+                <xsl:call-template name="tabulator_js">
+                    <xsl:with-param name="clickme" select="false()"></xsl:with-param>
+                </xsl:call-template>
             </body>
         </html>
     </xsl:template>
