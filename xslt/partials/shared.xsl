@@ -14,14 +14,14 @@
     
     <xsl:template match="tei:choice[./tei:abbr and ./tei:expan/text()]">
         <span class="tei-abbreviationExpanded" data-bs-toggle="tooltip">
-            <xsl:attribute name="data-bs-title">„Abgekürzt“ [<xsl:value-of select="./tei:abbr"/>]</xsl:attribute>
+            <xsl:attribute name="data-bs-title">Abgekürzt: <xsl:value-of select="./tei:abbr"/></xsl:attribute>
             <xsl:value-of select="./tei:expan/text()"/>
         </span>
     </xsl:template>
     
     <xsl:template match="tei:abbr">
         <span class="tei-abbreviationExpanded" data-bs-toggle="tooltip">
-            <xsl:attribute name="data-bs-title">„Abgekürzt“</xsl:attribute>
+            <xsl:attribute name="data-bs-title">Abgekürzt</xsl:attribute>
             <xsl:value-of select="."/>
         </span>
     </xsl:template>
@@ -44,14 +44,14 @@
     
     <xsl:template match="tei:seg[@type='cypher']">
         <span class="tei-cypher" data-bs-toggle="tooltip">
-            <xsl:attribute name="data-bs-title">„Cypher“ [<xsl:value-of select="./text()"/>]</xsl:attribute>
+            <xsl:attribute name="data-bs-title"><xsl:value-of select="./text()"/></xsl:attribute>
             <xsl:value-of select="./@n"/>
         </span>
     </xsl:template>
     
     <xsl:template match="tei:seg[@type='code']">
         <span class="tei-code" data-bs-toggle="tooltip">
-            <xsl:attribute name="data-bs-title">„Code“ [<xsl:value-of select="./text()"/>]</xsl:attribute>
+            <xsl:attribute name="data-bs-title"><xsl:value-of select="./text()"/></xsl:attribute>
             <xsl:value-of select="./@n"/>
         </span>
     </xsl:template>
@@ -67,20 +67,20 @@
     
     <xsl:template match="tei:corr">
         <span class="tei-corr" data-bs-toggle="tooltip">
-            <xsl:attribute name="data-bs-title">„Selbstkorrektur”</xsl:attribute>
+            <xsl:attribute name="data-bs-title">Selbstkorrektur</xsl:attribute>
             <xsl:value-of select="."/>
         </span>
     </xsl:template>
     
     <xsl:template match="tei:sic[@rend='error']">
         <span class="tei-sic-error" data-bs-toggle="tooltip">
-            <xsl:attribute name="data-bs-title">„Schreibfehler“ [<xsl:value-of select="./text()"/>]</xsl:attribute>
+            <xsl:attribute name="data-bs-title">Schreibfehler: <xsl:value-of select="./text()"/></xsl:attribute>
             <xsl:value-of select="@n"/>
         </span>
     </xsl:template>
     
     <xsl:template match="tei:sic[@rend='sic']">
-        <xsl:value-of select="."/><span class="tei-sic-sic">[!]</span>
+        <xsl:value-of select="."/><span class="tei-sic-sic"> [!]</span>
     </xsl:template>
     
     <xsl:template match="tei:gap">[&#8230;]</xsl:template>
@@ -88,8 +88,8 @@
     <xsl:template match="tei:unclear">
         <span class="tei-unclear" data-bs-toggle="tooltip">
             <xsl:attribute name="data-bs-title">
-                „Unsichere Lesung“
-                <xsl:if test="./@n">[<xsl:value-of select="@n"/>]</xsl:if>
+                Unsichere Lesung
+                <xsl:if test="./@n">: <xsl:value-of select="@n"/></xsl:if>
             </xsl:attribute>
             <xsl:apply-templates/>
         </span>
