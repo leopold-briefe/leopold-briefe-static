@@ -18,20 +18,22 @@ for x in doc.any_xpath(".//tei:correspDesc[@xml:id]"):
     note_grp_node = any_xpath(x, "./tei:noteGrp[@type='metadata']")[0]
     status_node = ET.SubElement(note_grp_node, "{http://www.tei-c.org/ns/1.0}note")
     status_node.attrib["type"] = "file_exists"
-    status_node.text = "False"
+    status_node.text = "0"
     status_transkription = any_xpath(x, ".//tei:note[@type='status_transkription']")[
         0
     ].text
     if status_transkription == "nicht vorhanden":
         status_transkription = False
 
-    images_on_share = any_xpath(x, ".//tei:note[@type='images_on_share']")[0].text
-    if images_on_share == "False":
+    images_on_share = any_xpath(x, ".//tei:note[@type='images_on_share']")[0]
+    if images_on_share.text == "False":
+        images_on_share.text = "0"
         images_on_share = False
-
+    else:
+        images_on_share.text = "1"
     if status_transkription or images_on_share:
         keep_files.append(f"{xml_id}.xml")
-        status_node.text = "True"
+        status_node.text = "1"
 ET.indent(doc.any_xpath(".")[0], space="   ")
 doc.tree_to_file(cmif_file)
 
