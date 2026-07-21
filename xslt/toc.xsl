@@ -105,8 +105,26 @@
                                         Archiv
                                     </th>
                                     <th scope="col" tabulator-headerFilter="input" >Signatur</th>
-                                    <th scope="col" tabulator-formatter="tickCross" tabulator-headerFilter="tickCross" tabulator-maxWidth="90">Text</th>
-                                    <th scope="col" tabulator-headerFilter="tickCross" tabulator-formatter="tickCross" tabulator-maxWidth="80">Bild</th>
+                                    <th
+                                        scope="col"
+                                        tabulator-formatter="tickCross"
+                                        tabulator-headerFilter="list"
+                                        tabulator-maxWidth="90">
+                                        <xsl:attribute name="tabulator-headerFilterParams">
+                                            <xsl:text>{"values":{"":"Alle","1":"Ja","0":"Nein"}}</xsl:text>
+                                        </xsl:attribute>
+                                        Text
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        tabulator-formatter="tickCross"
+                                        tabulator-headerFilter="list"
+                                        tabulator-maxWidth="80">
+                                        <xsl:attribute name="tabulator-headerFilterParams">
+                                            <xsl:text>{"values":{"":"Alle","1":"Ja","0":"Nein"}}</xsl:text>
+                                        </xsl:attribute>
+                                        Bild
+                                    </th>
                                     <th scope="col" tabulator-headerFilter="input" tabulator-maxWidth="100">ID</th>
                                 </tr>
                             </thead>
