@@ -22,7 +22,7 @@
         <xsl:variable name="link" select="'toc.html'"/>
         <xsl:variable name="column_toggle_control_id" as="xs:string" select="'toc-column-toggle'"/>
         <xsl:variable name="initial_visible_columns" as="xs:string*"
-            select="('receiver', 'gesendet', 'ort_nach', 'art', 'archiv', 'text')"/>
+            select="('receiver', 'gesendet', 'ort_von', 'art', 'archiv', 'text')"/>
         <xsl:variable name="boolean-filter">
             <xsl:text>{"values":{"":"All","True":"Yes","False":"No"}}</xsl:text>
         </xsl:variable>
@@ -54,7 +54,7 @@
                     </nav>
                     <div class="container-fluid">
                         <h1 class="display-5 text-center"><xsl:value-of select="$doc_title"/></h1>
-                        <div class="text-center p-1"><span id="counter1"></span> von <span id="counter2"></span> Briefe</div>
+                        <div class="text-center p-1"><span id="counter1"></span> von <span id="counter2"></span> Dokumenten</div>
                         <xsl:call-template name="tabulator_column_toggle">
                             <xsl:with-param name="control_id" select="$column_toggle_control_id"/>
                             <xsl:with-param name="button_label" select="'Spalten anzeigen'"/>
@@ -65,8 +65,8 @@
                                 <tr>
                                     <th scope="col" tabulator-field="receiver" tabulator-headerFilter="input" tabulator-formatter="html" tabulator-download="false" tabulator-minWidth="390">Emfpänger</th>
                                     <th scope="col" tabulator-field="receiver_" tabulator-headerFilter="input" tabulator-visible="false" tabulator-download="true">receiver_</th>
-                                    <th scope="col" tabulator-field="gesendet" tabulator-headerFilter="input" tabulator-formatter="html" tabulator-download="false" >gesendet</th>
-                                    <th scope="col" tabulator-field="empfangen" tabulator-headerFilter="input" >empfangen</th>
+                                    <th scope="col" tabulator-field="gesendet" tabulator-headerFilter="input" tabulator-formatter="html" tabulator-download="false" >Absendedatum</th>
+                                    <th scope="col" tabulator-field="empfangen" tabulator-headerFilter="input" >Empfangsdatum</th>
                                     <th scope="col" tabulator-field="date_" tabulator-headerFilter="input" tabulator-visible="false" tabulator-download="true">date_</th>
                                     <th scope="col" tabulator-field="ort_von" tabulator-headerFilter="list">
                                         <xsl:attribute name="tabulator-headerFilterParams">
@@ -77,7 +77,7 @@
                                             </xsl:for-each>
                                             <xsl:text>}}</xsl:text>
                                         </xsl:attribute>
-                                        Ort (von)
+                                        Absendeort
                                     </th>
                                     <th scope="col" tabulator-field="ort_nach" tabulator-headerFilter="list">
                                         <xsl:attribute name="tabulator-headerFilterParams">
@@ -88,7 +88,7 @@
                                             </xsl:for-each>
                                             <xsl:text>}}</xsl:text>
                                         </xsl:attribute>
-                                        Ort (nach)
+                                        Empfangsort
                                     </th>
                                     <th scope="col" tabulator-field="art" tabulator-headerFilter="list">
                                         <xsl:attribute name="tabulator-headerFilterParams">
