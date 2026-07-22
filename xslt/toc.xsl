@@ -11,6 +11,7 @@
     <xsl:import href="./partials/html_footer.xsl"/>
     <xsl:import href="./partials/tabulator_dl_buttons.xsl"/>
     <xsl:import href="./partials/tabulator_js.xsl"/>
+    <xsl:import href="./partials/tabulator_column_toggle.xsl"/>
     <xsl:import href="./partials/blockquote.xsl"/>
     <xsl:import href="./partials/zotero.xsl"/>
     <xsl:output encoding="UTF-8" media-type="text/html" method="html" version="5.0" indent="yes" omit-xml-declaration="yes"/>
@@ -19,6 +20,9 @@
     <xsl:template match="/">
         <xsl:variable name="doc_title" select="'Briefverzeichnis'"/>
         <xsl:variable name="link" select="'toc.html'"/>
+        <xsl:variable name="column_toggle_control_id" as="xs:string" select="'toc-column-toggle'"/>
+        <xsl:variable name="initial_visible_columns" as="xs:string*"
+            select="('receiver', 'gesendet', 'empfangen', 'ort_von', 'ort_nach', 'art', 'sprache', 'archiv', 'signatur', 'text', 'bild', 'id')"/>
         <xsl:variable name="boolean-filter">
             <xsl:text>{"values":{"":"All","True":"Yes","False":"No"}}</xsl:text>
         </xsl:variable>
@@ -51,15 +55,20 @@
                     <div class="container-fluid">
                         <h1 class="display-5 text-center"><xsl:value-of select="$doc_title"/></h1>
                         <div class="text-center p-1"><span id="counter1"></span> von <span id="counter2"></span> Briefe</div>
+                        <xsl:call-template name="tabulator_column_toggle">
+                            <xsl:with-param name="control_id" select="$column_toggle_control_id"/>
+                            <xsl:with-param name="button_label" select="'Spalten anzeigen'"/>
+                            <xsl:with-param name="initial_visible_columns" select="$initial_visible_columns"/>
+                        </xsl:call-template>
                         <table id="myTable">
                             <thead>
                                 <tr>
-                                    <th scope="col" tabulator-headerFilter="input" tabulator-formatter="html" tabulator-download="false" tabulator-minWidth="350">Emfpänger</th>
-                                    <th scope="col" tabulator-headerFilter="input" tabulator-visible="false" tabulator-download="true">receiver_</th>
-                                    <th scope="col" tabulator-headerFilter="input" tabulator-formatter="html" tabulator-download="false" tabulator-maxWidth="170">gesendet</th>
-                                    <th scope="col" tabulator-headerFilter="input" tabulator-maxWidth="150">empfangen</th>
-                                    <th scope="col" tabulator-headerFilter="input" tabulator-visible="false" tabulator-download="true">date_</th>
-                                    <th scope="col" tabulator-headerFilter="list" tabulator-maxWidth="170">
+                                    <th scope="col" tabulator-field="receiver" tabulator-headerFilter="input" tabulator-formatter="html" tabulator-download="false" tabulator-minWidth="390">Emfpänger</th>
+                                    <th scope="col" tabulator-field="receiver_" tabulator-headerFilter="input" tabulator-visible="false" tabulator-download="true">receiver_</th>
+                                    <th scope="col" tabulator-field="gesendet" tabulator-headerFilter="input" tabulator-formatter="html" tabulator-download="false" >gesendet</th>
+                                    <th scope="col" tabulator-field="empfangen" tabulator-headerFilter="input" >empfangen</th>
+                                    <th scope="col" tabulator-field="date_" tabulator-headerFilter="input" tabulator-visible="false" tabulator-download="true">date_</th>
+                                    <th scope="col" tabulator-field="ort_von" tabulator-headerFilter="list">
                                         <xsl:attribute name="tabulator-headerFilterParams">
                                             <xsl:text>{"values":{"":"Alle"</xsl:text>
                                             <xsl:for-each select="sort(distinct-values(.//tei:correspAction[@type='sent']/tei:placeName[@key]/text()))">
@@ -70,7 +79,7 @@
                                         </xsl:attribute>
                                         Ort (von)
                                     </th>
-                                    <th scope="col" tabulator-headerFilter="list" tabulator-maxWidth="170">
+                                    <th scope="col" tabulator-field="ort_nach" tabulator-headerFilter="list">
                                         <xsl:attribute name="tabulator-headerFilterParams">
                                             <xsl:text>{"values":{"":"Alle"</xsl:text>
                                             <xsl:for-each select="sort(distinct-values(.//tei:correspAction[@type='received']/tei:placeName[@key]/text()))">
@@ -81,7 +90,7 @@
                                         </xsl:attribute>
                                         Ort (nach)
                                     </th>
-                                    <th scope="col" tabulator-headerFilter="list" tabulator-maxWidth="170">
+                                    <th scope="col" tabulator-field="art" tabulator-headerFilter="list">
                                         <xsl:attribute name="tabulator-headerFilterParams">
                                             <xsl:text>{"values":{"":"Alle"</xsl:text>
                                             <xsl:for-each select="distinct-values(.//tei:noteGrp[@type='metadata']/tei:note[@type='kind']/text())">
@@ -92,8 +101,8 @@
                                         </xsl:attribute>
                                         Art
                                     </th>
-                                    <th scope="col" tabulator-headerFilter="input" tabulator-maxWidth="110">Sprache</th>
-                                    <th scope="col" tabulator-headerFilter="list" >
+                                    <th scope="col" tabulator-field="sprache" tabulator-headerFilter="input">Sprache</th>
+                                    <th scope="col" tabulator-field="archiv" tabulator-headerFilter="list" >
                                         <xsl:attribute name="tabulator-headerFilterParams" >
                                             <xsl:text>{"values":{"":"Alle"</xsl:text>
                                             <xsl:for-each select="distinct-values(.//tei:noteGrp[@type='metadata']/tei:note[@type='archiv']/text())">
@@ -104,12 +113,12 @@
                                         </xsl:attribute>
                                         Archiv
                                     </th>
-                                    <th scope="col" tabulator-headerFilter="input" >Signatur</th>
+                                    <th scope="col" tabulator-field="signatur" tabulator-headerFilter="input" >Signatur</th>
                                     <th
                                         scope="col"
+                                        tabulator-field="text"
                                         tabulator-formatter="tickCross"
-                                        tabulator-headerFilter="list"
-                                        tabulator-maxWidth="90">
+                                        tabulator-headerFilter="list">
                                         <xsl:attribute name="tabulator-headerFilterParams">
                                             <xsl:text>{"values":{"":"Alle","1":"Ja","0":"Nein"}}</xsl:text>
                                         </xsl:attribute>
@@ -117,15 +126,15 @@
                                     </th>
                                     <th
                                         scope="col"
+                                        tabulator-field="bild"
                                         tabulator-formatter="tickCross"
-                                        tabulator-headerFilter="list"
-                                        tabulator-maxWidth="80">
+                                        tabulator-headerFilter="list">
                                         <xsl:attribute name="tabulator-headerFilterParams">
                                             <xsl:text>{"values":{"":"Alle","1":"Ja","0":"Nein"}}</xsl:text>
                                         </xsl:attribute>
                                         Bild
                                     </th>
-                                    <th scope="col" tabulator-headerFilter="input" tabulator-maxWidth="100">ID</th>
+                                    <th scope="col" tabulator-field="id" tabulator-headerFilter="input">ID</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -213,6 +222,7 @@
                 <xsl:call-template name="html_footer"/>
                 <xsl:call-template name="tabulator_js">
                     <xsl:with-param name="clickme" select="false()"></xsl:with-param>
+                    <xsl:with-param name="column_toggle_control_id" select="$column_toggle_control_id"></xsl:with-param>
                 </xsl:call-template>
             </body>
         </html>
