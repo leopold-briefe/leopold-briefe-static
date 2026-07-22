@@ -122,6 +122,16 @@
                                 <xsl:with-param name="docTitle"><xsl:value-of select="$doc_title"/>, in: </xsl:with-param>
                             </xsl:call-template>
                         </div>
+                        <div class="text-center p-4">
+                            <div>
+                                <h2 class="fs-4">Archivsignatur</h2>
+                                <blockquote class="blockquote">
+                                    <p>
+                                        <xsl:value-of select=".//tei:msIdentifier/tei:repository"/>, <xsl:value-of select=".//tei:msIdentifier/tei:collection"/>, <xsl:value-of select=".//tei:msIdentifier/tei:idno"/>
+                                    </p>
+                                </blockquote>
+                            </div>
+                        </div>
                     </div>
                     <xsl:for-each select="//tei:back">
                         <div class="tei-back">
