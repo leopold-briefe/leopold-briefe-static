@@ -10,7 +10,7 @@
                         <scenarioAssociation-array>
                             <scenarioAssociation>
                                 <field name="url">
-                                    <String>data/editions/lb-00101.xml</String>
+                                    <String>data/editions/lb-00001.xml</String>
                                 </field>
                                 <field name="scenarioIds">
                                     <list>
@@ -50,11 +50,11 @@
                             </scenarioAssociation>
                             <scenarioAssociation>
                                 <field name="url">
-                                    <String>data/indices/listletter.xml</String>
+                                    <String>data/editions/lb-00101.xml</String>
                                 </field>
                                 <field name="scenarioIds">
                                     <list>
-                                        <String>toc</String>
+                                        <String>editions</String>
                                     </list>
                                 </field>
                                 <field name="scenarioTypes">
@@ -70,11 +70,11 @@
                             </scenarioAssociation>
                             <scenarioAssociation>
                                 <field name="url">
-                                    <String>data/editions/lb-00001.xml</String>
+                                    <String>data/indices/listletter.xml</String>
                                 </field>
                                 <field name="scenarioIds">
                                     <list>
-                                        <String>editions</String>
+                                        <String>toc</String>
                                     </list>
                                 </field>
                                 <field name="scenarioTypes">
