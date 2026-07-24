@@ -132,7 +132,7 @@
                                             <xsl:value-of select="$doc_title"/>, <xsl:value-of select=".//tei:resp/text()"/>, in: 
                                         </xsl:when>
                                         <xsl:otherwise>
-                                            <xsl:value-of select="$doc_title"/>´<determinant xmlns="http://www.w3.org/1998/Math/MathML"></determinant>, in:
+                                            <xsl:value-of select="$doc_title"/>, in:
                                         </xsl:otherwise>
                                     </xsl:choose>
                                     </xsl:with-param>
