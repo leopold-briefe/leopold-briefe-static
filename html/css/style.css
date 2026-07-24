@@ -299,7 +299,7 @@ footer a {
 }
 
 .ais-CurrentRefinements-category .ais-CurrentRefinements-delete:hover {
-  color: red
+  color: #ab0d0d
 }
 
 .ais-ClearRefinements-button--disabled {
@@ -379,7 +379,7 @@ footer a {
 
 .tei-unclear {
   text-decoration: dotted underline;
-  color: red;
+  color: #ab0d0d;
 }
 
 .tei-cypher {
