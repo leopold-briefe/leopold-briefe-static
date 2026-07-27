@@ -22,7 +22,7 @@
         <xsl:variable name="link" select="'toc.html'"/>
         <xsl:variable name="column_toggle_control_id" as="xs:string" select="'toc-column-toggle'"/>
         <xsl:variable name="initial_visible_columns" as="xs:string*"
-            select="('receiver', 'gesendet', 'ort_von', 'art', 'archiv', 'text')"/>
+            select="('receiver', 'gesendet', 'ort_von', 'art', 'aufbewahrungsort', 'transkription')"/>
         <xsl:variable name="boolean-filter">
             <xsl:text>{"values":{"":"All","True":"Yes","False":"No"}}</xsl:text>
         </xsl:variable>
@@ -65,8 +65,8 @@
                                 <tr>
                                     <th scope="col" tabulator-field="receiver" tabulator-headerFilter="input" tabulator-formatter="html" tabulator-download="false" tabulator-minWidth="390">Emfpänger</th>
                                     <th scope="col" tabulator-field="receiver_" tabulator-headerFilter="input" tabulator-visible="false" tabulator-download="true">receiver_</th>
-                                    <th scope="col" tabulator-field="gesendet" tabulator-headerFilter="input" tabulator-formatter="html" tabulator-download="false" >Absendedatum</th>
-                                    <th scope="col" tabulator-field="empfangen" tabulator-headerFilter="input" >Empfangsdatum</th>
+                                    <th scope="col" tabulator-field="gesendet" tabulator-headerFilter="input" tabulator-formatter="html" tabulator-download="false" tabulator-hozAlign="right">Absendedatum</th>
+                                    <th scope="col" tabulator-field="empfangen" tabulator-headerFilter="input" tabulator-textDirection="rtl">Empfangsdatum</th>
                                     <th scope="col" tabulator-field="date_" tabulator-headerFilter="input" tabulator-visible="false" tabulator-download="true">date_</th>
                                     <th scope="col" tabulator-field="ort_von" tabulator-headerFilter="list">
                                         <xsl:attribute name="tabulator-headerFilterParams">
@@ -102,27 +102,27 @@
                                         Art
                                     </th>
                                     <th scope="col" tabulator-field="sprache" tabulator-headerFilter="input">Sprache</th>
-                                    <th scope="col" tabulator-field="archiv" tabulator-headerFilter="list" >
+                                    <th scope="col" tabulator-field="aufbewahrungsort" tabulator-headerFilter="list" >
                                         <xsl:attribute name="tabulator-headerFilterParams" >
                                             <xsl:text>{"values":{"":"Alle"</xsl:text>
-                                            <xsl:for-each select="distinct-values(.//tei:noteGrp[@type='metadata']/tei:note[@type='archiv']/text())">
+                                            <xsl:for-each select="distinct-values(.//tei:noteGrp[@type='metadata']/tei:note[@type='archiv_abbr']/text())">
                                                 <xsl:text>,</xsl:text>
                                                 <xsl:value-of select="concat('&quot;', ., '&quot;:&quot;', ., '&quot;')"/>
                                             </xsl:for-each>
                                             <xsl:text>}}</xsl:text>
                                         </xsl:attribute>
-                                        Archiv
+                                        Aufbewahrungsort
                                     </th>
                                     <th scope="col" tabulator-field="signatur" tabulator-headerFilter="input" >Signatur</th>
                                     <th
                                         scope="col"
-                                        tabulator-field="text"
+                                        tabulator-field="transkription"
                                         tabulator-formatter="tickCross"
                                         tabulator-headerFilter="list">
                                         <xsl:attribute name="tabulator-headerFilterParams">
                                             <xsl:text>{"values":{"":"Alle","1":"Ja","0":"Nein"}}</xsl:text>
                                         </xsl:attribute>
-                                        Text
+                                        Transkription
                                     </th>
                                     <th
                                         scope="col"
@@ -193,7 +193,7 @@
                                             <xsl:value-of select="./tei:noteGrp[@type='metadata']/tei:note[@type='main_language']/text()"/>
                                         </td>
                                         <td>
-                                            <xsl:value-of select="./tei:noteGrp[@type='metadata']/tei:note[@type='archiv']/text()"/>
+                                            <xsl:value-of select="./tei:noteGrp[@type='metadata']/tei:note[@type='archiv_abbr']/text()"/>
                                         </td>
                                         <td>
                                             <xsl:value-of select="./tei:noteGrp[@type='metadata']/tei:note[@type='collection']/text()"/>, <xsl:value-of select="./tei:noteGrp[@type='metadata']/tei:note[@type='signatur']/text()"/>
