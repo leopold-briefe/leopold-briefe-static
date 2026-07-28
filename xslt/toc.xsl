@@ -22,7 +22,7 @@
         <xsl:variable name="link" select="'toc.html'"/>
         <xsl:variable name="column_toggle_control_id" as="xs:string" select="'toc-column-toggle'"/>
         <xsl:variable name="initial_visible_columns" as="xs:string*"
-            select="('receiver', 'gesendet', 'ort_von', 'art', 'aufbewahrungsort', 'transkription')"/>
+            select="('receiver', 'gesendet', 'ort_von', 'art', 'aufbewahrungsort', 'transkription', 'bild', 'id')"/>
         <xsl:variable name="boolean-filter">
             <xsl:text>{"values":{"":"All","True":"Yes","False":"No"}}</xsl:text>
         </xsl:variable>
