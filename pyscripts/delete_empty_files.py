@@ -37,6 +37,12 @@ for x in doc.any_xpath(".//tei:correspDesc[@xml:id]"):
 ET.indent(doc.any_xpath(".")[0], space="   ")
 doc.tree_to_file(cmif_file)
 
+with open(cmif_file, "r", encoding="utf-8") as fp:
+    data = fp.read()
+    data = data.replace("False", "0")
+    data = data.replace("True", "1")
+with open(cmif_file, "w", encoding="utf-8") as fp:
+    fp.write(data)
 
 files = glob.glob("./data/editions/*.xml")
 
