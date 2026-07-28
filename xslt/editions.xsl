@@ -105,7 +105,14 @@
                                 </xsl:if>
                             </div>
                         </div>
-                        
+                        <div>
+                        <h2 class="visually-hidden">Archivsignatur</h2>
+                        <p class="text-center small">
+                            <abbr>
+                                <xsl:attribute name="title"><xsl:value-of select=".//tei:msIdentifier/tei:repository"/></xsl:attribute>
+                                <xsl:value-of select=".//tei:msIdentifier/tei:repository/@n"/></abbr>, <xsl:value-of select=".//tei:msIdentifier/tei:collection"/>, <xsl:value-of select=".//tei:msIdentifier/tei:idno"/>
+                        </p>
+                        </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <h2 class="visually-hidden">Faksimile</h2>
@@ -119,10 +126,19 @@
                         <div class="text-center p-4">
                             <xsl:call-template name="blockquote">
                                 <xsl:with-param name="pageId" select="$link"/>
-                                <xsl:with-param name="docTitle"><xsl:value-of select="$doc_title"/>, in: </xsl:with-param>
+                                <xsl:with-param name="docTitle">
+                                    <xsl:choose>
+                                        <xsl:when test=".//tei:resp/text()">
+                                            <xsl:value-of select="$doc_title"/>, <xsl:value-of select=".//tei:resp/text()"/>, in: 
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                            <xsl:value-of select="$doc_title"/>, in:
+                                        </xsl:otherwise>
+                                    </xsl:choose>
+                                    </xsl:with-param>
                             </xsl:call-template>
                         </div>
-                    </div>
+                        </div>
                     <xsl:for-each select="//tei:back">
                         <div class="tei-back">
                             <xsl:apply-templates/>

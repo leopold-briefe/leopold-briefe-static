@@ -3,36 +3,19 @@
 * data is fetched from <https://github.com/loepold-briefe/leopold-briefe-data>
 * build with [DSE-Static-Cookiecutter](https://github.com/acdh-oeaw/dse-static-cookiecutter)
 
-## initial (one time) setup
+## development
 
-* run `./fetch_data.sh`
-* run `ant`
+You need JAVA, ANT and Python (via [uv](https://docs.astral.sh/uv/))
 
-> [!NOTE]
-> The `build.xml` triggered by the `ant` command presumes the following folder-file structure in the data repo:
->
-> ```
-> data/
-> ├── editions/
-> │   ├── *.xml
-> │   ├── *.xml
-> │   └── *.xml
-> ├── indices/
-> │   ├── listbibl.xml
-> │   ├── listorg.xml
-> │   ├── listperson.xml
-> │   └── listplace.xml
-> └── meta/
->     └── about.xml
-> ```
->
-> Otherwise, modify the relevant lines of the `build.xml`.
+```bash
+git clone https://github.com/leopold-briefe/leopold-briefe-static.git
+cd leopold-briefe-static
+./shellscripts/fetch_data.sh
+./shellscripts/process_data.sh
+ant
+```
 
-## set up GitHub repo
-
-* create a public, new, and empty (without README, .gitignore, license) GitHub repo <https://github.com/loepold-briefe/leopold-briefe-static>
-* run `git init` in the root folder of your application leopold-briefe-static
-* execute the commands described under `…or push an existing repository from the command line` in your new created GitHub repo <https://github.com/loepold-briefe/leopold-briefe-static>
+But to be on the save side, always have a look at [.github/workflows/build.yml](.github/workflows/build.yml)
 
 ## start dev server
 
@@ -48,11 +31,6 @@
 ## Python scripting
 
 The project uses [uv](https://docs.astral.sh/uv/), as Python package and project manager.
-
-## dockerize your application
-
-* To build the image run: `docker build -f docker/Dockerfile -t leopold-briefe-static .`
-* To run the container: `docker run -p 80:80 --rm --name leopold-briefe-static leopold-briefe-static`
 
 ## Licenses
 
