@@ -11,7 +11,7 @@
 > [!NOTE]
 > The `build.xml` triggered by the `ant` command presumes the following folder-file structure in the data repo:
 >
-> ```
+> ```bash
 > data/
 > ├── editions/
 > │   ├── *.xml
