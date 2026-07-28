@@ -49,7 +49,7 @@ files = glob.glob("./data/editions/*.xml")
 for x in files:
     try:
         TeiReader(x)
-    except Exception as e:
+    except Exception as e:  # noqa
         print(f"failed to parse {x} due to {e}")
         os.remove(x)
     filename = os.path.split(x)[-1]
