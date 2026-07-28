@@ -134,6 +134,26 @@
                                         </xsl:attribute>
                                         Bild
                                     </th>
+                                    <th
+                                        scope="col"
+                                        tabulator-field="regest"
+                                        tabulator-formatter="tickCross"
+                                        tabulator-headerFilter="list">
+                                        <xsl:attribute name="tabulator-headerFilterParams">
+                                            <xsl:text>{"values":{"":"Alle","1":"Ja","0":"Nein"}}</xsl:text>
+                                        </xsl:attribute>
+                                        Regest
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        tabulator-field="entities"
+                                        tabulator-formatter="tickCross"
+                                        tabulator-headerFilter="list">
+                                        <xsl:attribute name="tabulator-headerFilterParams">
+                                            <xsl:text>{"values":{"":"Alle","1":"Ja","0":"Nein"}}</xsl:text>
+                                        </xsl:attribute>
+                                        Entitäten
+                                    </th>
                                     <th scope="col" tabulator-field="id" tabulator-headerFilter="input">ID</th>
                                 </tr>
                             </thead>
@@ -203,6 +223,12 @@
                                         </td>
                                         <td>                                           
                                             <xsl:value-of select="./tei:noteGrp[@type='metadata']/tei:note[@type='images_on_share']/text()"/>
+                                        </td>
+                                        <td>                                           
+                                            <xsl:value-of select="./tei:noteGrp[@type='metadata']/tei:note[@type='regest']/text()"/>
+                                        </td>
+                                        <td>                                           
+                                            <xsl:value-of select="./tei:noteGrp[@type='metadata']/tei:note[@type='entities']/text()"/>
                                         </td>
                                         <td>
                                             <xsl:value-of select="$docId"/>
