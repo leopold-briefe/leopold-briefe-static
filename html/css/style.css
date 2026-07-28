@@ -408,3 +408,7 @@ footer a {
 .tei-del-superscript {
   vertical-align: super;
 }
+
+.tei-dotted-underline {
+  text-decoration: dotted underline;
+}

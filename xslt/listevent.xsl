@@ -19,7 +19,7 @@
 
     <xsl:template match="/">
         <xsl:variable name="doc_title">
-            <xsl:value-of select=".//tei:titleStmt/tei:title[1]/text()"/>
+            <xsl:value-of select="'Briefverzeichnis II (verzeichnete Briefe)'"/>
         </xsl:variable>
         <xsl:variable name="link" select="'listevent.html'"/>
         <html class="h-100" lang="{$default_lang}">
@@ -51,57 +51,46 @@
                     </nav>
                     <div class="container">
                         <h1 class="display-5 text-center"><xsl:value-of select="$doc_title"/></h1>
-                        <div class="text-center p-1"><span id="counter1"></span> von <span id="counter2"></span> einträgen</div>
-
-                        <table id="myTable">
-                            <thead>
-                                <tr>
-                                    <th scope="col" tabulator-field="sorting" tabulator-headerFilter="input" tabulator-formatter="html" tabulator-download="false" tabulator-width="120">Datum</th>
-                                    <th scope="col" tabulator-headerFilter="input" tabulator-minWidth="280" tabulator-formatter="html">Text</th>
-                                    <th scope="col" tabulator-headerFilter="input" tabulator-minWidth="280" tabulator-formatter="html">Orte</th>
-                                    <th scope="col" tabulator-headerFilter="input" tabulator-visible="false">ID</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <xsl:for-each select=".//tei:listEvent[@xml:id='letters']/tei:event[@xml:id]">
-                                    <xsl:variable name="id">
-                                        <xsl:value-of select="data(@xml:id)"/>
-                                    </xsl:variable>
-                                    <tr>
-                                        <td>
-                                            <xsl:value-of select="./tei:label/text()"/>
-                                        </td>
-                                        <td>
-                                            <xsl:apply-templates select="./tei:desc"/>
-                                        </td>
-                                        <td>
-                                            <xsl:for-each select=".//tei:placeName">
-                                                <a href="{@key}.html">
-                                                    <xsl:value-of select="./text()"/>
-                                                </a><xsl:if test="position() != last()">
-                                                    <xsl:text>, </xsl:text>
-                                                </xsl:if>
-                                            </xsl:for-each>
-                                        </td>
-                                        <td>
-                                            <xsl:value-of select="$id"/>
-                                        </td>
-                                    </tr>
-                                </xsl:for-each>
-                            </tbody>
-                        </table>
-                        <xsl:call-template name="tabulator_dl_buttons"/>
+                        <h2>Infor zur Quelle</h2>
+                        <p class="lead p-3">Hier ein kurzer Absatz über die Quelle</p>
+                        <h2>Transkription</h2>
+                        <div>
+                            <xsl:for-each select=".//tei:event[not(./tei:label/text() eq 'None')]">
+                                <details>
+                                    <summary>
+                                        <xsl:if test=".//tei:bibl[@key]">
+                                            <xsl:attribute name="class">tei-dotted-underline</xsl:attribute>
+                                        </xsl:if>
+                                        <small>[<xsl:value-of select="./tei:label"/>]</small><xsl:text> </xsl:text><xsl:apply-templates select="./tei:desc"></xsl:apply-templates>
+                                    </summary>
+                                    <ul>
+                                    <xsl:for-each select=".//tei:bibl">
+                                        <li>
+                                            <xsl:choose>
+                                                <xsl:when test="@key">
+                                                    <a href="{concat(@key, '.html')}"><xsl:apply-templates select="./tei:title"></xsl:apply-templates></a>
+                                                </xsl:when>
+                                                <xsl:otherwise>
+                                                    <xsl:apply-templates select="./tei:title"></xsl:apply-templates>
+                                                </xsl:otherwise>
+                                            </xsl:choose>
+                                        </li>
+                                    </xsl:for-each>
+                                    </ul>
+                                </details>
+                            </xsl:for-each>
+                        </div>
+                        
                         <div class="text-center p-4">
                             <xsl:call-template name="blockquote">
+                                <xsl:with-param name="docTitle" select="concat($doc_title, ', in: ')"></xsl:with-param>
                                 <xsl:with-param name="pageId" select="'letter-calendar.html'"/>
                             </xsl:call-template>
                         </div>
                     </div>
                 </main>
                 <xsl:call-template name="html_footer"/>
-                <xsl:call-template name="tabulator_js">
-                    <xsl:with-param name="clickme" select="false()"></xsl:with-param>
-                </xsl:call-template>
+                
             </body>
         </html>
     </xsl:template>
