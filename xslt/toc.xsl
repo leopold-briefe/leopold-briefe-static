@@ -82,13 +82,24 @@
                                     <th scope="col" tabulator-field="ort_nach" tabulator-headerFilter="list">
                                         <xsl:attribute name="tabulator-headerFilterParams">
                                             <xsl:text>{"values":{"":"Alle"</xsl:text>
-                                            <xsl:for-each select="sort(distinct-values(.//tei:correspAction[@type='received']/tei:placeName[@key]/text()))">
+                                            <xsl:for-each select="sort(distinct-values(.//tei:correspAction[@type='received']/tei:placeName[@key and @type='received_place']/text()))">
                                                 <xsl:text>,</xsl:text>
                                                 <xsl:value-of select="concat('&quot;', ., '&quot;:&quot;', ., '&quot;')"/>
                                             </xsl:for-each>
                                             <xsl:text>}}</xsl:text>
                                         </xsl:attribute>
                                         Empfangsort
+                                    </th>
+                                    <th scope="col" tabulator-field="address" tabulator-headerFilter="list">
+                                        <xsl:attribute name="tabulator-headerFilterParams">
+                                            <xsl:text>{"values":{"":"Alle"</xsl:text>
+                                            <xsl:for-each select="sort(distinct-values(.//tei:correspAction[@type='received']/tei:placeName[@key and @type='destination']/text()))">
+                                                <xsl:text>,</xsl:text>
+                                                <xsl:value-of select="concat('&quot;', ., '&quot;:&quot;', ., '&quot;')"/>
+                                            </xsl:for-each>
+                                            <xsl:text>}}</xsl:text>
+                                        </xsl:attribute>
+                                        Adressort
                                     </th>
                                     <th scope="col" tabulator-field="art" tabulator-headerFilter="list">
                                         <xsl:attribute name="tabulator-headerFilterParams">
@@ -204,7 +215,10 @@
                                             <xsl:value-of select="./tei:correspAction[@type='sent']//tei:placeName[1]/text()"/>
                                         </td>
                                         <td>
-                                            <xsl:value-of select="./tei:correspAction[@type='received']//tei:placeName[1]/text()"/>
+                                            <xsl:value-of select="./tei:correspAction[@type='received']//tei:placeName[@type='received_place']/text()"/>
+                                        </td>
+                                        <td>
+                                            <xsl:value-of select="./tei:correspAction[@type='received']//tei:placeName[@type='destination']/text()"/>
                                         </td>
                                         <td>
                                             <xsl:value-of select="./tei:noteGrp[@type='metadata']/tei:note[@type='kind']/text()"/>
