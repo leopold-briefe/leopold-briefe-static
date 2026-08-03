@@ -34,7 +34,7 @@
                 </xsl:call-template>
             </head>
             
-            <body class="d-flex flex-column h-100">
+            <body class="d-flex flex-column h-100" data-bs-spy="scroll" data-bs-target="#toc" data-bs-smooth-scroll="true" data-bs-offset="120">
                 <xsl:call-template name="nav_bar"/>
                 <main class="flex-shrink-0 flex-grow-1">
                     <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" class="ps-5 p-3">
@@ -51,34 +51,57 @@
                     </nav>
                     <div class="container">
                         <h1 class="display-5 text-center"><xsl:value-of select="$doc_title"/></h1>
-                        <h2>Infor zur Quelle</h2>
-                        <p class="lead p-3">Hier ein kurzer Absatz über die Quelle</p>
-                        <h2>Transkription</h2>
-                        <div>
-                            <xsl:for-each select=".//tei:event[not(./tei:label/text() eq 'None')]">
-                                <details>
-                                    <summary>
-                                        <xsl:if test=".//tei:bibl[@key]">
-                                            <xsl:attribute name="class">tei-dotted-underline</xsl:attribute>
-                                        </xsl:if>
-                                        <small>[<xsl:value-of select="./tei:label"/>]</small><xsl:text> </xsl:text><xsl:apply-templates select="./tei:desc"></xsl:apply-templates>
-                                    </summary>
-                                    <ul>
-                                    <xsl:for-each select=".//tei:bibl">
-                                        <li>
-                                            <xsl:choose>
-                                                <xsl:when test="@key">
-                                                    <a href="{concat(@key, '.html')}"><xsl:apply-templates select="./tei:title"></xsl:apply-templates></a>
-                                                </xsl:when>
-                                                <xsl:otherwise>
-                                                    <xsl:apply-templates select="./tei:title"></xsl:apply-templates>
-                                                </xsl:otherwise>
-                                            </xsl:choose>
-                                        </li>
-                                    </xsl:for-each>
-                                    </ul>
-                                </details>
-                            </xsl:for-each>
+                        <div class="row g-4 listevent-layout">
+                            <aside class="col-12 col-xl-3 order-1 order-xl-2">
+                                <nav id="toc" class="listevent-toc nav" aria-label="Inhaltsverzeichnis Jahre">
+                                    <xsl:for-each-group select=".//tei:event[not(./tei:label/text() eq 'None')]" group-by="substring(tei:label, 1, 4)">
+                                        <xsl:sort select="current-grouping-key()" data-type="number"/>
+                                        <a class="nav-link" href="#{concat('cal-year-', current-grouping-key())}"><xsl:value-of select="current-grouping-key()"/></a>
+                                    </xsl:for-each-group>
+                                </nav>
+                            </aside>
+
+                            <div class="col-12 col-xl-9 order-2 order-xl-1">
+                                <h2 class="text-center p-2">Über die Quelle</h2>
+                                <p class="lead p-3">Hier ein kurzer Absatz über die Quelle</p>
+                                <h2 class="visually-hidden">Transkription</h2>
+                                <div>
+                                    <xsl:for-each-group select=".//tei:event[not(./tei:label/text() eq 'None')]" group-by="substring(tei:label, 1, 4)">
+                                        <xsl:sort select="current-grouping-key()" data-type="number"/>
+                                        <h3 class="text-center pt-4 listevent-year" id="{concat('cal-year-', current-grouping-key())}">
+                                            <xsl:value-of select="current-grouping-key()"/>
+                                            <xsl:text> (</xsl:text>
+                                            <xsl:value-of select="count(current-group())"/>
+                                            <xsl:text> Einträge)</xsl:text>
+                                        </h3>
+                                        <xsl:for-each select="current-group()">
+                                            <xsl:sort select="tei:label"/>
+                                            <details id="{@xml:id}">
+                                                <summary>
+                                                    <xsl:if test=".//tei:bibl[@key]">
+                                                        <xsl:attribute name="class">tei-dotted-underline</xsl:attribute>
+                                                    </xsl:if>
+                                                    <small>[<xsl:value-of select="./tei:label"/>]</small><xsl:text> </xsl:text><xsl:apply-templates select="./tei:desc"></xsl:apply-templates>
+                                                </summary>
+                                                <ul>
+                                                <xsl:for-each select=".//tei:bibl">
+                                                    <li>
+                                                        <xsl:choose>
+                                                            <xsl:when test="@key">
+                                                                <a href="{concat(@key, '.html')}"><xsl:apply-templates select="./tei:title"></xsl:apply-templates></a>
+                                                            </xsl:when>
+                                                            <xsl:otherwise>
+                                                                <xsl:apply-templates select="./tei:title"></xsl:apply-templates>
+                                                            </xsl:otherwise>
+                                                        </xsl:choose>
+                                                    </li>
+                                                </xsl:for-each>
+                                                </ul>
+                                            </details>
+                                        </xsl:for-each>
+                                    </xsl:for-each-group>
+                                </div>
+                            </div>
                         </div>
                         
                         <div class="text-center p-4">
@@ -90,6 +113,14 @@
                     </div>
                 </main>
                 <xsl:call-template name="html_footer"/>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                    bootstrap.ScrollSpy.getOrCreateInstance(document.body, {
+                    target: '#toc',
+                    offset: 120
+                    });
+                    });
+                </script>
                 
             </body>
         </html>
