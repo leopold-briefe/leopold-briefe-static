@@ -3,6 +3,32 @@ revision = 3
 requires-python = ">=3.12"
 
 [[package]]
+name = "acdh-arche-assets"
+version = "3.32.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "importlib-resources" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/96/7e/9ced8dfa176e01a0b3a6e0e38d1147a0f319d13a742f554dd01e70b1224f/acdh_arche_assets-3.32.0.tar.gz", hash = "sha256:4c40e1ae69d0f7833c7d00a7e2a51b1c4f2376edd491a7ecc3c3e2852efdf0e7", size = 11405, upload-time = "2026-07-21T13:23:00.975Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/53/d5/a54f48cbe7e2bc9fa49e0e1b1f55628fe6bd8321c257a65b287022929f0f/acdh_arche_assets-3.32.0-py3-none-any.whl", hash = "sha256:f8a79447b8aa3099d7de5a5d62dbad6be932a312300bcb26ad21004d7817e32b", size = 12866, upload-time = "2026-07-21T13:22:59.997Z" },
+]
+
+[[package]]
+name = "acdh-cidoc-pyutils"
+version = "1.12.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "acdh-arche-assets" },
+    { name = "acdh-tei-pyutils" },
+    { name = "rdflib" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/28/4f/53d0471448957680a67cfb8b065f9df587a592d0ae63aad368b55ecc550f/acdh_cidoc_pyutils-1.12.1.tar.gz", hash = "sha256:1e2cee4f338880326a3b09761cc3d86be28db1169eca9b4cfbd2f89961d48c71", size = 68044, upload-time = "2026-01-26T18:15:06.9Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/a2/4f/abc1c8f7c9c4d66220691fc09ddc9e65cb7e19aa7963f1048dda1e293a6f/acdh_cidoc_pyutils-1.12.1-py3-none-any.whl", hash = "sha256:13a6b817937ed4c925e0d51280e79d70aa3ae1fc9f9a025c91241270816624a2", size = 14563, upload-time = "2026-01-26T18:15:08.522Z" },
+]
+
+[[package]]
 name = "acdh-tei-pyutils"
 version = "2.3.0"
 source = { registry = "https://pypi.org/simple" }
@@ -193,6 +219,15 @@ wheels = [
 ]
 
 [[package]]
+name = "importlib-resources"
+version = "6.5.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/cf/8c/f834fbf984f691b4f7ff60f50b514cc3de5cc08abfc3295564dd89c5e2e7/importlib_resources-6.5.2.tar.gz", hash = "sha256:185f87adef5bcc288449d98fb4fba07cea78bc036455dd44c5fc4a2fe78fed2c", size = 44693, upload-time = "2025-01-03T18:51:56.698Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/a4/ed/1f1afb2e9e7f38a545d628f864d562a5ae64fe6f7a10e28ffb9b185b4e89/importlib_resources-6.5.2-py3-none-any.whl", hash = "sha256:789cfdc3ed28c78b67a06acb8126751ced69a3d5f79c095a98298cd8a760ccec", size = 37461, upload-time = "2025-01-03T18:51:54.306Z" },
+]
+
+[[package]]
 name = "jinja2"
 version = "3.1.6"
 source = { registry = "https://pypi.org/simple" }
@@ -209,6 +244,7 @@ name = "leopold-briefe-static"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "acdh-cidoc-pyutils" },
     { name = "acdh-tei-pyutils" },
     { name = "jinja2" },
     { name = "typesense" },
@@ -216,6 +252,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
+    { name = "acdh-cidoc-pyutils", specifier = ">=1.12.1" },
     { name = "acdh-tei-pyutils", specifier = ">=2.3.0" },
     { name = "jinja2", specifier = ">=3.1.6" },
     { name = "typesense", specifier = ">=1.3.0" },
@@ -365,6 +402,15 @@ wheels = [
 ]
 
 [[package]]
+name = "pyparsing"
+version = "3.3.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/f3/91/9c6ee907786a473bf81c5f53cf703ba0957b23ab84c264080fb5a450416f/pyparsing-3.3.2.tar.gz", hash = "sha256:c777f4d763f140633dcb6d8a3eda953bf7a214dc4eff598413c070bcdc117cbc", size = 6851574, upload-time = "2026-01-21T03:57:59.36Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/10/bd/c038d7cc38edc1aa5bf91ab8068b63d4308c66c4c8bb3cbba7dfbc049f9c/pyparsing-3.3.2-py3-none-any.whl", hash = "sha256:850ba148bd908d7e2411587e247a1e4f0327839c40e2e5e6d05a007ecc69911d", size = 122781, upload-time = "2026-01-21T03:57:55.912Z" },
+]
+
+[[package]]
 name = "python-slugify"
 version = "8.0.4"
 source = { registry = "https://pypi.org/simple" }
@@ -374,6 +420,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/87/c7/5e1547c44e31da50a460df93af11a535ace568ef89d7a811069ead340c4a/python-slugify-8.0.4.tar.gz", hash = "sha256:59202371d1d05b54a9e7720c5e038f928f45daaffe41dd10822f3907b937c856", size = 10921, upload-time = "2024-02-08T18:32:45.488Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/a4/62/02da182e544a51a5c3ccf4b03ab79df279f9c60c5e82d5e8bec7ca26ac11/python_slugify-8.0.4-py2.py3-none-any.whl", hash = "sha256:276540b79961052b66b7d116620b36518847f52d5fd9e3a70164fc8c50faa6b8", size = 10051, upload-time = "2024-02-08T18:32:43.911Z" },
+]
+
+[[package]]
+name = "rdflib"
+version = "7.6.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pyparsing" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/98/f5/18bb77b7af9526add0c727a3b2048959847dc5fb030913e2918bf384fec3/rdflib-7.6.0.tar.gz", hash = "sha256:6c831288d5e4a5a7ece85d0ccde9877d512a3d0f02d7c06455d00d6d0ea379df", size = 4943826, upload-time = "2026-02-13T07:15:55.938Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/10/c2/6604a71269e0c1bd75656d5a001432d16f2cc5b8c057140ec797155c295e/rdflib-7.6.0-py3-none-any.whl", hash = "sha256:30c0a3ebf4c0e09215f066be7246794b6492e054e782d7ac2a34c9f70a15e0dd", size = 615416, upload-time = "2026-02-13T07:15:46.487Z" },
 ]
 
 [[package]]
