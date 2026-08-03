@@ -54,6 +54,8 @@
                         <div class="row g-4 listevent-layout">
                             <aside class="col-12 col-xl-3 order-1 order-xl-2">
                                 <nav id="toc" class="listevent-toc nav" aria-label="Inhaltsverzeichnis Jahre">
+                                    <a class="nav-link" href="#about-the-source">Über die Quelle</a>
+                                    <a class="nav-link" href="#transcription">Transkription</a>
                                     <xsl:for-each-group select=".//tei:event[not(./tei:label/text() eq 'None')]" group-by="substring(tei:label, 1, 4)">
                                         <xsl:sort select="current-grouping-key()" data-type="number"/>
                                         <a class="nav-link" href="#{concat('cal-year-', current-grouping-key())}"><xsl:value-of select="current-grouping-key()"/></a>
@@ -62,9 +64,9 @@
                             </aside>
 
                             <div class="col-12 col-xl-9 order-2 order-xl-1">
-                                <h2 class="text-center p-2">Über die Quelle</h2>
+                                <h2 class="text-center p-2" id="about-the-source">Über die Quelle</h2>
                                 <p class="lead p-3">Hier ein kurzer Absatz über die Quelle</p>
-                                <h2 class="visually-hidden">Transkription</h2>
+                                <h2 class="visually-hidden" id="transcription">Transkription</h2>
                                 <div>
                                     <xsl:for-each-group select=".//tei:event[not(./tei:label/text() eq 'None')]" group-by="substring(tei:label, 1, 4)">
                                         <xsl:sort select="current-grouping-key()" data-type="number"/>
