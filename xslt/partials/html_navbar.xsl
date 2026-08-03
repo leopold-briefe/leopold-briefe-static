@@ -27,19 +27,22 @@
                                 </ul>
                             </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link" href="toc.html">Briefverzeichnis</a>
-                            </li>
-                            
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Briefkalender</a>
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Briefverzeichnisse</a>
                                 <ul class="dropdown-menu">
                                     <li>
                                         <a class="dropdown-item disabled" href="toc.html">Kalendarische Darstellung</a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="listevent.html">Tabellarische Darstellung</a>
+                                        <a class="dropdown-item" href="toc.html">Überlieferte Briefe</a>
                                     </li>
+                                    <li>
+                                        <a class="dropdown-item" href="mentioned-letters.html">Erwähnte (verzeichnete) Briefe</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="listevent.html">Briefkalender (Transkription)</a>
+                                    </li>
+                                    
                                 </ul>
                             </li>
 

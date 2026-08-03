@@ -18,7 +18,7 @@
 
 
     <xsl:template match="/">
-        <xsl:variable name="doc_title" select="'Briefverzeichnis'"/>
+        <xsl:variable name="doc_title" select="'Überlieferte Briefe'"/>
         <xsl:variable name="link" select="'toc.html'"/>
         <xsl:variable name="column_toggle_control_id" as="xs:string" select="'toc-column-toggle'"/>
         <xsl:variable name="initial_visible_columns" as="xs:string*"
