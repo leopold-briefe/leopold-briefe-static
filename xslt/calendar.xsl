@@ -20,6 +20,7 @@
                     <xsl:with-param name="html_title" select="$doc_title"/>
                 </xsl:call-template>
                 <link rel="stylesheet" href="vendor/calendar-component/calendar.css"/>
+                <link rel="stylesheet" href="css/calendar.css"/>
             </head>
 
             <body class="d-flex flex-column h-100">
@@ -53,7 +54,7 @@
                                 <label>
                                     <span>Jahr</span>
                                     <!-- To disallow selecting years without events, use `data-variant="sparse"`. -->
-                                    <acdh-ch-calendar-year-picker></acdh-ch-calendar-year-picker>
+                                    <acdh-ch-calendar-year-picker data-variant="sparse"></acdh-ch-calendar-year-picker>
                                 </label>
                                 <acdh-ch-calendar-year></acdh-ch-calendar-year>
                             </acdh-ch-calendar>
