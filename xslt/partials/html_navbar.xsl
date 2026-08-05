@@ -31,7 +31,7 @@
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Briefverzeichnisse</a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a class="dropdown-item disabled" href="toc.html">Kalendarische Darstellung</a>
+                                        <a class="dropdown-item" href="calendar.html">Kalendarische Darstellung</a>
                                     </li>
                                     <li>
                                         <a class="dropdown-item" href="toc.html">Überlieferte Briefe</a>

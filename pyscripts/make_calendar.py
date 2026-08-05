@@ -1,12 +1,18 @@
+import json
 import os
 
 from acdh_cidoc_pyutils import extract_begin_end
 from acdh_tei_pyutils.tei import TeiReader
 from acdh_tei_pyutils.utils import any_xpath, get_xmlid
 
+print("Collection data for calendar")
+
 files = ["listletter.xml", "mentioned-letters.xml"]
 
 files = [os.path.join("data", "indices", x) for x in files]
+
+json_data_dir = os.path.join("html", "js-data")
+os.makedirs(json_data_dir, exist_ok=True)
 
 
 items = []
@@ -32,4 +38,8 @@ for x in files:
         item["date"] = item["not_before"]
         items.append(item)
 
-print(items)
+save_path = os.path.join(json_data_dir, "calendarData.json")
+with open(save_path, "w", encoding="utf-8") as fp:
+    json.dump(items, fp, ensure_ascii=False)
+
+print(f"saving {len(items)} event data points to {save_path}")
