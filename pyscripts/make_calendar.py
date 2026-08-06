@@ -32,6 +32,7 @@ for x in files:
         except IndexError:
             pass
         item["link"] = link_to_letter
+        item["label"] = y.attrib["n"]
         item["kind"] = kind
         date_node = any_xpath(y, ".//tei:date")[0]
         item["not_before"], item["not_after"] = extract_begin_end(date_node)
