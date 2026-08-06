@@ -47,6 +47,10 @@ acdh-ch-calendar-year-picker div[role="radiogroup"]>label {
     line-height: 2rem;
 }
 
+acdh-ch-calendar-year-picker div[role="radiogroup"]>label:has(input[disabled]) {
+    display: none;
+}
+
 
 :where(acdh-ch-calendar-year td > button[data-event-kinds])::after {
     border-radius: 50%;
