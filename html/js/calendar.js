@@ -110,12 +110,19 @@ function renderEventDetails(events) {
 
 function onEventClick(event) {
     const { date, events } = event.detail;
+    const formattedDate = new Intl.DateTimeFormat("de-DE", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+    }).format(date);
     const modalElement = ensureEventModal();
     const title = modalElement.querySelector(".modal-title");
     const body = modalElement.querySelector(".modal-body");
 
     if (title != null) {
-        title.textContent = `${date} mit ${events.length} Ereignissen`;
+        const eventLabel = events.length > 1 ? "Ereignissen" : "Ereignis";
+        title.textContent = `${formattedDate} mit ${events.length} ${eventLabel}`;
     }
 
     if (body != null) {
