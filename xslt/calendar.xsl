@@ -76,13 +76,6 @@
                                 </div>
                                 <div class="calendar-container text-center">
                                     <acdh-ch-calendar-year data-variant="sparse"/>
-                                    <div class="mt-4">
-                                        <span>Korrespondenz des Jahres herunterladen: </span>
-                                        <button type="button" id="year-pdf-download-btn" class="btn btn-link me-2">
-                                            <i class="bi bi-filetype-pdf me-1"></i>
-                                            <span>PDF</span>
-                                        </button>
-                                    </div>
                                 </div>
                                 
                             </acdh-ch-calendar>
