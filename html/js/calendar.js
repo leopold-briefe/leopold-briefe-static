@@ -31,20 +31,21 @@ function escapeHtml(value) {
         .replaceAll("'", "&#39;");
 }
 
-function formatEventValue(value) {
-    if (value === null) {
-        return "null";
+function normalizeEventLabel(value) {
+    return String(value)
+        .replace(/^Leopold I\.\s+/u, "")
+        .replace(/\s+am\s+\d{4}-\d{2}-\d{2}/u, "")
+        .trim();
+}
+
+function renderEventLabel(calendarEvent) {
+    const label = escapeHtml(normalizeEventLabel(calendarEvent.label ?? ""));
+    if (calendarEvent.link === true && typeof calendarEvent.id === "string") {
+        const href = `${encodeURIComponent(calendarEvent.id)}.html`;
+        return `<a href="${href}">${label}</a>`;
     }
 
-    if (value instanceof Date) {
-        return value.toISOString();
-    }
-
-    if (Array.isArray(value) || typeof value === "object") {
-        return JSON.stringify(value, null, 2);
-    }
-
-    return String(value);
+    return label;
 }
 
 function ensureEventModal() {
@@ -76,36 +77,29 @@ function ensureEventModal() {
 }
 
 function renderEventDetails(events) {
-    if (events.length === 0) {
-        return "<p class=\"mb-0\">Keine Ereignisse gefunden.</p>";
-    }
 
-    return events
-        .map((calendarEvent, index) => {
-            const entries = Object.entries(calendarEvent);
-            const props = entries
-                .map(([key, value]) => {
-                    return `
-                        <tr>
-                            <th class="w-25 text-nowrap" scope="row">${escapeHtml(key)}</th>
-                            <td><pre class="mb-0">${escapeHtml(formatEventValue(value))}</pre></td>
-                        </tr>
-                    `;
-                })
-                .join("");
-
-            return `
-                <section class="mb-4">
-                    <h2 class="h6">Ereignis ${index + 1}</h2>
-                    <div class="table-responsive">
-                        <table class="table table-sm align-middle mb-0">
-                            <tbody>${props}</tbody>
-                        </table>
-                    </div>
-                </section>
-            `;
-        })
+    const labelItems = events
+        .map((calendarEvent) => `<li>${renderEventLabel(calendarEvent)}</li>`)
         .join("");
+
+    const distinctDescriptions = [...new Set(
+        events
+            .map((calendarEvent) => calendarEvent.description)
+            .filter((description) => typeof description === "string" && description.trim() !== ""),
+    )];
+
+    const descriptionText = distinctDescriptions.length > 0
+        ? distinctDescriptions.map((description) => escapeHtml(description)).join(" | ")
+        : false;
+    const descriptionParagraph = descriptionText !== false
+        ? `<p class="lead">${descriptionText}</p>`
+        : "";
+
+    return `
+        ${descriptionParagraph}
+        <ul>${labelItems}</ul>
+        
+    `;
 }
 
 function onEventClick(event) {
@@ -121,8 +115,7 @@ function onEventClick(event) {
     const body = modalElement.querySelector(".modal-body");
 
     if (title != null) {
-        const eventLabel = events.length > 1 ? "Ereignissen" : "Ereignis";
-        title.textContent = `${formattedDate} mit ${events.length} ${eventLabel}`;
+        title.textContent = `${formattedDate}`;
     }
 
     if (body != null) {

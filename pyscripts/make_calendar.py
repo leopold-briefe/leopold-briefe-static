@@ -3,9 +3,20 @@ import os
 
 from acdh_cidoc_pyutils import extract_begin_end
 from acdh_tei_pyutils.tei import TeiReader
-from acdh_tei_pyutils.utils import any_xpath, get_xmlid
+from acdh_tei_pyutils.utils import any_xpath, extract_fulltext_with_spacing, get_xmlid
 
 print("Collection data for calendar")
+
+
+list_event_xml = os.path.join("data", "indices", "listevent.xml")
+doc = TeiReader(list_event_xml)
+
+events = {}
+for x in doc.any_xpath(".//tei:event[@xml:id]"):
+    date = any_xpath(x, "./tei:label")[0].text
+    desc = extract_fulltext_with_spacing(any_xpath(x, "./tei:desc")[0])
+    if desc is not None:
+        events[date] = desc
 
 files = ["listletter.xml", "mentioned-letters.xml"]
 
@@ -40,7 +51,12 @@ for x in files:
             continue
         item["not_before"], item["not_after"] = extract_begin_end(date_node)
         item["date"] = item["not_before"]
+        try:
+            item["description"] = events[item["date"]]
+        except KeyError:
+            item["description"] = False
         items.append(item)
+
 
 save_path = os.path.join(json_data_dir, "calendarData.json")
 with open(save_path, "w", encoding="utf-8") as fp:

@@ -98,7 +98,7 @@ acdh-ch-calendar-year td>button[data-event-kinds="mentioned_letter_emt"]::after 
 
 
 .mehrere_briefe {
-    background-color: var(--mehrere_briefe)
+    background-color: var(--dse-base-color)
 }
 
 
