@@ -4,7 +4,7 @@
     exclude-result-prefixes="xs"
     version="2.0">
     <xsl:template name="tabulator_dl_buttons">
-        <h4>Download Table</h4>
+        <h2 class="fs-4">Download Table</h2>
         <div class="button-group">
             <button type="button" class="btn btn-outline-secondary" id="download-csv" title="Download CSV">
                 <i class="bi bi-filetype-csv"></i>

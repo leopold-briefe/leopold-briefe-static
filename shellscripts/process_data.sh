@@ -5,3 +5,4 @@ uv run add-attributes -g "data/indices/*.xml" -b "https://leopold-briefe.acdh.oe
 
 uv run denormalize-indices -f "./data/editions/*.xml" -i "./data/indices/*.xml"  -m ".//*[@ref]/@ref" -x ".//tei:title[@type='main']/text()"
 uv run pyscripts/rm_notegroups.py
+uv run pyscripts/make_calendar.py

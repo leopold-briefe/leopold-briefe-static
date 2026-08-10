@@ -1,0 +1,147 @@
+:root {
+    --erfasst: #8b0000;
+    --verzeichent: #7a6855;
+    --emt_person_id__18:  #04207c;
+    --emt_person_id__50:  #025802;
+    --mehrere_briefe: #545454;
+}
+
+:where(acdh-ch-calendar) {
+    display: grid;
+    font-size: 1rem;
+    gap: 2rem
+}
+
+acdh-ch-calendar {
+    display: grid;
+    gap: 4rem;
+}
+
+acdh-ch-calendar-year {
+	justify-content: center;
+}
+
+acdh-ch-calendar caption {
+    caption-side: top;
+    text-align: center;
+    color: var(--bs-body-color);
+}
+
+@media (min-width: 40rem) {
+    acdh-ch-calendar {
+        grid-template-columns: 14rem 1fr;
+    }
+}
+
+acdh-ch-calendar>label>span {
+    display: block;
+    font-weight: 600;
+    margin-block-end: 1rem;
+}
+
+acdh-ch-calendar-year-picker div[role="radiogroup"] {
+    gap: 0 2rem;
+}
+
+acdh-ch-calendar-year-picker div[role="radiogroup"]>label {
+    line-height: 2rem;
+}
+
+acdh-ch-calendar-year-picker div[role="radiogroup"]>label:has(input[disabled]) {
+    display: none;
+}
+
+
+:where(acdh-ch-calendar-year td > button[data-event-kinds])::after {
+    border-radius: 50%;
+    z-index: 1;
+}
+
+
+/** When using tailwindcss, explicitly set text and background colors of events. */
+acdh-ch-calendar-year td>* {
+    background-color: var(--calendar-cell-color);
+    color: var(--calendar-cell-color-foreground);
+}
+
+acdh-ch-calendar-year td>button[data-event-kinds] {
+    --calendar-cell-color: #52525b;
+}
+
+acdh-ch-calendar-year td>button[data-event-kinds~="erfasst"] {
+    --calendar-cell-color: var(--erfasst)
+}
+
+acdh-ch-calendar-year td>button[data-event-kinds="verzeichent/erwähnt"] {
+    --calendar-cell-color: var(--verzeichent);
+}
+
+acdh-ch-calendar-year td>button[data-event-kinds="erfasst verzeichent/erwähnt"] {
+    --calendar-cell-color: var(--dse-base-color);
+}
+
+
+acdh-ch-calendar-year td>button[data-event-kinds="mentioned_letter_emt"]::after {
+    background-color: var(--erfasst);
+    color: white;
+}
+
+
+.erfasst {
+    background-color: var(--erfasst)
+}
+
+.verzeichent {
+    background-color: var(--verzeichent)
+}
+
+
+
+.mehrere_briefe {
+    background-color: var(--dse-base-color)
+}
+
+
+/* the legend */
+.calendar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* the select radio group */
+input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+input[type="radio"]:checked+span {
+    outline: 2px solid var(--mehrere_briefe);
+    border-radius: 10%;
+    outline-offset: 2px;
+}
+
+.dot {
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+.legend-item {
+    padding-left: 1em
+}
+
+acdh-ch-calendar-legend li {
+    padding-block: 0.5em;
+    display: flex;
+    align-items: center ;
+}
