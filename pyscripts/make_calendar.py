@@ -34,7 +34,10 @@ for x in files:
         item["link"] = link_to_letter
         item["label"] = y.attrib["n"]
         item["kind"] = kind
-        date_node = any_xpath(y, ".//tei:date")[0]
+        try:
+            date_node = any_xpath(y, ".//tei:date")[0]
+        except IndexError:
+            continue
         item["not_before"], item["not_after"] = extract_begin_end(date_node)
         item["date"] = item["not_before"]
         items.append(item)
