@@ -6,7 +6,7 @@ const EVENT_MODAL_ID = "calendarEventModal";
 register({});
 // register()
 
-let currentYear = 1696;
+let currentYear = 1657;
 function createCalendar(i18n, events, onEventClick) {
     const calendar = document.querySelector("acdh-ch-calendar");
 
