@@ -1,6 +1,6 @@
 :root {
-    --emt_person_id__9: #8b0000;
-    --drittbriefe: #7a6855;
+    --erfasst: #8b0000;
+    --verzeichent: #7a6855;
     --emt_person_id__18:  #04207c;
     --emt_person_id__50:  #025802;
     --mehrere_briefe: #545454;
@@ -68,142 +68,40 @@ acdh-ch-calendar-year td>button[data-event-kinds] {
     --calendar-cell-color: #52525b;
 }
 
-acdh-ch-calendar-year td>button[data-event-kinds~="emt_person_id__9.html"] {
-    --calendar-cell-color: var(--emt_person_id__9)
+acdh-ch-calendar-year td>button[data-event-kinds~="erfasst"] {
+    --calendar-cell-color: var(--erfasst)
 }
 
-acdh-ch-calendar-year td>button[data-event-kinds="drittbriefe"] {
-    --calendar-cell-color: var(--drittbriefe);
+acdh-ch-calendar-year td>button[data-event-kinds="verzeichent/erwähnt"] {
+    --calendar-cell-color: var(--verzeichent);
 }
 
-acdh-ch-calendar-year td>button[data-event-kinds="emt_person_id__18.html"] {
-    --calendar-cell-color: var(--emt_person_id__18);
+acdh-ch-calendar-year td>button[data-event-kinds="erfasst verzeichent/erwähnt"] {
+    --calendar-cell-color: var(--dse-base-color);
 }
 
-acdh-ch-calendar-year td>button[data-event-kinds="emt_person_id__50.html"] {
-    --calendar-cell-color: var(--emt_person_id__50);
-}
-
-acdh-ch-calendar-year td>button[data-event-kinds="mentioned_letter_emt"] {
-    /* --calendar-cell-color: color-mix(in srgb, var(--emt_person_id__9) 20%, transparent); */
-    --calendar-cell-color: transparent;
-    outline: 2px solid var(--emt_person_id__9);
-    outline-offset: -2px;
-    color: inherit;
-    z-index: 1;
-}
 
 acdh-ch-calendar-year td>button[data-event-kinds="mentioned_letter_emt"]::after {
-    background-color: var(--emt_person_id__9);
+    background-color: var(--erfasst);
     color: white;
 }
 
-acdh-ch-calendar-year td>button[data-event-kinds="mentioned_letter_jw"] {
-    /* --calendar-cell-color: color-mix(in srgb, var(--emt_person_id__18) 20%, transparent); */
-    --calendar-cell-color: transparent;
-    outline: 2px solid var(--emt_person_id__18);
-    outline-offset: -2px;
-    color: inherit;
+
+.erfasst {
+    background-color: var(--erfasst)
 }
 
-acdh-ch-calendar-year td>button[data-event-kinds="mentioned_letter_jw"]::after {
-    background-color: var(--emt_person_id__18);
-    color: white;
-}
-
-acdh-ch-calendar-year td>button[data-event-kinds="mentioned_letter_pw"] {
-    /* --calendar-cell-color: color-mix(in srgb, var(--emt_person_id__50) 20%, transparent); */
-    --calendar-cell-color: transparent;
-    outline: 2px solid var(--emt_person_id__50);
-    outline-offset: -2px;
-    color: inherit;
-}
-
-acdh-ch-calendar-year td>button[data-event-kinds="mentioned_letter_pw"]::after {
-    background-color: var(--emt_person_id__50);
-    color: white;
-}
-
-acdh-ch-calendar-year td>button[data-event-kinds="unknown"] {
-    --calendar-cell-color: #5611f7;
-}
-
-acdh-ch-calendar-year td>button[data-event-kinds="visits"] {
-    --calendar-cell-color: transparent;
-    color: inherit;
-    text-decoration: underline;
-    text-decoration-thickness: 3px;
-    text-decoration-color: var(--emt-deco-color);
-
-}
-acdh-ch-calendar-year td>button[data-event-kinds~="visits"]:not([data-event-kinds="visits"]) {
-    text-decoration: underline;
-    text-decoration-thickness: 3px;
-    text-decoration-color: white;
-}
-
-acdh-ch-calendar-year td>button[data-event-kinds="visits_uncertain"] {
-    --calendar-cell-color: transparent;
-    color: inherit;
-    text-decoration: underline dotted;
-    text-decoration-thickness: 3px;
-    text-decoration-color: var(--emt-deco-color);
-}
-acdh-ch-calendar-year td>button[data-event-kinds~="visits_uncertain"]:not([data-event-kinds="visits_uncertain"]) {
-    text-decoration: underline dotted;
-    text-decoration-thickness: 3px;
-    text-decoration-color: white;
+.verzeichent {
+    background-color: var(--verzeichent)
 }
 
 
-.emt_person_id__9 {
-    background-color: var(--emt_person_id__9)
-}
-
-.drittbriefe {
-    background-color: var(--drittbriefe)
-}
-
-.emt_person_id__18 {
-    background-color: var(--emt_person_id__18)
-}
-
-.emt_person_id__50 {
-    background-color: var(--emt_person_id__50)
-}
-
-.mentioned_letter_emt {
-    background-color: transparent;
-    border: 2px solid var(--emt_person_id__9);
-}
 
 .mehrere_briefe {
     background-color: var(--mehrere_briefe)
 }
 
 
-.mentioned_letter_pw {
-    background-color: transparent;
-    border: 2px solid var(--emt_person_id__50);
-}
-
-.mentioned_letter_jw {
-    background-color: transparent;
-    border: 2px solid var(--emt_person_id__18);
-}
-.visits {
-    background-color: transparent;
-    text-decoration: underline;
-    text-decoration-thickness: 3px;
-    text-decoration-color: var(--emt-deco-color);
-}
-.visits_uncertain {
-    background-color: transparent;
-    text-decoration: underline;
-    text-decoration-style: dotted;
-    text-decoration-thickness: 3px;
-    text-decoration-color: var(--emt-deco-color);
-}
 /* the legend */
 .calendar-menu {
     display: flex;

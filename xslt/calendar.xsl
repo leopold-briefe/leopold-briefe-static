@@ -51,12 +51,40 @@
                         </p>
                         <div id="calendar-container">
                             <acdh-ch-calendar>
-                                <label>
-                                    <span>Jahr</span>
-                                    <!-- To disallow selecting years without events, use `data-variant="sparse"`. -->
+                                <div class="calendar-menu">
+                                    <label class="p2 text-center fs-2">
+                                        <span>Jahr</span>
+                                    </label>
                                     <acdh-ch-calendar-year-picker data-variant="sparse"></acdh-ch-calendar-year-picker>
-                                </label>
-                                <acdh-ch-calendar-year></acdh-ch-calendar-year>
+                                    <span class="p2 text-center fs-2">Legende</span>
+                                    <acdh-ch-calendar-legend>
+                                        <ul class="list-unstyled">
+                                            <li>
+                                                <span class="dot erfasst"></span>
+                                                <span class="legend-item">Erfasster Brief</span>
+                                            </li>
+                                            <li>
+                                                <span class="dot verzeichent"></span>
+                                                <span class="legend-item">Verzeichneter Brief</span>
+                                            </li>
+                                            <li>
+                                                <span class="dot mehrere_briefe"></span>
+                                                <span class="legend-item">Mehrere Briefe (erfasst, erwähnt, verzeichnet)</span>
+                                            </li>
+                                        </ul>
+                                    </acdh-ch-calendar-legend>
+                                </div>
+                                <div class="calendar-container text-center">
+                                    <acdh-ch-calendar-year data-variant="sparse"/>
+                                    <div class="mt-4">
+                                        <span>Korrespondenz des Jahres herunterladen: </span>
+                                        <button type="button" id="year-pdf-download-btn" class="btn btn-link me-2">
+                                            <i class="bi bi-filetype-pdf me-1"></i>
+                                            <span>PDF</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                
                             </acdh-ch-calendar>
                         </div>
                     </div>
