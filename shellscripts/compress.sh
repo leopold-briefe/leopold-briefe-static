@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-SOURCE_DIR="/home/csae8092/Schreibtisch/leopold-scans"
+SOURCE_DIR="/home/csae8092/Schreibtisch/ACDH_DHRI_leopoldBriefe/scans/OÖLA"
 TARGET_DIR="./html/facs"
 
 if [[ ! -d "$SOURCE_DIR" ]]; then
