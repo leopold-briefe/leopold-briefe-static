@@ -19,9 +19,12 @@ for x in doc.any_xpath(".//tei:correspDesc[@xml:id]"):
     status_node = ET.SubElement(note_grp_node, "{http://www.tei-c.org/ns/1.0}note")
     status_node.attrib["type"] = "file_exists"
     status_node.text = "0"
-    status_transkription = any_xpath(x, ".//tei:note[@type='status_transkription']")[
-        0
-    ].text
+    try:
+        status_transkription = any_xpath(
+            x, ".//tei:note[@type='status_transkription']"
+        )[0].text
+    except IndexError:
+        print(f"missing transkription status in {xml_id}")
     if status_transkription == "nicht vorhanden":
         status_transkription = False
 
