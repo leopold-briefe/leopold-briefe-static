@@ -7,6 +7,12 @@ document.querySelectorAll('#myTable thead th').forEach((th) => {
     columns.push({
         data: th.textContent.trim().toLowerCase(),
         visible: th.dataset.dtVisible !== 'false',
+        render: (data, type) => {
+        if (type !== 'display') return data;
+        if (String(data) === '1') return '<i class="bi bi-check-lg text-success"></i>';
+        if (String(data) === '0') return '<i class="bi bi-x-lg text-danger"></i>';
+        return data;
+    },
         columnControl: [
             {
                 target: 0,
@@ -27,16 +33,17 @@ document.querySelectorAll('#myTable thead th').forEach((th) => {
 
 const table = new DataTable('#myTable', {
     columnDefs: [
+        // Disable column visibility control for the first column
 		{
-			targets: 0,
-			className: 'noVis'
-		}
+			target: 0,
+			className: 'always-visible'
+		},
 	],
     layout: {
         topStart: {
             buttons: [{
 					extend: 'colvis',
-					columns: ':not(.noVis)',
+					columns: ':not(.always-visible)',
 				}]
         },
         topEnd: {

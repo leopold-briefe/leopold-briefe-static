@@ -47,26 +47,24 @@
                     </nav>
                     <div class="container-fluid">
                         <h1 class="display-5 text-center"><xsl:value-of select="$doc_title"/></h1>
-                        <div class="text-center p-1"><span id="counter1"></span> von <span id="counter2"></span> Dokumenten</div>
-                        <table id="myTable" data-page-length='25'>
+                        <div id="custom-info-box" class="text-muted small text-center"></div>
+                        <table id="myTable" class="table table-striped" data-page-length='25'>
                             <thead>
                                 <tr>
                                     <th scope="col">Emfpänger</th>
-                                    <th scope="col">receiver_</th>
                                     <th scope="col">Absendedatum</th>
-                                    <th scope="col">Empfangsdatum</th>
-                                    <th scope="col">date_</th>
+                                    <th scope="col" data-dt-visible="false">Empfangsdatum</th>
                                     <th scope="col">Absendeort</th>
-                                    <th scope="col">Empfangsort</th>
-                                    <th scope="col">Adressort</th>
+                                    <th scope="col" data-dt-visible="false">Empfangsort</th>
+                                    <th scope="col" data-dt-visible="false">Adressort</th>
                                     <th scope="col">Art</th>
-                                    <th scope="col">Sprache</th>
+                                    <th scope="col" data-dt-visible="false">Sprache</th>
                                     <th scope="col">Aufbewahrungsort</th>
-                                    <th scope="col">Signatur</th>
+                                    <th scope="col" data-dt-visible="false">Signatur</th>
                                     <th scope="col">Transkription</th>
                                     <th scope="col">Bild</th>
-                                    <th scope="col">Regest</th>
-                                    <th scope="col">Entitäten</th>
+                                    <th scope="col" data-dt-visible="false">Regest</th>
+                                    <th scope="col" data-dt-visible="false">Entitäten</th>
                                     <th scope="col">ID</th>
                                 </tr>
                             </thead>
@@ -98,21 +96,12 @@
                                                 </xsl:otherwise>
                                             </xsl:choose>
                                         </td>
-                                        <td>
-                                            <xsl:value-of select="string-join(.//tei:correspAction[@type='received']/tei:persName/text(), ', ')"/>
-                                        </td>
-                                        <td>
-                                            <span data-sortkey="{$sortDate}">
+                                        <td data-order="{$sortDate}">
                                                 <xsl:value-of select="./tei:correspAction[@type='sent']/tei:date"/>
-                                            </span>
                                         </td>
                                         <td>
                                             <xsl:value-of select="$received"/>
-                                        </td>
-                                        <td>
-                                            <xsl:value-of select="$sortDate"/>
-                                        </td>
-                                        
+                                        </td>                                       
                                         <td>
                                             <xsl:value-of select="./tei:correspAction[@type='sent']//tei:placeName[1]/text()"/>
                                         </td>
