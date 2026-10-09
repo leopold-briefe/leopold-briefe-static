@@ -9,9 +9,7 @@
     <xsl:import href="./partials/html_navbar.xsl"/>
     <xsl:import href="./partials/html_head.xsl"/>
     <xsl:import href="./partials/html_footer.xsl"/>
-    <xsl:import href="./partials/tabulator_dl_buttons.xsl"/>
-    <xsl:import href="./partials/tabulator_js.xsl"/>
-    <xsl:import href="./partials/tabulator_column_toggle.xsl"/>
+    <xsl:import href="./partials/datatables_import.xsl"/>
     <xsl:import href="./partials/blockquote.xsl"/>
     <xsl:import href="./partials/zotero.xsl"/>
     <xsl:output encoding="UTF-8" media-type="text/html" method="html" version="5.0" indent="yes" omit-xml-declaration="yes"/>
@@ -35,6 +33,7 @@
                     <xsl:with-param name="pageId" select="$link"></xsl:with-param>
                     <xsl:with-param name="zoteroTitle" select="$doc_title"></xsl:with-param>
                 </xsl:call-template>
+                <xsl:call-template name="datatables_import"/>
             </head>
             
             <body class="d-flex flex-column h-100">
@@ -55,41 +54,15 @@
                     <div class="container-fluid">
                         <h1 class="display-5 text-center"><xsl:value-of select="$doc_title"/></h1>
                         <div class="text-center p-1"><span id="counter1"></span> von <span id="counter2"></span> Dokumenten</div>
-                        <xsl:call-template name="tabulator_column_toggle">
-                            <xsl:with-param name="control_id" select="$column_toggle_control_id"/>
-                            <xsl:with-param name="button_label" select="'Spalten anzeigen'"/>
-                            <xsl:with-param name="initial_visible_columns" select="$initial_visible_columns"/>
-                        </xsl:call-template>
                         <table id="myTable">
                             <thead>
                                 <tr>
-                                    <th scope="col" tabulator-field="gesendet" tabulator-headerFilter="input" tabulator-hozAlign="right">Absendedatum</th>
-                                    <th scope="col" tabulator-field="ort_nach" tabulator-headerFilter="list">
-                                        <xsl:attribute name="tabulator-headerFilterParams">
-                                            <xsl:text>{"values":{"":"Alle"</xsl:text>
-                                            <xsl:for-each select="sort(distinct-values(.//tei:correspAction[@type='received']/tei:placeName[@key and @type='destination']/text()))">
-                                                <xsl:text>,</xsl:text>
-                                                <xsl:value-of select="concat('&quot;', ., '&quot;:&quot;', ., '&quot;')"/>
-                                            </xsl:for-each>
-                                            <xsl:text>}}</xsl:text>
-                                        </xsl:attribute>
-                                        Zielland oder Zielort
-                                    </th>
-                                    <th scope="col" tabulator-field="addressee_worked_out" tabulator-headerFilter="list">
-                                        <xsl:attribute name="tabulator-headerFilterParams">
-                                            <xsl:text>{"values":{"":"Alle"</xsl:text>
-                                            <xsl:for-each select="sort(distinct-values(.//tei:correspAction[@type='received']/tei:persName[@type='addressee_worked_out']/text()))">
-                                                <xsl:text>,</xsl:text>
-                                                <xsl:value-of select="concat('&quot;', ., '&quot;:&quot;', ., '&quot;')"/>
-                                            </xsl:for-each>
-                                            <xsl:text>}}</xsl:text>
-                                        </xsl:attribute>
-                                        Emfpänger (erschlossen)
-                                    </th>
-                                    <th scope="col" tabulator-field="comment" tabulator-headerFilter="input" tabulator-hozAlign="left">Kommentar</th>
-                                    <th scope="col" tabulator-field="original_letter" tabulator-headerFilter="input" tabulator-formatter="html" tabulator-download="false">Überlieferter Brief</th>
-                                    <th scope="col" tabulator-field="original_letter_download_" tabulator-visible="false" tabulator-download="true">Überlieferter Brief_</th>
-                                    <th scope="col" tabulator-field="id" tabulator-headerFilter="input">ID</th>
+                                    <th scope="col">Absendedatum</th>
+                                    <th scope="col">Zielland oder Zielort</th>
+                                    <th scope="col">Emfpänger (erschlossen)</th>
+                                    <th scope="col">Kommentar</th>
+                                    <th scope="col">Überlieferter Brief</th>
+                                    <th scope="col">ID</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -134,7 +107,6 @@
                                 </xsl:for-each>
                             </tbody>
                         </table>
-                        <xsl:call-template name="tabulator_dl_buttons"/>
                         <div class="text-center p-4">
                             <xsl:call-template name="blockquote">
                                 <xsl:with-param name="pageId" select="'toc.html'"/>
@@ -143,10 +115,7 @@
                     </div>
                 </main>
                 <xsl:call-template name="html_footer"/>
-                <xsl:call-template name="tabulator_js">
-                    <xsl:with-param name="clickme" select="false()"></xsl:with-param>
-                    <xsl:with-param name="column_toggle_control_id" select="$column_toggle_control_id"></xsl:with-param>
-                </xsl:call-template>
+                <script src="js/datatables_custom/datatables_custom.js"></script>
             </body>
         </html>
     </xsl:template>

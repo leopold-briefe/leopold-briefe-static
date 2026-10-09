@@ -407,7 +407,7 @@ footer a {
   }
 }
 
-.tabulator-tableholder .tabulator-table .tabulator-row-even {
+/* .tabulator-tableholder .tabulator-table .tabulator-row-even {
   background-color: var(--dse-base-color-light);
 }
 
@@ -419,7 +419,7 @@ footer a {
 .tabulator-tableholder .tabulator-table .tabulator-row:hover,
 .tabulator-col-content:hover {
   background-color: var(--dse-base-color-dark);
-}
+} */
 
 #myTable {
   border: solid 1px lightgray;

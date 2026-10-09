@@ -9,8 +9,7 @@
     <xsl:import href="./partials/html_navbar.xsl"/>
     <xsl:import href="./partials/html_head.xsl"/>
     <xsl:import href="./partials/html_footer.xsl"/>
-    <xsl:import href="./partials/tabulator_dl_buttons.xsl"/>
-    <xsl:import href="./partials/tabulator_js.xsl"/>
+    <xsl:import href="./partials/datatables_import.xsl"/>
     <xsl:import href="./partials/entities.xsl"/>
     <xsl:import href="./partials/blockquote.xsl"/>
     <xsl:import href="./partials/zotero.xsl"/>
@@ -31,6 +30,7 @@
                     <xsl:with-param name="pageId" select="$link"></xsl:with-param>
                     <xsl:with-param name="zoteroTitle" select="$doc_title"></xsl:with-param>
                 </xsl:call-template>
+                <xsl:call-template name="datatables_import"/>
             </head>
             
             <body class="d-flex flex-column h-100">
@@ -57,11 +57,11 @@
                         <table id="myTable">
                             <thead>
                                 <tr>
-                                    <th scope="col" width="20" tabulator-formatter="html" tabulator-headerSort="false" tabulator-download="false">#</th>
-                                    <th scope="col" tabulator-headerFilter="input">Titel</th>
-                                    <th scope="col" tabulator-headerFilter="input">Autor</th>
-                                    <th scope="col" tabulator-headerFilter="input">Datum</th>
-                                    <th scope="col" tabulator-headerFilter="input">ID</th>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Titel</th>
+                                    <th scope="col">Autor</th>
+                                    <th scope="col">Datum</th>
+                                    <th scope="col">ID</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -94,7 +94,6 @@
                                 </xsl:for-each>
                             </tbody>
                         </table>
-                        <xsl:call-template name="tabulator_dl_buttons"/>
 
                         <div class="text-center p-4">
                             <xsl:call-template name="blockquote">
@@ -104,7 +103,7 @@
                     </div>
                 </main>
                 <xsl:call-template name="html_footer"/>
-                <xsl:call-template name="tabulator_js"/>
+                <script src="js/datatables_custom/datatables_custom.js"></script>
             </body>
         </html>
         <xsl:for-each select=".//tei:bibl[@xml:id]">

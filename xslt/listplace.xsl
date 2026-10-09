@@ -9,8 +9,7 @@
     <xsl:import href="./partials/html_navbar.xsl"/>
     <xsl:import href="./partials/html_head.xsl"/>
     <xsl:import href="./partials/html_footer.xsl"/>
-    <xsl:import href="./partials/tabulator_dl_buttons.xsl"/>
-    <xsl:import href="./partials/tabulator_js.xsl"/>
+    <xsl:import href="./partials/datatables_import.xsl"/>
     <xsl:import href="./partials/entities.xsl"/>
     <xsl:import href="./partials/blockquote.xsl"/>
     <xsl:import href="./partials/zotero.xsl"/>
@@ -31,7 +30,6 @@
                     <xsl:with-param name="pageId" select="$link"></xsl:with-param>
                     <xsl:with-param name="zoteroTitle" select="$doc_title"></xsl:with-param>
                 </xsl:call-template>
-                <link href="vendor/tabulator-tables/css/tabulator_bootstrap5.min.css" rel="stylesheet"/>
                 <link rel="stylesheet" href="vendor/leaflet/leaflet.css"/>
                 <script src="vendor/leaflet/leaflet.js"/>
                 <link rel="stylesheet"
@@ -39,6 +37,7 @@
                 <link rel="stylesheet"
                     href="vendor/leaflet.markercluster/MarkerCluster.Default.css"/>
                 <script src="vendor/leaflet.markercluster/leaflet.markercluster.js"/>
+                <xsl:call-template name="datatables_import"/>
             </head>
             
             <body class="d-flex flex-column h-100">
@@ -110,7 +109,7 @@
                     </div>
                 </main>
                 <xsl:call-template name="html_footer"/>
-                <script type="text/javascript" src="vendor/tabulator-tables/js/tabulator.min.js"/>
+                <script src="js/datatables_custom/datatables_custom.js"></script>
                 <script src="js/map_table_cfg.js"/>
                 <script src="js/make_map_and_table.js"/>
                 
