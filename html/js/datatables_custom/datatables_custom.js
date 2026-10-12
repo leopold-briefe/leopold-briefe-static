@@ -43,10 +43,11 @@ document.querySelectorAll('#myTable thead th').forEach((th, index) => {
     columns.push({
         data: th.textContent.trim().toLowerCase(),
         visible: th.dataset.dtVisible !== 'false',
+        // Render boolean values as icons with accessible labels
         render: (data, type) => {
-            if (type !== 'display') return data;
-            if (String(data) === '1') return '<i class="bi bi-check-lg text-success"></i>';
-            if (String(data) === '0') return '<i class="bi bi-x-lg text-danger"></i>';
+            if (type !== 'display' || th.dataset.dtBoolean !== 'true') return data;
+            if (String(data) === '1') return '<i class="bi bi-check-lg text-success" aria-label="Ja"></i>';
+            if (String(data) === '0') return '<i class="bi bi-x-lg text-danger" aria-label="Nein"></i>';
             return data;
         },
         columnControl: [

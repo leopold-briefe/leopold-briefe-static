@@ -51,14 +51,13 @@
                     </nav>
                     <div class="container">
                         <h1 class="display-5 text-center"><xsl:value-of select="$doc_title"/></h1>
-                        <div class="text-center p-1"><span id="counter1"></span> von <span id="counter2"></span> Personen</div>
-
-                        <table id="myTable">
+                         <div id="custom-info-box" class="text-muted small text-center"></div>
+                        <table id="myTable" class="table table-striped" data-page-length='25'>
                             <thead>
                                 <tr>
                                     <th scope="col">Name</th>
                                     <th scope="col">Erwähnungen</th>
-                                    <th scope="col">ID</th>
+                                    <th scope="col" data-dt-visible="false">ID</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -77,9 +76,6 @@
                                             <a href="{concat($id, '.html')}">
                                                 <xsl:value-of select="$label"/>
                                             </a>
-                                        </td>
-                                        <td>
-                                            <xsl:value-of select="$label"/>
                                         </td>
                                         <td>
                                             <xsl:value-of select="count(.//tei:noteGrp//tei:note)"/>

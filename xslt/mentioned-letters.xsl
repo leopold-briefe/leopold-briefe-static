@@ -18,12 +18,6 @@
     <xsl:template match="/">
         <xsl:variable name="doc_title" select="'Erwähnte (verzeichnete) Briefe'"/>
         <xsl:variable name="link" select="'mentioned-letters-toc.html'"/>
-        <xsl:variable name="column_toggle_control_id" as="xs:string" select="'toc-column-toggle'"/>
-        <xsl:variable name="initial_visible_columns" as="xs:string*"
-            select="('gesendet', 'ort_nach', 'addressee_worked_out', 'id')"/>
-        <xsl:variable name="boolean-filter">
-            <xsl:text>{"values":{"":"All","True":"Yes","False":"No"}}</xsl:text>
-        </xsl:variable>
         <html class="h-100" lang="{$default_lang}">
             <head>
                 <xsl:call-template name="html_head">
@@ -53,15 +47,15 @@
                     </nav>
                     <div class="container-fluid">
                         <h1 class="display-5 text-center"><xsl:value-of select="$doc_title"/></h1>
-                        <div class="text-center p-1"><span id="counter1"></span> von <span id="counter2"></span> Dokumenten</div>
-                        <table id="myTable">
+                         <div id="custom-info-box" class="text-muted small text-center"></div>
+                        <table id="myTable" class="table table-striped" data-page-length='25'>
                             <thead>
                                 <tr>
                                     <th scope="col">Absendedatum</th>
                                     <th scope="col">Zielland oder Zielort</th>
                                     <th scope="col">Emfpänger (erschlossen)</th>
-                                    <th scope="col">Kommentar</th>
-                                    <th scope="col">Überlieferter Brief</th>
+                                    <th scope="col" data-dt-visible="false">Kommentar</th>
+                                    <th scope="col" data-dt-visible="false">Überlieferter Brief</th>
                                     <th scope="col">ID</th>
                                 </tr>
                             </thead>
@@ -96,9 +90,6 @@
                                                 </xsl:when>
                                                 <xsl:otherwise/>
                                             </xsl:choose>
-                                        </td>
-                                        <td>
-                                            <xsl:value-of select="./@corresp"/>
                                         </td>
                                         <td>
                                             <xsl:value-of select="$docId"/>

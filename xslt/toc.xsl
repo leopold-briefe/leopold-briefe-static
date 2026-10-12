@@ -61,10 +61,10 @@
                                     <th scope="col" data-dt-visible="false">Sprache</th>
                                     <th scope="col">Aufbewahrungsort</th>
                                     <th scope="col" data-dt-visible="false">Signatur</th>
-                                    <th scope="col" data-dt-searchlist="true">Transkription</th>
-                                    <th scope="col">Bild</th>
-                                    <th scope="col" data-dt-visible="false">Regest</th>
-                                    <th scope="col" data-dt-visible="false">Entitäten</th>
+                                    <th scope="col" data-dt-searchlist="true" data-dt-boolean="true">Transkription</th>
+                                    <th scope="col" data-dt-boolean="true">Bild</th>
+                                    <th scope="col" data-dt-visible="false" data-dt-boolean="true">Regest</th>
+                                    <th scope="col" data-dt-visible="false" data-dt-boolean="true">Entitäten</th>
                                     <th scope="col">ID</th>
                                 </tr>
                             </thead>

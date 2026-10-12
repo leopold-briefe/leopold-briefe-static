@@ -58,7 +58,8 @@
                     <div class="container">
                         <h1><xsl:value-of select="$doc_title"/></h1>
                         <div id="map"/>
-                        <table id="placesTable">
+                        <div id="custom-info-box" class="text-muted small text-center"></div>
+                         <table id="myTable" class="table table-striped">
                             <thead>
                                 <tr>
                                     <th scope="col">Ortsname</th>
@@ -110,12 +111,7 @@
                 </main>
                 <xsl:call-template name="html_footer"/>
                 <script src="js/datatables_custom/datatables_custom.js"></script>
-                <script src="js/map_table_cfg.js"/>
-                <script src="js/make_map_and_table.js"/>
-                
-                <script>
-                    build_map_and_table(map_cfg, table_cfg, wms_cfg=null, tms_cfg=tms_cfg);
-                </script>
+                <script src="js/maptable.js"></script>
             </body>
         </html>
         <xsl:for-each select=".//tei:place[@xml:id]">

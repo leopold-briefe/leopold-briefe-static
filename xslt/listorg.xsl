@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:tei="http://www.tei-c.org/ns/1.0"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    version="2.0"
-    exclude-result-prefixes="xsl tei xs">
-   
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" version="2.0" exclude-result-prefixes="xsl tei xs">
+
     <xsl:import href="./partials/html_navbar.xsl"/>
     <xsl:import href="./partials/html_head.xsl"/>
     <xsl:import href="./partials/html_footer.xsl"/>
@@ -13,7 +10,7 @@
     <xsl:import href="./partials/entities.xsl"/>
     <xsl:import href="./partials/blockquote.xsl"/>
     <xsl:import href="./partials/zotero.xsl"/>
-    <xsl:output encoding="UTF-8" media-type="text/html" method="html" version="5.0" indent="yes" omit-xml-declaration="yes"/> 
+    <xsl:output encoding="UTF-8" media-type="text/html" method="html" version="5.0" indent="yes" omit-xml-declaration="yes"/>
 
     <xsl:template match="/">
         <xsl:variable name="doc_title">
@@ -31,67 +28,64 @@
                 </xsl:call-template>
                 <xsl:call-template name="datatables_import"/>
             </head>
-            
+
             <body class="d-flex flex-column h-100">
                 <xsl:call-template name="nav_bar"/>
-                    <main class="flex-shrink-0 flex-grow-1">
-                        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" class="ps-5 p-3">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item">
-                                    <a href="index.html">
-                                        <xsl:value-of select="$project_short_title"/>
-                                    </a>
-                                </li>
-                                <li class="breadcrumb-item active" aria-current="page">
-                                    <xsl:value-of select="$doc_title"/>
-                                </li>
-                            </ol>
-                        </nav>
-                        <div class="container">                        
-                            <h1 class="display-5 text-center"><xsl:value-of select="$doc_title"/></h1>
-                            <div class="text-center p-1"><span id="counter1"></span> von <span id="counter2"></span> Instituionen</div>
-                            
-                            <table id="myTable">
-                                <thead>
+                <main class="flex-shrink-0 flex-grow-1">
+                    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" class="ps-5 p-3">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="index.html">
+                                    <xsl:value-of select="$project_short_title"/>
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                <xsl:value-of select="$doc_title"/>
+                            </li>
+                        </ol>
+                    </nav>
+                    <div class="container">
+                        <h1 class="display-5 text-center">
+                            <xsl:value-of select="$doc_title"/>
+                        </h1>
+                        <div id="custom-info-box" class="text-muted small text-center"></div>
+                        <table id="myTable" class="table table-striped" data-page-length='25'>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col" data-dt-visible="false">ID</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <xsl:for-each select=".//tei:org">
+                                    <xsl:variable name="id">
+                                        <xsl:value-of select="data(@xml:id)"/>
+                                    </xsl:variable>
                                     <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">ID</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <xsl:for-each select=".//tei:org">
-                                        <xsl:variable name="id">
-                                            <xsl:value-of select="data(@xml:id)"/>
-                                        </xsl:variable>
-                                        <tr>
-                                            <td>
-                                                <a>
-                                                  <xsl:attribute name="href">
-                                                  <xsl:value-of select="concat($id, '.html')"/>
-                                                  </xsl:attribute>
-                                                  <i class="bi bi-link-45deg"/>
-                                                </a>
-                                            </td>
-                                            <td>
+                                        <td>
+                                            <a>
+                                                <xsl:attribute name="href">
+                                                    <xsl:value-of select="concat($id, '.html')"/>
+                                                </xsl:attribute>
                                                 <xsl:value-of select=".//tei:orgName[1]/text()"/>
-                                            </td>
-                                            <td>
-                                                <xsl:value-of select="$id"/>
-                                            </td>
-                                        </tr>
-                                    </xsl:for-each>
-                                </tbody>
-                            </table>
-                            <div class="text-center p-4">
-                                <xsl:call-template name="blockquote">
-                                    <xsl:with-param name="pageId" select="'listorg.html'"/>
-                                </xsl:call-template>
-                            </div>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <xsl:value-of select="$id"/>
+                                        </td>
+                                    </tr>
+                                </xsl:for-each>
+                            </tbody>
+                        </table>
+                        <div class="text-center p-4">
+                            <xsl:call-template name="blockquote">
+                                <xsl:with-param name="pageId" select="'listorg.html'"/>
+                            </xsl:call-template>
                         </div>
-                    </main>
-                    <xsl:call-template name="html_footer"/>
-                    <script src="js/datatables_custom/datatables_custom.js"></script>
+                    </div>
+                </main>
+                <xsl:call-template name="html_footer"/>
+                <script src="js/datatables_custom/datatables_custom.js"></script>
             </body>
         </html>
         <xsl:for-each select=".//tei:org">
@@ -114,10 +108,14 @@
                             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" class="ps-5 p-3">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
-                                        <a href="index.html"><xsl:value-of select="$project_short_title"/></a>
+                                        <a href="index.html">
+                                            <xsl:value-of select="$project_short_title"/>
+                                        </a>
                                     </li>
                                     <li class="breadcrumb-item">
-                                        <a href="listorg.html"><xsl:value-of select="$doc_title"/></a>
+                                        <a href="listorg.html">
+                                            <xsl:value-of select="$doc_title"/>
+                                        </a>
                                     </li>
                                 </ol>
                             </nav>
