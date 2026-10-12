@@ -1,6 +1,6 @@
 :root {
     --erfasst: #8b0000;
-    --verzeichent: #7a6855;
+    --verzeichnet: #7a6855;
     --emt_person_id__18:  #04207c;
     --emt_person_id__50:  #025802;
     --mehrere_briefe: #545454;
@@ -72,11 +72,11 @@ acdh-ch-calendar-year td>button[data-event-kinds~="erfasst"] {
     --calendar-cell-color: var(--erfasst)
 }
 
-acdh-ch-calendar-year td>button[data-event-kinds="verzeichent/erwähnt"] {
-    --calendar-cell-color: var(--verzeichent);
+acdh-ch-calendar-year td>button[data-event-kinds="verzeichnet/erwähnt"] {
+    --calendar-cell-color: var(--verzeichnet);
 }
 
-acdh-ch-calendar-year td>button[data-event-kinds="erfasst verzeichent/erwähnt"] {
+acdh-ch-calendar-year td>button[data-event-kinds="erfasst verzeichnet/erwähnt"] {
     --calendar-cell-color: var(--dse-base-color);
 }
 
@@ -91,8 +91,8 @@ acdh-ch-calendar-year td>button[data-event-kinds="mentioned_letter_emt"]::after 
     background-color: var(--erfasst)
 }
 
-.verzeichent {
-    background-color: var(--verzeichent)
+.verzeichnet {
+    background-color: var(--verzeichnet)
 }
 
 

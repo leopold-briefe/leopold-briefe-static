@@ -61,15 +61,15 @@
                                         <ul class="list-unstyled">
                                             <li>
                                                 <span class="dot erfasst"></span>
-                                                <span class="legend-item">erfasste Briefe</span>
+                                                <span class="legend-item">überlieferte Originale</span>
                                             </li>
                                             <li>
-                                                <span class="dot verzeichent"></span>
-                                                <span class="legend-item">verzeichnete Briefe</span>
+                                                <span class="dot verzeichnet"></span>
+                                                <span class="legend-item">verzeichnete und erwähnte Briefe</span>
                                             </li>
                                             <li>
                                                 <span class="dot mehrere_briefe"></span>
-                                                <span class="legend-item">erfasste, erwähnte, verzeichnete Briefe</span>
+                                                <span class="legend-item">Original-, verzeichnete und erwähnte Briefe</span>
                                             </li>
                                         </ul>
                                     </acdh-ch-calendar-legend>

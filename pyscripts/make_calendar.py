@@ -30,7 +30,7 @@ items = []
 for x in files:
     doc = TeiReader(x)
     if "mentioned" in x:
-        kind = "verzeichent/erwähnt"
+        kind = "verzeichnet/erwähnt"
     else:
         kind = "erfasst"
     for y in doc.any_xpath(".//tei:correspDesc"):
