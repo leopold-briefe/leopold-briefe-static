@@ -44,7 +44,7 @@ function updateMap() {
             tmp.innerHTML = row.ortsname ?? '';
             const link = tmp.querySelector('a');
             const popup = document.createElement('a');
-            popup.href = link ? link.getAttribute('href') : row.linktoentity + '.html';
+            popup.href = link ? link.getAttribute('href') : row.id + '.html';
             popup.textContent = tmp.textContent.trim();
             return popup;
         }));

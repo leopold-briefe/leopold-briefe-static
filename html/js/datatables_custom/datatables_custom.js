@@ -1,7 +1,7 @@
 
 const columns = [];
 // Unique cell values of a column with their row counts, as searchList options
-function countOptions(index) {
+function countOptions(index, isBoolean) {
     const counts = new Map();
 
     document.querySelectorAll(`#myTable tbody tr td:nth-child(${index + 1})`).forEach((td) => {
@@ -14,31 +14,38 @@ function countOptions(index) {
 
     return [...counts]
         .sort(([a, countA], [b, countB]) => countB - countA || a.localeCompare(b, 'de'))
-        .map(([value, count]) => ({ label: `${value} (${count})`, value }));
+        .map(([value, count]) => ({
+            label: `${isBoolean ? (value === '1' ? 'Ja' : value === '0' ? 'Nein' : value) : value} (${count})`,
+            value
+        }));
 }
 
 document.querySelectorAll('#myTable thead th').forEach((th, index) => {
     const label = th.textContent.trim();
-    const sortContent = ['orderStatus', 'searchDropdown'];
+    const sortContent = ['orderStatus'];
+    const searchMode = th.dataset.dtSearch || 'text';
+    const searchList = {
+        extend: 'searchList',
+        options: countOptions(index, th.dataset.dtBoolean === 'true')
+    };
+    const searchText = {
+        extend: 'searchText',
+        placeholder: `Suchen: ${label}`
+    };
 
-    if (th.dataset.dtSearchlist === 'true') {
+    if (searchMode === 'combined' || searchMode === 'list') {
         sortContent.push({
             extend: 'dropdown',
             icon: 'search',
             iconActive: 'searchActive',
             className: 'searchlist',
             text: `Werte auswählen: ${label}`,
-            content: [
-                {
-                    extend: 'searchList',
-                    options: countOptions(index)
-                },
-                {
-                    extend: 'searchText',
-                    placeholder: `Suchen: ${label}`
-                }
-            ]
+            content: searchMode === 'combined'
+                ? [searchList, searchText]
+                : [searchList]
         });
+    } else {
+        sortContent.push('searchDropdown');
     }
     columns.push({
         data: th.textContent.trim().toLowerCase(),

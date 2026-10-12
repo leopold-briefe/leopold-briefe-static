@@ -55,7 +55,7 @@
                         <table id="myTable" class="table table-striped" data-page-length='25'>
                             <thead>
                                 <tr>
-                                    <th scope="col">Name</th>
+                                    <th scope="col" data-dt-search="combined">Name</th>
                                     <th scope="col">Erwähnungen</th>
                                     <th scope="col" data-dt-visible="false">ID</th>
                                 </tr>

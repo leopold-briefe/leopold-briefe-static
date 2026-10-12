@@ -52,11 +52,11 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Absendedatum</th>
-                                    <th scope="col">Zielland oder Zielort</th>
-                                    <th scope="col">Emfpänger (erschlossen)</th>
+                                    <th scope="col" data-dt-search="combined">Zielland oder Zielort</th>
+                                    <th scope="col" data-dt-search="combined">Emfpänger (erschlossen)</th>
                                     <th scope="col" data-dt-visible="false">Kommentar</th>
                                     <th scope="col" data-dt-visible="false">Überlieferter Brief</th>
-                                    <th scope="col">ID</th>
+                                    <th scope="col" data-dt-visible="false">ID</th>
                                 </tr>
                             </thead>
                             <tbody>

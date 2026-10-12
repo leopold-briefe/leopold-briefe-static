@@ -51,20 +51,20 @@
                         <table id="myTable" class="table table-striped" data-page-length='25'>
                             <thead>
                                 <tr>
-                                    <th scope="col">Emfpänger</th>
+                                    <th scope="col" data-dt-search="combined">Emfpänger</th>
                                     <th scope="col">Absendedatum</th>
                                     <th scope="col" data-dt-visible="false">Empfangsdatum</th>
-                                    <th scope="col">Absendeort</th>
-                                    <th scope="col" data-dt-visible="false">Empfangsort</th>
-                                    <th scope="col" data-dt-visible="false">Adressort</th>
-                                    <th scope="col">Art</th>
-                                    <th scope="col" data-dt-visible="false">Sprache</th>
-                                    <th scope="col">Aufbewahrungsort</th>
+                                    <th scope="col" data-dt-search="combined">Absendeort</th>
+                                    <th scope="col" data-dt-visible="false" data-dt-search="combined">Empfangsort</th>
+                                    <th scope="col" data-dt-visible="false" data-dt-search="combined">Adressort</th>
+                                    <th scope="col" data-dt-search="combined">Art</th>
+                                    <th scope="col" data-dt-visible="false" data-dt-search="combined">Sprache</th>
+                                    <th scope="col" data-dt-search="combined">Aufbewahrungsort</th>
                                     <th scope="col" data-dt-visible="false">Signatur</th>
-                                    <th scope="col" data-dt-searchlist="true" data-dt-boolean="true">Transkription</th>
-                                    <th scope="col" data-dt-boolean="true">Bild</th>
-                                    <th scope="col" data-dt-visible="false" data-dt-boolean="true">Regest</th>
-                                    <th scope="col" data-dt-visible="false" data-dt-boolean="true">Entitäten</th>
+                                    <th scope="col" data-dt-boolean="true" data-dt-search="list">Transkription</th>
+                                    <th scope="col" data-dt-boolean="true" data-dt-search="list">Bild</th>
+                                    <th scope="col" data-dt-visible="false" data-dt-boolean="true" data-dt-search="list">Regest</th>
+                                    <th scope="col" data-dt-visible="false" data-dt-boolean="true" data-dt-search="list">Entitäten</th>
                                     <th scope="col">ID</th>
                                 </tr>
                             </thead>
