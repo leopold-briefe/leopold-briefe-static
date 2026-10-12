@@ -9,9 +9,7 @@
     <xsl:import href="./partials/html_navbar.xsl"/>
     <xsl:import href="./partials/html_head.xsl"/>
     <xsl:import href="./partials/html_footer.xsl"/>
-    <xsl:import href="./partials/tabulator_dl_buttons.xsl"/>
-    <xsl:import href="./partials/tabulator_js.xsl"/>
-    <xsl:import href="./partials/tabulator_column_toggle.xsl"/>
+    <xsl:import href="./partials/datatables_import.xsl"/>
     <xsl:import href="./partials/blockquote.xsl"/>
     <xsl:import href="./partials/zotero.xsl"/>
     <xsl:output encoding="UTF-8" media-type="text/html" method="html" version="5.0" indent="yes" omit-xml-declaration="yes"/>
@@ -20,12 +18,6 @@
     <xsl:template match="/">
         <xsl:variable name="doc_title" select="'Erwähnte (verzeichnete) Briefe'"/>
         <xsl:variable name="link" select="'mentioned-letters-toc.html'"/>
-        <xsl:variable name="column_toggle_control_id" as="xs:string" select="'toc-column-toggle'"/>
-        <xsl:variable name="initial_visible_columns" as="xs:string*"
-            select="('gesendet', 'ort_nach', 'addressee_worked_out', 'id')"/>
-        <xsl:variable name="boolean-filter">
-            <xsl:text>{"values":{"":"All","True":"Yes","False":"No"}}</xsl:text>
-        </xsl:variable>
         <html class="h-100" lang="{$default_lang}">
             <head>
                 <xsl:call-template name="html_head">
@@ -35,6 +27,7 @@
                     <xsl:with-param name="pageId" select="$link"></xsl:with-param>
                     <xsl:with-param name="zoteroTitle" select="$doc_title"></xsl:with-param>
                 </xsl:call-template>
+                <xsl:call-template name="datatables_import"/>
             </head>
             
             <body class="d-flex flex-column h-100">
@@ -54,42 +47,16 @@
                     </nav>
                     <div class="container-fluid">
                         <h1 class="display-5 text-center"><xsl:value-of select="$doc_title"/></h1>
-                        <div class="text-center p-1"><span id="counter1"></span> von <span id="counter2"></span> Dokumenten</div>
-                        <xsl:call-template name="tabulator_column_toggle">
-                            <xsl:with-param name="control_id" select="$column_toggle_control_id"/>
-                            <xsl:with-param name="button_label" select="'Spalten anzeigen'"/>
-                            <xsl:with-param name="initial_visible_columns" select="$initial_visible_columns"/>
-                        </xsl:call-template>
-                        <table id="myTable">
+                         <div id="custom-info-box" class="text-muted small text-center"></div>
+                        <table id="myTable" class="table table-striped" data-page-length='25'>
                             <thead>
                                 <tr>
-                                    <th scope="col" tabulator-field="gesendet" tabulator-headerFilter="input" tabulator-hozAlign="right">Absendedatum</th>
-                                    <th scope="col" tabulator-field="ort_nach" tabulator-headerFilter="list">
-                                        <xsl:attribute name="tabulator-headerFilterParams">
-                                            <xsl:text>{"values":{"":"Alle"</xsl:text>
-                                            <xsl:for-each select="sort(distinct-values(.//tei:correspAction[@type='received']/tei:placeName[@key and @type='destination']/text()))">
-                                                <xsl:text>,</xsl:text>
-                                                <xsl:value-of select="concat('&quot;', ., '&quot;:&quot;', ., '&quot;')"/>
-                                            </xsl:for-each>
-                                            <xsl:text>}}</xsl:text>
-                                        </xsl:attribute>
-                                        Zielland oder Zielort
-                                    </th>
-                                    <th scope="col" tabulator-field="addressee_worked_out" tabulator-headerFilter="list">
-                                        <xsl:attribute name="tabulator-headerFilterParams">
-                                            <xsl:text>{"values":{"":"Alle"</xsl:text>
-                                            <xsl:for-each select="sort(distinct-values(.//tei:correspAction[@type='received']/tei:persName[@type='addressee_worked_out']/text()))">
-                                                <xsl:text>,</xsl:text>
-                                                <xsl:value-of select="concat('&quot;', ., '&quot;:&quot;', ., '&quot;')"/>
-                                            </xsl:for-each>
-                                            <xsl:text>}}</xsl:text>
-                                        </xsl:attribute>
-                                        Emfpänger (erschlossen)
-                                    </th>
-                                    <th scope="col" tabulator-field="comment" tabulator-headerFilter="input" tabulator-hozAlign="left">Kommentar</th>
-                                    <th scope="col" tabulator-field="original_letter" tabulator-headerFilter="input" tabulator-formatter="html" tabulator-download="false">Überlieferter Brief</th>
-                                    <th scope="col" tabulator-field="original_letter_download_" tabulator-visible="false" tabulator-download="true">Überlieferter Brief_</th>
-                                    <th scope="col" tabulator-field="id" tabulator-headerFilter="input">ID</th>
+                                    <th scope="col">Absendedatum</th>
+                                    <th scope="col" data-dt-search="combined">Zielland oder Zielort</th>
+                                    <th scope="col" data-dt-search="combined">Emfpänger (erschlossen)</th>
+                                    <th scope="col" data-dt-visible="false">Kommentar</th>
+                                    <th scope="col" data-dt-visible="false">Überlieferter Brief</th>
+                                    <th scope="col" data-dt-visible="false">ID</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -125,16 +92,12 @@
                                             </xsl:choose>
                                         </td>
                                         <td>
-                                            <xsl:value-of select="./@corresp"/>
-                                        </td>
-                                        <td>
                                             <xsl:value-of select="$docId"/>
                                         </td>
                                     </tr>
                                 </xsl:for-each>
                             </tbody>
                         </table>
-                        <xsl:call-template name="tabulator_dl_buttons"/>
                         <div class="text-center p-4">
                             <xsl:call-template name="blockquote">
                                 <xsl:with-param name="pageId" select="'toc.html'"/>
@@ -143,10 +106,7 @@
                     </div>
                 </main>
                 <xsl:call-template name="html_footer"/>
-                <xsl:call-template name="tabulator_js">
-                    <xsl:with-param name="clickme" select="false()"></xsl:with-param>
-                    <xsl:with-param name="column_toggle_control_id" select="$column_toggle_control_id"></xsl:with-param>
-                </xsl:call-template>
+                <script src="js/datatables_custom/datatables_custom.js"></script>
             </body>
         </html>
     </xsl:template>
