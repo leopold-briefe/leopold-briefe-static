@@ -1,6 +1,7 @@
 import json
 import os
 
+from lxml import etree
 from acdh_cidoc_pyutils import extract_begin_end
 from acdh_tei_pyutils.tei import TeiReader
 from acdh_tei_pyutils.utils import any_xpath, extract_fulltext_with_spacing, get_xmlid
@@ -34,6 +35,10 @@ for x in files:
     else:
         kind = "erfasst"
     for y in doc.any_xpath(".//tei:correspDesc"):
+        kind_notes = any_xpath(y, ".//tei:note[@type='kind']")
+        if kind_notes and kind_notes[0].text != "Original":
+            continue
+        
         item = {}
         item["id"] = get_xmlid(y)
         link_to_letter = False
@@ -41,7 +46,7 @@ for x in files:
             if any_xpath(y, ".//tei:note[@type='file_exists']")[0].text == "1":
                 link_to_letter = True
         except IndexError:
-            pass
+            pass          
         item["link"] = link_to_letter
         item["label"] = y.attrib["n"]
         item["kind"] = kind
