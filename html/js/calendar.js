@@ -77,11 +77,13 @@ function ensureEventModal() {
 }
 
 function renderEventDetails(events) {
-
-    const labelItems = events
+    const renderEventList = (kind) => events
+        .filter((calendarEvent) => calendarEvent.kind === kind)
         .map((calendarEvent) => `<li>${renderEventLabel(calendarEvent)}</li>`)
         .join("");
 
+    const recordedItems = renderEventList("verzeichnet/erwähnt");
+    const originalItems = renderEventList("erfasst");
     const distinctDescriptions = [...new Set(
         events
             .map((calendarEvent) => calendarEvent.description)
@@ -94,11 +96,26 @@ function renderEventDetails(events) {
     const descriptionParagraph = descriptionText !== false
         ? `<p class="lead">${descriptionText}</p>`
         : "";
+    const recordedColumn = recordedItems
+        ? `<section class="col-12 col-md-6">
+        <h2 class="fs-6">verzeichnete Briefe:</h2>
+        <ul>${recordedItems}</ul>
+    </section>`
+        : "";
 
+    const originalColumn = originalItems
+        ? `<section class="col-12 col-md-6">
+        <h2 class="fs-6">überlieferte Originale:</h2>
+        <ul>${originalItems}</ul>
+    </section>`
+        : "";
+
+    const eventSections = recordedColumn || originalColumn
+        ? `<div class="row">${recordedColumn}${originalColumn}</div>`
+        : "";
     return `
         ${descriptionParagraph}
-        <ul>${labelItems}</ul>
-        
+        ${eventSections}
     `;
 }
 
