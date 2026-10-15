@@ -1,6 +1,6 @@
 import json
 import os
-
+import requests
 from lxml import etree
 from acdh_cidoc_pyutils import extract_begin_end
 from acdh_tei_pyutils.tei import TeiReader
@@ -12,10 +12,16 @@ print("Collection data for calendar")
 list_event_xml = os.path.join("data", "indices", "listevent.xml")
 doc = TeiReader(list_event_xml)
 
+
+calendar_entriesJSON = requests.get("https://raw.githubusercontent.com/leopold-briefe/leopold-entities/refs/heads/main/json_dumps/calendar_entries.json").json()
 events = {}
 for x in doc.any_xpath(".//tei:event[@xml:id]"):
+    event_id = get_xmlid(x)
     date = any_xpath(x, "./tei:label")[0].text
-    desc = extract_fulltext_with_spacing(any_xpath(x, "./tei:desc")[0])
+    # desc = extract_fulltext_with_spacing(any_xpath(x, "./tei:desc")[0])
+    # Note: get the desc directly from the JSON dump
+    entry_number = event_id.rsplit("-", 1)[-1]
+    desc = calendar_entriesJSON.get(entry_number, {}).get("text")
     if desc is not None:
         events[date] = desc
 

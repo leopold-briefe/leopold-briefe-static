@@ -31,6 +31,15 @@ function escapeHtml(value) {
         .replaceAll("'", "&#39;");
 }
 
+    function formatEventDescription(value) {
+        return escapeHtml(value)
+        .replaceAll("\\", "")
+        .replace(/~~(.*?)~~/gu, '<del>$1</del>')
+        .replace(/\*\*(.*?)\*\*/gu, '<strong>$1</strong>')
+        // Note: using fst-normal because the em is inside italic text
+        .replace(/\*(.*?)\*/gu, '<em class="fst-normal">$1</em>');
+    }
+
 function normalizeEventLabel(value) {
     return String(value)
         .replace(/^Leopold I\.\s+/u, "")
@@ -91,10 +100,10 @@ function renderEventDetails(events) {
     )];
 
     const descriptionText = distinctDescriptions.length > 0
-        ? distinctDescriptions.map((description) => escapeHtml(description)).join(" | ")
+        ? distinctDescriptions.map(formatEventDescription).join(" | ")
         : false;
     const descriptionParagraph = descriptionText !== false
-        ? `<p class="lead">${descriptionText}</p>`
+        ? `<p class="lead fst-italic">${descriptionText}</p>`
         : "";
     const recordedColumn = recordedItems
         ? `<section class="col-12 col-md-6">
