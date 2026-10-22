@@ -7,6 +7,8 @@ register({});
 // register()
 
 let currentYear = 1657;
+let undatedYear = null;
+const UNDATED_LABEL = "ohne Jahr";
 function createCalendar(i18n, events, onEventClick) {
     const calendar = document.querySelector("acdh-ch-calendar");
 
@@ -37,8 +39,24 @@ function createCalendar(i18n, events, onEventClick) {
         });
     };
 
-    updateEventCountBadges();
-    new MutationObserver(updateEventCountBadges).observe(calendar, { childList: true, subtree: true });
+    const relabelUndatedYear = () => {
+        const year = String(undatedYear);
+        calendar.querySelectorAll("acdh-ch-calendar-year-picker label, acdh-ch-calendar-year-picker option").forEach((element) => {
+            const input = element.querySelector?.("input");
+            const value = input?.value ?? element.value;
+            if (value !== year) return;
+            const text = element.querySelector?.("span") ?? element;
+            if (text.textContent !== UNDATED_LABEL) text.textContent = UNDATED_LABEL;
+        });
+    };
+
+    const onMutation = () => {
+        relabelUndatedYear();
+        updateEventCountBadges();
+    };
+
+    onMutation();
+    new MutationObserver(onMutation).observe(calendar, { childList: true, subtree: true });
 
     calendar.addEventListener("calendar-event-click", onEventClick);
 }
@@ -151,12 +169,14 @@ function renderEventDetails(events) {
 
 function onEventClick(event) {
     const { date, events } = event.detail;
-    const formattedDate = new Intl.DateTimeFormat("de-DE", {
-        weekday: "long",
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-    }).format(date);
+    const formattedDate = date.getUTCFullYear() === undatedYear
+        ? UNDATED_LABEL
+        : new Intl.DateTimeFormat("de-DE", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+        }).format(date);
     const modalElement = ensureEventModal();
     const title = modalElement.querySelector(".modal-title");
     const body = modalElement.querySelector(".modal-body");
@@ -176,9 +196,18 @@ function onEventClick(event) {
 async function request(url) {
     const response = await fetch(url);
     const events = await response.json();
-    return events
+    const dated = events
+        .filter((event) => event.date)
         .map((event) => ({ ...event, date: new Date(event.date) }))
         .filter((event) => !Number.isNaN(event.date.getTime()));
+
+    // The calendar needs real dates, so undated events go into a dummy year after the last real one.
+    undatedYear = Math.max(...dated.map((event) => event.date.getUTCFullYear())) + 1;
+    const undated = events
+        .filter((event) => !event.date)
+        .map((event) => ({ ...event, date: new Date(Date.UTC(undatedYear, 0, 1)) }));
+
+    return [...dated, ...undated];
 }
 
 try {
