@@ -57,6 +57,37 @@ acdh-ch-calendar-year-picker div[role="radiogroup"]>label:has(input[disabled]) {
     z-index: 1;
 }
 
+acdh-ch-calendar-year td > button[data-event-kinds-count="2"]::before,
+acdh-ch-calendar-year td > button[data-event-kinds-count="2"]::after {
+    background-color: #fff;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    color: #212529;
+    display: grid;
+    font-size: .65rem;
+    height: 1rem;
+    line-height: 1;
+    place-content: center;
+    position: absolute;
+    right: -.5rem;
+    width: 1rem;
+    z-index: 2;
+}
+/** Buttons with two event kinds show separate counts for each kind */
+acdh-ch-calendar-year td > button[data-event-kinds-count="2"]::before {
+    background-color: var(--verzeichnet);
+    content: attr(data-verzeichnet-count);
+    color: #fff;
+    top: -.45rem;
+}
+
+acdh-ch-calendar-year td > button[data-event-kinds-count="2"]::after {
+    background-color: var(--erfasst);
+    content: attr(data-erfasst-count);
+    color: #fff;
+    top: .55rem;
+}
+
 
 /** When using tailwindcss, explicitly set text and background colors of events. */
 acdh-ch-calendar-year td>* {

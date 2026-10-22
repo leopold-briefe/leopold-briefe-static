@@ -19,6 +19,27 @@ function createCalendar(i18n, events, onEventClick) {
     calendar.setData({ events, currentYear: currentYear });
     // calendar.setData({ events });
 
+    const eventCountsByDate = new Map();
+    events.forEach((calendarEvent) => {
+        const date = calendarEvent.date.toISOString().slice(0, 10);
+        const counts = eventCountsByDate.get(date) ?? new Map();
+        counts.set(calendarEvent.kind, (counts.get(calendarEvent.kind) ?? 0) + 1);
+        eventCountsByDate.set(date, counts);
+    });
+
+    const updateEventCountBadges = () => {
+        calendar.querySelectorAll("acdh-ch-calendar-year button[data-event-kinds]").forEach((button) => {
+            const counts = eventCountsByDate.get(button.getAttribute("aria-label"));
+            if (counts != null && counts.size > 1) {
+                button.dataset.erfasstCount = String(counts.get("erfasst") ?? 0);
+                button.dataset.verzeichnetCount = String(counts.get("verzeichnet/erwähnt") ?? 0);
+            }
+        });
+    };
+
+    updateEventCountBadges();
+    new MutationObserver(updateEventCountBadges).observe(calendar, { childList: true, subtree: true });
+
     calendar.addEventListener("calendar-event-click", onEventClick);
 }
 
@@ -155,9 +176,9 @@ function onEventClick(event) {
 async function request(url) {
     const response = await fetch(url);
     const events = await response.json();
-    return events.map((event) => {
-        return { ...event, date: new Date(event.date) };
-    });
+    return events
+        .map((event) => ({ ...event, date: new Date(event.date) }))
+        .filter((event) => !Number.isNaN(event.date.getTime()));
 }
 
 try {
