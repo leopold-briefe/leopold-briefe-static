@@ -60,11 +60,11 @@ function escapeHtml(value) {
         // Note: using fst-normal because the em is inside italic text
         .replace(/\*(.*?)\*/gu, '<em class="fst-normal">$1</em>');
     }
-
+// Remove "Leopold I." and the date from event labels
 function normalizeEventLabel(value) {
     return String(value)
         .replace(/^Leopold I\.\s+/u, "")
-        .replace(/\s+am\s+\d{4}-\d{2}-\d{2}/u, "")
+        .replace(/\s+am\s+(?:\d{4}-\d{2}-\d{2}|\d{1,2}\.\s+\p{L}+\s+\d{4})/u, "")
         .trim();
 }
 
