@@ -62,6 +62,13 @@ for x in files:
             continue
         item["not_before"], item["not_after"] = extract_begin_end(date_node)
         item["date"] = item["not_before"]
+        recipients = any_xpath(y, ".//tei:correspAction[@type='received']/tei:persName")
+        item["recipient"] = recipients[0].text if recipients else None
+        destinations = any_xpath(
+            y,
+            ".//tei:correspAction[@type='received']/tei:placeName[@type='received_place' or @type='destination']",
+        )
+        item["destination"] = destinations[0].text if destinations else None
         try:
             item["description"] = events[item["date"]]
         except KeyError:
