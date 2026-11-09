@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:tei="http://www.tei-c.org/ns/1.0"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    version="2.0"
-    exclude-result-prefixes="xsl tei xs">
-    
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" version="2.0" exclude-result-prefixes="xsl tei xs">
+
     <xsl:import href="./partials/html_navbar.xsl"/>
     <xsl:import href="./partials/html_head.xsl"/>
     <xsl:import href="./partials/html_footer.xsl"/>
@@ -26,8 +23,7 @@
             <body class="d-flex flex-column h-100">
                 <xsl:call-template name="nav_bar"/>
                 <main class="flex-shrink-0 flex-grow-1">
-                    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb"
-                        class="ps-5 p-3">
+                    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" class="ps-5 p-3">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
                                 <a href="index.html">
@@ -56,6 +52,26 @@
                                         <span>Jahr</span>
                                     </label>
                                     <acdh-ch-calendar-year-picker data-variant="sparse"></acdh-ch-calendar-year-picker>
+                                    <section class="calendar-filters" aria-label="Briefsuche filtern">
+                                        <span class="p2 text-center fs-2">Filter</span>
+                                        <details class="calendar-filter" data-field="kind">
+                                            <summary>Briefart <span class="calendar-filter-selected"></span></summary>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary">Auswahl zurücksetzen</button>
+                                            <div class="calendar-filter-options"></div>
+                                        </details>
+                                        <details class="calendar-filter" data-field="recipient">
+                                            <summary>Empfänger <span class="calendar-filter-selected"></span></summary>
+                                            <input type="search" class="form-control form-control-sm" placeholder="Suchen" aria-label="Empfänger suchen"/>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary">Auswahl zurücksetzen</button>
+                                            <div class="calendar-filter-options"></div>
+                                        </details>
+                                        <details class="calendar-filter" data-field="destination">
+                                            <summary>Zustellungsort <span class="calendar-filter-selected"></span></summary>
+                                            <input type="search" class="form-control form-control-sm" placeholder="Suchen" aria-label="Zustellungsort suchen"/>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary">Auswahl zurücksetzen</button>
+                                            <div class="calendar-filter-options"></div>
+                                        </details>
+                                    </section>
                                     <span class="p2 text-center fs-2">Legende</span>
                                     <acdh-ch-calendar-legend>
                                         <ul class="list-unstyled">
@@ -77,7 +93,7 @@
                                 <div class="calendar-container text-center">
                                     <acdh-ch-calendar-year data-variant="sparse"/>
                                 </div>
-                                
+
                             </acdh-ch-calendar>
                         </div>
                     </div>

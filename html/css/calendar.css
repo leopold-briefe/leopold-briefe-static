@@ -141,7 +141,7 @@ acdh-ch-calendar-year td>button[data-event-kinds="mentioned_letter_emt"]::after 
 }
 
 /* the select radio group */
-input {
+acdh-ch-calendar-year-picker input {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -153,10 +153,41 @@ input {
     border-width: 0;
 }
 
-input[type="radio"]:checked+span {
+acdh-ch-calendar-year-picker input[type="radio"]:checked+span {
     outline: 2px solid var(--mehrere_briefe);
     border-radius: 10%;
     outline-offset: 2px;
+}
+
+.calendar-filters {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.calendar-filter summary {
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.calendar-filter > :not(summary) {
+    margin-top: 0.5rem;
+}
+
+.calendar-filter-options {
+    display: grid;
+    gap: 0.35rem;
+    max-height: 15rem;
+    overflow-y: auto;
+}
+
+.calendar-filter-option {
+    align-items: baseline;
+    display: flex;
+    gap: 0.4rem;
+}
+
+.calendar-filter-option[hidden] {
+    display: none;
 }
 
 .dot {

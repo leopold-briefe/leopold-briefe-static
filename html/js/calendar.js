@@ -2,6 +2,10 @@ import { register } from "../vendor/calendar-component/calendar.js";
 import de from "../vendor/calendar-component/i18n/de.js";
 
 const EVENT_MODAL_ID = "calendarEventModal";
+const KIND_LABELS = {
+    "erfasst": "überlieferte Originale",
+    "verzeichnet/erwähnt": "verzeichnete und erwähnte Briefe",
+};
 
 register({});
 // register()
@@ -9,25 +13,55 @@ register({});
 let currentYear = 1657;
 let undatedYear = null;
 const UNDATED_LABEL = "ohne Jahr";
-function createCalendar(i18n, events, onEventClick) {
+function createCalendar(i18n, allEvents, onEventClick) {
     const calendar = document.querySelector("acdh-ch-calendar");
+    const activeKinds = new Set();
+    const activeRecipients = new Set();
+    const activeDestinations = new Set();
+    const eventCountsByDate = new Map();
+    let filteredEventsByYear = new Map();
 
+    function renderFilteredYear() {
+        calendar.querySelector("acdh-ch-calendar-year").setData({
+            currentYear,
+            eventsByDate: filteredEventsByYear.get(currentYear) ?? null,
+        });
+    }
+
+    function applyFilter() {
+        const filtered = allEvents.filter((event) =>
+            (activeKinds.size === 0 || activeKinds.has(filterValue(event.kind)))
+            && (activeRecipients.size === 0 || activeRecipients.has(filterValue(event.recipient)))
+            && (activeDestinations.size === 0 || activeDestinations.has(filterValue(event.destination)))
+        );
+        eventCountsByDate.clear();
+        filteredEventsByYear = new Map();
+        filtered.forEach((event) => {
+            const date = event.date.toISOString().slice(0, 10);
+            const year = event.date.getUTCFullYear();
+            if (!filteredEventsByYear.has(year)) filteredEventsByYear.set(year, new Map());
+            const eventsByDate = filteredEventsByYear.get(year);
+            if (!eventsByDate.has(date)) eventsByDate.set(date, []);
+            eventsByDate.get(date).push(event);
+            const counts = eventCountsByDate.get(date) ?? new Map();
+            counts.set(event.kind, (counts.get(event.kind) ?? 0) + 1);
+            eventCountsByDate.set(date, counts);
+        });
+        renderFilteredYear();
+    }
     if (i18n != null) {
         /** Optionally set locale, defaults to english. */
         calendar.setI18n(i18n);
     }
 
-    /** Optionally, set the initial year. */
-    calendar.setData({ events, currentYear: currentYear });
-    // calendar.setData({ events });
+    calendar.setData({ events: allEvents, currentYear });
+    currentYear = calendar.currentYear;
 
-    const eventCountsByDate = new Map();
-    events.forEach((calendarEvent) => {
-        const date = calendarEvent.date.toISOString().slice(0, 10);
-        const counts = eventCountsByDate.get(date) ?? new Map();
-        counts.set(calendarEvent.kind, (counts.get(calendarEvent.kind) ?? 0) + 1);
-        eventCountsByDate.set(date, counts);
-    });
+    const filterContainer = calendar.querySelector(".calendar-filters");
+    createMetadataFilter(filterContainer.querySelector("[data-field='kind']"), allEvents, activeKinds, applyFilter, KIND_LABELS);
+    createMetadataFilter(filterContainer.querySelector("[data-field='recipient']"), allEvents, activeRecipients, applyFilter);
+    createMetadataFilter(filterContainer.querySelector("[data-field='destination']"), allEvents, activeDestinations, applyFilter);
+    applyFilter();
 
     const updateEventCountBadges = () => {
         calendar.querySelectorAll("acdh-ch-calendar-year button[data-event-kinds]").forEach((button) => {
@@ -59,6 +93,68 @@ function createCalendar(i18n, events, onEventClick) {
     new MutationObserver(onMutation).observe(calendar, { childList: true, subtree: true });
 
     calendar.addEventListener("calendar-event-click", onEventClick);
+    calendar.addEventListener("calendar-year-select", (event) => {
+        currentYear = event.detail.year;
+        renderFilteredYear();
+    });
+
+}
+
+function filterValue(value) {
+    return typeof value === "string" && value.trim() ? value.trim() : null;
+}
+
+function createMetadataFilter(details, events, selected, onChange, labels = {}) {
+    const field = details.dataset.field;
+    const counts = new Map();
+    events.forEach((event) => {
+        const value = filterValue(event[field]);
+        counts.set(value, (counts.get(value) ?? 0) + 1);
+    });
+
+    const selectedCount = details.querySelector(".calendar-filter-selected");
+    const updateSummary = () => {
+        selectedCount.textContent = selected.size ? `(${selected.size})` : "";
+    };
+    const clear = details.querySelector("button");
+    const options = details.querySelector(".calendar-filter-options");
+    const displayValue = (value) => value === null ? "Nicht angegeben" : (labels[value] ?? value);
+    const values = [...counts.keys()].sort((a, b) => {
+        if (a === null) return 1;
+        if (b === null) return -1;
+        return displayValue(a).localeCompare(displayValue(b), "de");
+    });
+    values.forEach((value) => {
+        const option = document.createElement("label");
+        option.className = "calendar-filter-option";
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        const text = document.createElement("span");
+        text.textContent = `${displayValue(value)} (${counts.get(value)})`;
+        checkbox.addEventListener("change", () => {
+            if (checkbox.checked) selected.add(value);
+            else selected.delete(value);
+            updateSummary();
+            onChange();
+        });
+        option.append(checkbox, text);
+        options.append(option);
+    });
+    const search = details.querySelector("input[type='search']");
+    if (search) {
+        search.addEventListener("input", () => {
+            const query = search.value.trim().toLocaleLowerCase("de");
+            options.querySelectorAll("label").forEach((option) => {
+                option.hidden = !option.textContent.toLocaleLowerCase("de").includes(query);
+            });
+        });
+    }
+    clear.addEventListener("click", () => {
+        selected.clear();
+        options.querySelectorAll("input").forEach((checkbox) => { checkbox.checked = false; });
+        updateSummary();
+        onChange();
+    });
 }
 
 function escapeHtml(value) {
