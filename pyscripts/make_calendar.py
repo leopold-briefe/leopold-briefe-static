@@ -43,8 +43,7 @@ for x in files:
     for y in doc.any_xpath(".//tei:correspDesc"):
         kind_notes = any_xpath(y, ".//tei:note[@type='kind']")
         if kind_notes and kind_notes[0].text != "Original":
-            continue
-        
+            continue      
         item = {}
         item["id"] = get_xmlid(y)
         link_to_letter = False
@@ -55,6 +54,11 @@ for x in files:
             pass          
         item["link"] = link_to_letter
         item["label"] = y.attrib["n"]
+        try:
+            original_letter_id = y.attrib["corresp"].split("#")[-1]
+            item["original_letter_id"] = original_letter_id
+        except KeyError:
+                pass
         item["kind"] = kind
         try:
             date_node = any_xpath(y, ".//tei:date")[0]
@@ -62,8 +66,18 @@ for x in files:
             continue
         item["not_before"], item["not_after"] = extract_begin_end(date_node)
         item["date"] = item["not_before"]
-        recipients = any_xpath(y, ".//tei:correspAction[@type='received']/tei:persName")
+        recipients = any_xpath(
+            y,
+            ".//tei:correspAction[@type='received']/tei:persName[not(@type='addressee_worked_out')]",
+        )
         item["recipient"] = recipients[0].text if recipients else None
+        worked_out_recipients = any_xpath(
+            y,
+            ".//tei:correspAction[@type='received']/tei:persName[@type='addressee_worked_out']",
+        )
+        item["recipient_worked_out"] = (
+            worked_out_recipients[0].text if worked_out_recipients else None
+        )
         destinations = any_xpath(
             y,
             ".//tei:correspAction[@type='received']/tei:placeName[@type='received_place' or @type='destination']",
