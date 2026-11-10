@@ -31,7 +31,7 @@ function createCalendar(i18n, allEvents, onEventClick) {
     function applyFilter() {
         const filtered = allEvents.filter((event) =>
             (activeKinds.size === 0 || activeKinds.has(filterValue(event.kind)))
-            && (activeRecipients.size === 0 || activeRecipients.has(filterValue(event.recipient)))
+            && (activeRecipients.size === 0 || activeRecipients.has(filterValue(eventRecipient(event))))
             && (activeDestinations.size === 0 || activeDestinations.has(filterValue(event.destination)))
         );
         eventCountsByDate.clear();
@@ -100,6 +100,10 @@ function createCalendar(i18n, allEvents, onEventClick) {
 
 }
 
+function eventRecipient(event) {
+    return filterValue(event.recipient) ?? event.recipient_worked_out;
+}
+
 function filterValue(value) {
     return typeof value === "string" && value.trim() ? value.trim() : null;
 }
@@ -108,7 +112,7 @@ function createMetadataFilter(details, events, selected, onChange, labels = {}) 
     const field = details.dataset.field;
     const counts = new Map();
     events.forEach((event) => {
-        const value = filterValue(event[field]);
+        const value = filterValue(field === "recipient" ? eventRecipient(event) : event[field]);
         counts.set(value, (counts.get(value) ?? 0) + 1);
     });
 
@@ -221,13 +225,8 @@ function ensureEventModal() {
 }
 
 function renderEventDetails(events) {
-    const renderEventList = (kind) => events
-        .filter((calendarEvent) => calendarEvent.kind === kind)
-        .map((calendarEvent) => `<li>${renderEventLabel(calendarEvent)}</li>`)
-        .join("");
-
-    const recordedItems = renderEventList("verzeichnet/erwähnt");
-    const originalItems = renderEventList("erfasst");
+    const recorded = events.filter((calendarEvent) => calendarEvent.kind === "verzeichnet/erwähnt");
+    const originals = events.filter((calendarEvent) => calendarEvent.kind === "erfasst");
     const distinctDescriptions = [...new Set(
         events
             .map((calendarEvent) => calendarEvent.description)
@@ -240,23 +239,49 @@ function renderEventDetails(events) {
     const descriptionParagraph = descriptionText !== false
         ? `<p class="lead fst-italic">${descriptionText}</p>`
         : "";
-    const recordedColumn = recordedItems
-        ? `<section class="col-12 col-md-6">
-        <h2 class="fs-6">verzeichnete Briefe:</h2>
-        <ul>${recordedItems}</ul>
-    </section>`
-        : "";
+    // Pair each recorded letter with its original (via original_letter_id);
+    // an original shared by several recorded letters appears on the first one only.
+    const usedOriginals = new Set();
+    const rows = recorded.map((recordedEvent) => {
+        const original = originals.find((candidate) => (
+            candidate.id === recordedEvent.original_letter_id && !usedOriginals.has(candidate)
+        ));
+        if (original !== undefined) {
+            usedOriginals.add(original);
+        }
+        return { recorded: recordedEvent, original };
+    });
+    originals
+        .filter((original) => !usedOriginals.has(original))
+        .forEach((original) => rows.push({ recorded: undefined, original }));
 
-    const originalColumn = originalItems
-        ? `<section class="col-12 col-md-6">
-        <h2 class="fs-6">überlieferte Originale:</h2>
-        <ul>${originalItems}</ul>
-    </section>`
-        : "";
+    const hasRecorded = recorded.length > 0;
+    const hasOriginals = originals.length > 0;
+    const workedOutRecipient = (row) => (
+        row.recorded?.recipient_worked_out ?? row.original?.recipient_worked_out ?? ""
+    );
+    const hasWorkedOut = rows.some((row) => workedOutRecipient(row) !== "");
+    const renderCell = (calendarEvent) => `<td>${calendarEvent ? renderEventLabel(calendarEvent) : ""}</td>`;
 
-    const eventSections = recordedColumn || originalColumn
-        ? `<div class="row">${recordedColumn}${originalColumn}</div>`
-        : "";
+    let eventSections = "";
+    if (rows.length > 0) {
+        const head = [
+            hasRecorded ? '<th scope="col">verzeichnete Briefe</th>' : "",
+            hasOriginals ? '<th scope="col">überlieferte Originale</th>' : "",
+            hasWorkedOut ? '<th scope="col">identifizierte Empfänger</th>' : "",
+        ].join("");
+        const body = rows.map((row) => `<tr>${
+            hasRecorded ? renderCell(row.recorded) : ""
+        }${
+            hasOriginals ? renderCell(row.original) : ""
+        }${
+            hasWorkedOut ? `<td>${escapeHtml(workedOutRecipient(row))}</td>` : ""
+        }</tr>`).join("");
+        eventSections = `<table class="table table-sm">
+        <thead><tr>${head}</tr></thead>
+        <tbody>${body}</tbody>
+    </table>`;
+    }
     return `
         ${descriptionParagraph}
         ${eventSections}
