@@ -15,6 +15,11 @@
 acdh-ch-calendar {
     display: grid;
     gap: 4rem;
+    grid-template-columns: minmax(0, 1fr);
+}
+
+.calendar-container {
+    min-width: 0;
 }
 
 acdh-ch-calendar-year {
@@ -29,7 +34,7 @@ acdh-ch-calendar caption {
 
 @media (min-width: 40rem) {
     acdh-ch-calendar {
-        grid-template-columns: 14rem 1fr;
+        grid-template-columns: 14rem minmax(0, 1fr);
     }
 }
 
@@ -188,6 +193,95 @@ acdh-ch-calendar-year-picker input[type="radio"]:checked+span {
 
 .calendar-filter-option[hidden] {
     display: none;
+}
+
+.calendar-overview {
+    margin-bottom: 3rem;
+}
+
+.calendar-overview-content {
+    display: inline-block;
+    text-align: left;
+    vertical-align: top;
+    width: max-content;
+}
+
+.calendar-overview-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    min-width: 100%;
+    width: 0;
+}
+
+.calendar-overview-legend span {
+    align-items: center;
+    display: inline-flex;
+    gap: 0.3rem;
+}
+
+.calendar-overview-legend i {
+    border-radius: 2px;
+    height: 12px;
+    width: 12px;
+}
+
+.calendar-overview [data-level="0"] { background: #e5e7eb; }
+.calendar-overview [data-level="1"] { background: color-mix(in srgb, var(--dse-base-color) 40%, white); }
+.calendar-overview [data-level="2"] { background: color-mix(in srgb, var(--dse-base-color) 70%, white); }
+.calendar-overview [data-level="3"] { background: var(--dse-base-color); }
+.calendar-overview [data-level="4"] { background: color-mix(in srgb, var(--dse-base-color) 80%, black); }
+
+.calendar-overview-years {
+    min-width: max-content;
+}
+
+.calendar-overview-grid {
+    border-collapse: separate;
+    border-spacing: 3px;
+    font-size: 0.75rem;
+    line-height: 1;
+}
+
+.calendar-overview-grid th[scope="row"] {
+    font-weight: normal;
+    padding-right: 0.5rem;
+    text-align: right;
+}
+
+.calendar-overview-grid td[data-level] {
+    border-radius: 2px;
+    height: 15px;
+    min-width: 15px;
+    padding: 0;
+}
+
+.calendar-overview-year {
+    font-weight: normal;
+    line-height: 1;
+    padding: 0;
+    transform: rotate(180deg);
+    writing-mode: vertical-rl;
+}
+
+.calendar-overview-month {
+    background: transparent;
+    border: 0;
+    border-radius: 2px;
+    cursor: pointer;
+    display: block;
+    height: 100%;
+    min-height: 15px;
+    min-width: 15px;
+    padding: 0;
+    width: 100%;
+}
+
+.calendar-overview-month:hover,
+.calendar-overview-month:focus-visible {
+    outline: 2px solid var(--dse-base-color);
+    outline-offset: 2px;
 }
 
 .dot {

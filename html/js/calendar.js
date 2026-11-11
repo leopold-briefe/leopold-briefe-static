@@ -20,12 +20,92 @@ function createCalendar(i18n, allEvents, onEventClick) {
     const activeDestinations = new Set();
     const eventCountsByDate = new Map();
     let filteredEventsByYear = new Map();
+    const yearsWithEvents = allEvents
+        .map((event) => event.date.getUTCFullYear())
+        .filter((year) => year !== undatedYear);
+    const overviewStartYear = Math.min(...yearsWithEvents);
+    const overviewEndYear = Math.max(...yearsWithEvents);
 
     function renderFilteredYear() {
+        calendar.querySelector("#calendar-year-title").textContent =
+            currentYear === undatedYear ? UNDATED_LABEL : String(currentYear);
         calendar.querySelector("acdh-ch-calendar-year").setData({
             currentYear,
             eventsByDate: filteredEventsByYear.get(currentYear) ?? null,
         });
+    }
+
+    function selectMonth(year, monthIndex) {
+        calendar.setData({ events: allEvents, currentYear: year });
+        currentYear = calendar.currentYear;
+        renderFilteredYear();
+        const month = calendar.querySelectorAll("acdh-ch-calendar-year table")[monthIndex];
+        const caption = month.querySelector("caption");
+        caption.tabIndex = -1;
+        caption.setAttribute("aria-label", `${i18n.months[monthIndex]} ${year}`);
+        caption.focus({ preventScroll: true });
+        month.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+    }
+
+    function renderOverview() {
+        const years = calendar.querySelector(".calendar-overview-years");
+        const table = document.createElement("table");
+        table.className = "calendar-overview-grid";
+        table.setAttribute("aria-label", "Kalendereinträge pro Monat und Jahr");
+        if (yearsWithEvents.length > 0) {
+            const header = table.createTHead().insertRow();
+            header.append(document.createElement("td"));
+            const months = i18n.months;
+            const countsByYear = new Map();
+
+            for (let year = overviewStartYear; year <= overviewEndYear; year++) {
+                const counts = Array(12).fill(0);
+                for (const [date, events] of filteredEventsByYear.get(year) ?? []) {
+                    counts[Number(date.slice(5, 7)) - 1] += events.length;
+                }
+                countsByYear.set(year, counts);
+                const heading = document.createElement("th");
+                heading.scope = "col";
+                heading.className = "calendar-overview-year";
+                heading.textContent = String(year);
+                header.append(heading);
+            }
+
+            const body = table.createTBody();
+            months.forEach((month, monthIndex) => {
+                const row = body.insertRow();
+                const heading = document.createElement("th");
+                heading.scope = "row";
+                heading.textContent = month;
+                row.append(heading);
+                for (let year = overviewStartYear; year <= overviewEndYear; year++) {
+                    const count = countsByYear.get(year)[monthIndex];
+                    const cell = row.insertCell();
+                    cell.dataset.level = count === 0 ? "0" : count < 5 ? "1" : count < 10 ? "2" : count < 20 ? "3" : "4";
+                    const label = `${month} ${year}: ${count} ${count === 1 ? "Eintrag" : "Einträge"}`;
+                    cell.title = label;
+                    if (count > 0) {
+                        const button = document.createElement("button");
+                        button.type = "button";
+                        button.className = "calendar-overview-month";
+                        button.setAttribute("aria-label", `${label}. Monat in der Jahresansicht öffnen`);
+                        button.addEventListener("click", () => selectMonth(year, monthIndex));
+                        cell.append(button);
+                    } else {
+                        const text = document.createElement("span");
+                        text.className = "visually-hidden";
+                        text.textContent = "0 Einträge";
+                        cell.append(text);
+                    }
+                }
+            });
+            years.replaceChildren(table);
+        } else {
+            const message = document.createElement("p");
+            message.textContent = "Keine datierten Einträge vorhanden.";
+            years.replaceChildren(message);
+        }
+
     }
 
     function applyFilter() {
@@ -48,6 +128,7 @@ function createCalendar(i18n, allEvents, onEventClick) {
             eventCountsByDate.set(date, counts);
         });
         renderFilteredYear();
+        renderOverview();
     }
     if (i18n != null) {
         /** Optionally set locale, defaults to english. */
@@ -170,13 +251,13 @@ function escapeHtml(value) {
         .replaceAll("'", "&#39;");
 }
 
-    function formatEventDescription(value) {
-        return escapeHtml(value)
-        .replaceAll("\\", "")
-        .replace(/~~(.*?)~~/gu, '<del>$1</del>')
-        .replace(/\*\*(.*?)\*\*/gu, '<strong>$1</strong>')
-        // Note: using fst-normal because the em is inside italic text
-        .replace(/\*(.*?)\*/gu, '<em class="fst-normal">$1</em>');
+function formatEventDescription(value) {
+    return escapeHtml(value)
+    .replaceAll("\\", "")
+    .replace(/~~(.*?)~~/gu, '<del>$1</del>')
+    .replace(/\*\*(.*?)\*\*/gu, '<strong>$1</strong>')
+    // Note: using fst-normal because the em is inside italic text
+    .replace(/\*(.*?)\*/gu, '<em class="fst-normal">$1</em>');
     }
 // Remove "Leopold I." and the date from event labels
 function normalizeEventLabel(value) {

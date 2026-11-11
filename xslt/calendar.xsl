@@ -91,9 +91,24 @@
                                     </acdh-ch-calendar-legend>
                                 </div>
                                 <div class="calendar-container text-center">
+                                    <section class="calendar-overview" aria-labelledby="calendar-overview-title">
+                                        <h2 id="calendar-overview-title">Gesamtübersicht</h2>
+                                        <div class="table-responsive text-center">
+                                            <div class="calendar-overview-content">
+                                                <div class="calendar-overview-legend" aria-label="Anzahl der Kalendereinträge pro Monat">
+                                                    <span><i data-level="0"></i> 0</span>
+                                                    <span><i data-level="1"></i> 1–4</span>
+                                                    <span><i data-level="2"></i> 5–9</span>
+                                                    <span><i data-level="3"></i> 10–19</span>
+                                                    <span><i data-level="4"></i> 20+</span>
+                                                </div>
+                                                <div class="calendar-overview-years"></div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    <h2 id="calendar-year-title"></h2>
                                     <acdh-ch-calendar-year data-variant="sparse"/>
                                 </div>
-
                             </acdh-ch-calendar>
                         </div>
                     </div>
