@@ -35,7 +35,7 @@
                             </li>
                         </ol>
                     </nav>
-                    <div class="container-fluid d-md-px-5 pb-4">
+                    <div class="container-fluid pb-4">
                         <h1 class="display-5 text-center">
                             <xsl:value-of select="$doc_title"/>
                         </h1>
@@ -45,7 +45,7 @@
                         <p class="lead pt-3 text-center">
                             Hier vielleicht ein kurzer Erklärtext zu den "erfasst", "erwähnt" und "vezeichnet".
                         </p>
-                        <div id="calendar-container">
+                        <div id="calendar-container" class="px-4">
                             <acdh-ch-calendar>
                                 <div class="calendar-menu">
                                     <label class="p2 text-center fs-2">
