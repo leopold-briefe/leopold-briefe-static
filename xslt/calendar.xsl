@@ -42,7 +42,7 @@
                             </h1>
                             <h2 class="fs-4 text-center">Kalendarische Übersicht der überlieferten Originale sowie der in Schreibkalendern verzeichneten oder sonst erwähnten eigenhändigen Briefe Leopolds I.</h2>
                             <p class="lead pt-3 text-center">
-                                Im Kalender werden Angaben aus dem Katalog der eigenhändigen Originale (Zielwert: ca. 5000–6000 Stück) sowie aus dem Verzeichnis der eigenhändigen Briefe, die Leopold in seinen Schreibkalendern verzeichnete oder die sonst nachweisbar sind (Zielwert: ca. 14.000 Stück), zusammengeführt. Schnittmengen und allerlei Unregelmäßigkeiten (z. B. inkonsistente Datierungen) werden beim Anklicken des jeweiligen Tages sichtbar.
+                                Im Kalender werden Angaben aus dem <a href="toc.html">Katalog der eigenhändigen Originale</a> (Zielwert: ca. 5000–6000 Stück)sowie aus dem <a href="mentioned-letters.html">Verzeichnis der eigenhändigen Briefe</a>, die Leopold <a href="listevent.html">in seinen Schreibkalendern verzeichnete</a> oder die sonst nachweisbar sind (Zielwert: ca. 14.000 Stück), zusammengeführt. Schnittmengen und allerlei Unregelmäßigkeiten (z. B. inkonsistente Datierungen) werden beim Anklicken des jeweiligen Tages sichtbar.
                             </p>
                         </div>
                         <div id="calendar-container" class="px-4">
