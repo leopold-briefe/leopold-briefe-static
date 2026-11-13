@@ -36,15 +36,15 @@
                         </ol>
                     </nav>
                     <div class="container-fluid pb-4">
-                        <h1 class="display-5 text-center">
-                            <xsl:value-of select="$doc_title"/>
-                        </h1>
-                        <h2 class="text-center">
-                            Kalendarische Übersicht der erfassten, erwähnten und verzeichneten Briefe
-                        </h2>
-                        <p class="lead pt-3 text-center">
-                            Hier vielleicht ein kurzer Erklärtext zu den "erfasst", "erwähnt" und "vezeichnet".
-                        </p>
+                        <div class="container">
+                            <h1 class="display-5 text-center">
+                                <xsl:value-of select="$doc_title"/>
+                            </h1>
+                            <h2 class="fs-4 text-center">Kalendarische Übersicht der überlieferten Originale sowie der in Schreibkalendern verzeichneten oder sonst erwähnten eigenhändigen Briefe Leopolds I.</h2>
+                            <p class="lead pt-3 text-center">
+                                Im Kalender werden Angaben aus dem Katalog der eigenhändigen Originale (Zielwert: ca. 5000–6000 Stück) sowie aus dem Verzeichnis der eigenhändigen Briefe, die Leopold in seinen Schreibkalendern verzeichnete oder die sonst nachweisbar sind (Zielwert: ca. 14.000 Stück), zusammengeführt. Schnittmengen und allerlei Unregelmäßigkeiten (z. B. inkonsistente Datierungen) werden beim Anklicken des jeweiligen Tages sichtbar.
+                            </p>
+                        </div>
                         <div id="calendar-container" class="px-4">
                             <acdh-ch-calendar>
                                 <div class="calendar-menu">
